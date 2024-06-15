@@ -29,16 +29,30 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.5.6",
     "@builder.io/qwik-city": "^1.5.6",
+    "@builder.io/qwik-react": "0.5.0",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.12.7",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
+    "autoprefixer": "^10.4.14",
     "eslint": "^8.57.0",
     "eslint-plugin-qwik": "^1.5.6",
+    "postcss": "^8.4.31",
     "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.4.4",
     "typescript": "5.4.5",
     "undici": "*",
     "vite": "^5.2.10",
     "vite-tsconfig-paths": "^4.2.1"
+  },
+  "dependencies": {
+    "flowbite": "^2.3.0",
+    "swiper": "^11.1.4",
+    "zod": "^3.23.8"
   }
 }

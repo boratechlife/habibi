@@ -1,30 +1,38 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useTask$ } from "@builder.io/qwik";
+import { isServer } from "@builder.io/qwik/build";
+
 import {
   QwikCityProvider,
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
-import { RouterHead } from "./components/router-head/router-head";
+
+import RouterHead from "~/components/common/Head";
+
+// import the Flowbite module
+import { initFlowbite } from "flowbite";
 
 import "./global.css";
 
 export default component$(() => {
-  /**
-   * The root of a QwikCity site always start with the <QwikCityProvider> component,
-   * immediately followed by the document's <head> and <body>.
-   *
-   * Don't remove the `<head>` and `<body>` elements.
-   */
+  // initialise the event listeners for the data attributes on render
+  useTask$(() => {
+    if (isServer) {
+      return;
+    }
+    initFlowbite();
+  });
 
   return (
     <QwikCityProvider>
       <head>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
         <RouterHead />
         <ServiceWorkerRegister />
       </head>
-      <body lang="en">
+      <body lang="en" class="bg-sky-900">
         <RouterOutlet />
       </body>
     </QwikCityProvider>
