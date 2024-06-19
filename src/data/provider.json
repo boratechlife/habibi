@@ -1,0 +1,196 @@
+{
+  "items": [
+    {
+      "dataIndex": "0",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/GA.webp",
+      "altText": "GA logo",
+      "text": "GA"
+    },
+    {
+      "dataIndex": "1",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/SM.webp",
+      "altText": "SM logo",
+      "text": "SM"
+    },
+    {
+      "dataIndex": "2",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/FUG.webp",
+      "altText": "FUG logo",
+      "text": "FUG"
+    },
+    {
+      "dataIndex": "3",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/PS.webp",
+      "altText": "PS logo",
+      "text": "PS"
+    },
+    {
+      "dataIndex": "4",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/PNG.webp",
+      "altText": "PNG logo",
+      "text": "PNG"
+    },
+    {
+      "dataIndex": "5",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/MNP.webp",
+      "altText": "MNP logo",
+      "text": "MNP"
+    },
+    {
+      "dataIndex": "6",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/FUNKY.webp",
+      "altText": "FUNKY logo",
+      "text": "FUNKY"
+    },
+    {
+      "dataIndex": "7",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/JILI.webp",
+      "altText": "JILI logo",
+      "text": "JILI"
+    },
+    {
+      "dataIndex": "8",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/YELLOWBAT.webp",
+      "altText": "YELLOWBAT logo",
+      "text": "YELLOWBAT"
+    },
+    {
+      "dataIndex": "9",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/KING.webp",
+      "altText": "KING logo",
+      "text": "KING"
+    },
+    {
+      "dataIndex": "10",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/PRAG.webp",
+      "altText": "PRAG logo",
+      "text": "PRAG"
+    },
+    {
+      "dataIndex": "11",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/PGS.webp",
+      "altText": "PGS logo",
+      "text": "PGS"
+    },
+    {
+      "dataIndex": "12",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/UUG.webp",
+      "altText": "UUG logo",
+      "text": "UUG"
+    },
+    {
+      "dataIndex": "13",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/NLC.webp",
+      "altText": "NLC logo",
+      "text": "NLC"
+    },
+    {
+      "dataIndex": "14",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/FACHAI.webp",
+      "altText": "FACHAI logo",
+      "text": "FACHAI"
+    },
+    {
+      "dataIndex": "15",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/YGG.webp",
+      "altText": "YGG logo",
+      "text": "YGG"
+    },
+    {
+      "dataIndex": "16",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/SWF.webp",
+      "altText": "SWF logo",
+      "text": "SWF"
+    },
+    {
+      "dataIndex": "17",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/FASTSPIN.webp",
+      "altText": "FASTSPIN logo",
+      "text": "FASTSPIN"
+    },
+    {
+      "dataIndex": "18",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/AUX.webp",
+      "altText": "AUX logo",
+      "text": "AUX"
+    },
+    {
+      "dataIndex": "19",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/CQC.webp",
+      "altText": "CQC logo",
+      "text": "CQC"
+    },
+    {
+      "dataIndex": "20",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/QS.webp",
+      "altText": "QS logo",
+      "text": "QS"
+    },
+    {
+      "dataIndex": "21",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/HABA.webp",
+      "altText": "HABA logo",
+      "text": "HABA"
+    },
+    {
+      "dataIndex": "22",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/DS.webp",
+      "altText": "DS logo",
+      "text": "DS"
+    },
+    {
+      "dataIndex": "23",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/JDB.webp",
+      "altText": "JDB logo",
+      "text": "JDB"
+    },
+    {
+      "dataIndex": "24",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/BNG.webp",
+      "altText": "BNG logo",
+      "text": "BNG"
+    },
+    {
+      "dataIndex": "25",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/SPADE.webp",
+      "altText": "SPADE logo",
+      "text": "SPADE"
+    },
+    {
+      "dataIndex": "26",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/IDS.webp",
+      "altText": "IDS logo",
+      "text": "IDS"
+    },
+    {
+      "dataIndex": "27",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/HAK.webp",
+      "altText": "HAK logo",
+      "text": "HAK"
+    },
+    {
+      "dataIndex": "28",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/NE.webp",
+      "altText": "NE logo",
+      "text": "NE"
+    },
+    {
+      "dataIndex": "29",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/RLX.webp",
+      "altText": "RLX logo",
+      "text": "RLX"
+    },
+    {
+      "dataIndex": "30",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/OT.webp",
+      "altText": "OT logo",
+      "text": "OT"
+    },
+    {
+      "dataIndex": "31",
+      "imgSrc": "https://assets.omdogede.xyz/images/providers/myballs/PRG.webp",
+      "altText": "PRG logo",
+      "text": "PRG"
+    }
+  ]
+}

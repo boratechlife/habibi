@@ -1,4 +1,9 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import {
+  component$,
+  useStore,
+  useStylesScoped$,
+  useTask$,
+} from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index-styles.css?inline";
 import Carousel from "~/components/sections/home/Carousel";
@@ -9,8 +14,28 @@ import ReadMoreImage from "~/media/read-more-animated.webp?jsx";
 
 import "swiper/css";
 import BaseLayout from "~/components/common/BaseLayout";
+import { SeoInterface, GamesI } from "~/interfaces";
+
+interface SiteInfoState {
+  siteInfo: SeoInterface | null;
+  siteGames: GamesI | null;
+}
 
 export default component$(() => {
+  const state = useStore<SiteInfoState>({
+    siteInfo: null,
+    siteGames: null,
+  });
+
+  useTask$(async () => {
+    const response = await fetch("/api/test");
+    const data = await response.json();
+
+    console.log("Data", data);
+    // state.siteInfo = data.SiteInfo;
+    // state.siteGames = data.SiteGames;
+  });
+
   useStylesScoped$(styles);
   return (
     <BaseLayout>
