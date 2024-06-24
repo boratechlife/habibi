@@ -43,7 +43,7 @@ export const onGet: RequestHandler = async ({ json }) => {
       },
     ).then((response) => response.json());
 
-    json(200, { hello: response });
+    json(200, response);
   } catch (error) {
     console.error("Error fetching pasaran data:", error);
   }

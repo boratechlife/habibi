@@ -1,7 +1,16 @@
-import { component$, Slot } from "@builder.io/qwik";
+import {
+  component$,
+  createContextId,
+  Signal,
+  Slot,
+  useContextProvider,
+  useSignal,
+  useStore,
+} from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { TheHeader } from "~/components/TheHeader";
+import { SiteInfo } from "~/data/site";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -20,7 +29,28 @@ export const useServerTimeLoader = routeLoader$(() => {
   };
 });
 
+export const ThemeContext =
+  createContextId<Signal<string>>("docs.theme-context");
+
+export const SiteDataContext = createContextId<Signal<SiteInfo>>(
+  "docs.site-info-context",
+);
+
+export const useProductDetails = routeLoader$(async () => {
+  const url = `${process.env.PUBLIC_QWIK_API_URL}api/site`;
+  const res = await fetch(url);
+  const siteData = await res.json();
+  return siteData;
+});
+
 export default component$(() => {
+  const test = useProductDetails();
+
+  const theme = useSignal("dark");
+
+  useContextProvider(ThemeContext, theme);
+  useContextProvider(SiteDataContext, test);
+
   return (
     <>
       <TheHeader />

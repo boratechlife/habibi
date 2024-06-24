@@ -1,7 +1,85 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import {
+  $,
+  component$,
+  useOn,
+  useOnDocument,
+  useOnWindow,
+  useSignal,
+  useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
+import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
+  const navigate = useNavigate();
+  const showTersalin = useSignal<Boolean>(false);
+  const isBankRetrieved = useSignal<Boolean>(false);
+  const authStore = useStore<any>({
+    user: null,
+  });
+  const bank = useSignal(null);
+  //const accountList = bank?.Operator?.banks.filter((bank) => bank.isShow) || [];
+
+  useVisibleTask$(() => {
+    const auth = localStorage.getItem("auth");
+
+    if (!auth) {
+      navigate("/login");
+    }
+    // Get the token
+    // console.log(localStorage.getItem("auth"));
+
+    authStore.user = JSON.parse(auth!);
+    console.log(authStore.user);
+
+    try {
+      const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
+      const response = fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authStore.user.token}`,
+        },
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          bank.value = data;
+          isBankRetrieved.value = true;
+          // console.log("Data", data);
+        })
+        .catch((err) => {
+          console.log("error", err);
+          isBankRetrieved.value = false;
+        });
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+      isBankRetrieved.value = false;
+    }
+  });
+
+  // const schema = z.object({
+  //   amount: z.string().refine(value => {
+  //     const formattedAmount = Number(value.replaceAll(".", "").replaceAll(",", "."));
+  //     if (bank.Operator) {
+  //       const bankType = (bank.Operator?.banks
+  //         .find((bank: BankInfoI) =>
+  //           bank.bankName === watch("bankAccountName").split("-")[0])
+  //         ?.category.toLowerCase() as keyof OperatorI["min"]) || "emoney";
+
+  //       const minimumDeposit: number =
+  //         bankType === "va" ? bank.Operator.min?.va.Deposit : bank.Operator.min?.[bankType];
+
+  //       if (formattedAmount < minimumDeposit) {
+  //         throw new Error(`Deposit amount must be at least ${minimumDeposit}`);
+  //       }
+  //     }
+  //     return true;
+  //   }, {
+  //     message: "Minimum 0 and max 10000000"
+  //   }),
+  //   bankAccountName: z.string().min(1, "Nama pengguna harus diisi")
+  // });
+
   return (
     <>
       <section>

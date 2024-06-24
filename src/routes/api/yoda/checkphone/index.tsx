@@ -24,6 +24,4 @@ export const onGet: RequestHandler = async ({ request, json }) => {
   const responseBody = (body as YodaResponseDataI).data.checkuserByAttr;
 
   json(200, responseBody);
-
-  json(200, { hello: "world" });
 };

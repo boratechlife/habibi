@@ -1,6 +1,18 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { Form, routeAction$, z, zod$ } from "@builder.io/qwik-city";
+import { $, component$, useSignal, useStore } from "@builder.io/qwik";
+import {
+  Form,
+  routeAction$,
+  useNavigate,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
+import Input from "~/components/common/form/Input";
+
+export const useRegisterSchema = z.object({
+  username: z.string().min(5),
+  password: z.string().min(8),
+});
 
 export const useLoginUser = routeAction$(
   async (data, { redirect }) => {
@@ -15,27 +27,120 @@ export const useLoginUser = routeAction$(
 );
 
 export default component$(() => {
-  const action = useLoginUser();
+  const formData = useStore<any>({
+    username: "",
+    password: "",
+  });
+
+  interface ValidationErrors {
+    formErrors: string[];
+    fieldErrors: {
+      [field: string]: string[];
+    };
+  }
+
+  const fieldErrors = useStore<ValidationErrors>({
+    formErrors: [],
+    fieldErrors: {},
+  });
+  const resetErrors = $(() => {
+    fieldErrors.fieldErrors = {};
+  });
+
+  const handleInputChange = $((e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const name: string = target.name;
+    const value: string = target.value;
+    formData[name] = value;
+    resetErrors();
+    console.log("name", name, target.name, formData[name]);
+  });
+  const nav = useNavigate();
+  // const action = useLoginUser();
+  const error = useSignal("");
+  const handleSubmit = $(async (e: Event) => {
+    e.preventDefault();
+    console.log("form Data", formData);
+
+    const result = await useRegisterSchema.safeParseAsync(formData);
+
+    if (!result.success) {
+      // console.error("Validation errors:", result);
+      fieldErrors.fieldErrors = result.error.formErrors.fieldErrors;
+      console.log("ERRORS", fieldErrors.fieldErrors);
+      return;
+    }
+
+    async function getUserIpAddress() {
+      // const response = await fetch("https://api.ipify.org?format=json");
+      // const data = await response.json();
+      return "127.0.0.1";
+    }
+
+    const userIpAddress = await getUserIpAddress();
+
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          originalip: userIpAddress, // Add the IP address here as a custom header
+        },
+        body: JSON.stringify({
+          userName: formData.username,
+          password: formData.password,
+        }),
+      },
+    );
+    const res = await response.json();
+
+    if (res.loginBody.err == 500) {
+      console.log("res.loginBody.err_message", res.loginBody.err_message);
+      error.value = res.loginBody.err_message;
+    }
+    if (res.loginBody.token && res.loginBody.token.length > 0) {
+      localStorage.setItem("auth", JSON.stringify(res.loginBody));
+      await nav("/lobby");
+    }
+    console.log("RESPONSE", res);
+  });
+
   return (
     <BaseLayout autoLogoSize>
       <div class="bg-[linear-gradient(#217cb1_0,#003f64_100%)] pt-2">
-        <Form action={action} class="space-y-2">
+        {error.value.length > 0 && (
+          <div class="text-red-500">{error.value}</div>
+        )}
+        <div class="space-y-2">
           <div>
-            <input
+            <Input
+              label="Nama Pengguna"
               name="username"
-              class="block h-12 w-full rounded-full border-4 border-solid border-sky-500 bg-white px-3 text-center tracking-normal text-sky-700 placeholder:text-sky-500 focus:border-4 focus:border-sky-600"
               type="text"
-              placeholder="Username"
+              placeholder="Nama Pengguna Anda"
+              errors={
+                fieldErrors.fieldErrors && fieldErrors.fieldErrors.username
+              }
+              onInput={$((e) => handleInputChange(e as any))}
               required
-              minLength={5}
             />
           </div>
 
-          <PasswordInput />
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            errors={fieldErrors.fieldErrors && fieldErrors.fieldErrors.username}
+            onInput={$((e) => handleInputChange(e as any))}
+            required
+          />
 
           <div>
             <button
               type="submit"
+              onClick$={handleSubmit}
               class="mb-2.5 block h-11  w-full rounded-full border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)]"
             >
               Masuk
@@ -48,7 +153,7 @@ export default component$(() => {
               Lupa Password
             </a>
           </div>
-        </Form>
+        </div>
       </div>
     </BaseLayout>
   );

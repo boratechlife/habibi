@@ -8,7 +8,7 @@ import {
 } from "@builder.io/qwik-city";
 
 import RouterHead from "~/components/common/Head";
-
+import { routeLoader$ } from "@builder.io/qwik-city";
 // import the Flowbite module
 import { initFlowbite } from "flowbite";
 
@@ -16,6 +16,7 @@ import "./global.css";
 
 export default component$(() => {
   // initialise the event listeners for the data attributes on render
+
   useTask$(() => {
     if (isServer) {
       return;

@@ -1,5 +1,12 @@
 import {
+  $,
+  Signal,
   component$,
+  createContextId,
+  useContext,
+  useContextProvider,
+  useResource$,
+  useSignal,
   useStore,
   useStylesScoped$,
   useTask$,
@@ -15,26 +22,55 @@ import ReadMoreImage from "~/media/read-more-animated.webp?jsx";
 import "swiper/css";
 import BaseLayout from "~/components/common/BaseLayout";
 import { SeoInterface, GamesI } from "~/interfaces";
+import { SiteDataContext, ThemeContext } from "./layout";
 
-interface SiteInfoState {
-  siteInfo: SeoInterface | null;
-  siteGames: GamesI | null;
+export interface ShownPoolsInterface {
+  pasaran_id: string;
+  pasaran_name: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+  pasaran_active: boolean;
+  recent_results: any; // Adjust this type based on actual data structure
 }
 
+export interface GetPasaranResponseI {
+  pasaran_id: string;
+  pasaran_name: string;
+  pasaran_active: boolean;
+  daily_closetime: string;
+  recent_results: any; // Adjust this type based on actual data structure
+}
+
+export interface SiteInfoState {
+  siteInfo: SeoInterface | null;
+  siteGames: GamesI | null;
+  data: any | null;
+}
+
+export const parasanContext = createContextId<Signal<ShownPoolsInterface[]>>(
+  "docs.parasan-context",
+);
+
 export default component$(() => {
-  const state = useStore<SiteInfoState>({
-    siteInfo: null,
-    siteGames: null,
-  });
+  const theme = useContext(ThemeContext);
+  const siteData = useContext(SiteDataContext);
 
-  useTask$(async () => {
-    const response = await fetch("/api/test");
-    const data = await response.json();
+  const livechat = siteData.value.siteInfo.footer_livechat;
 
-    console.log("Data", data);
-    // state.siteInfo = data.SiteInfo;
-    // state.siteGames = data.SiteGames;
-  });
+  const runningTexts =
+    siteData.value.siteInfo.runningText?.filter((rt: any) => rt.isShow) || [];
+
+  // useTask$(async () => {
+  //   const response = await fetch(`http://localhost:5173/api/test`);
+
+  //   const data = await response.json();
+
+  //   console.log("Data", data);
+  //   state.data = data;
+  //   // state.siteInfo = data.SiteInfo;
+  //   // state.siteGames = data.SiteGames;
+  // });
 
   useStylesScoped$(styles);
   return (
@@ -87,21 +123,25 @@ export default component$(() => {
               class="rfm-marquee"
               style="--play: running; --direction: normal; --duration: 81.7625s; --delay: 0s; --iteration-count: infinite; --min-width: 100%;"
             >
-              <div class="rfm-initial-child-container">
-                <div class="rfm-child" style="--transform: none;">
-                  <span class="my-0.5">
-                    Selamat Datang di PAUS4D - situs terpercaya yang menyediakan
-                    ratusan permainan slot online pasti gacor dan pasaran togel
-                    terlengkap secara resmi menang pasti bayar. Tersedia 50
-                    Pasaran Togel, 40 Live Game Casino, dan 8 Provider Slot
-                    Gacor. Ayo Bergabung sekarang juga di PAUS4D dan nikmati
-                    Hadiah terbesar dan Bonus Menarik!
-                  </span>
-                </div>
-                <div class="rfm-child" style="--transform: none;">
-                  ;
-                </div>
-              </div>
+              {runningTexts.map(
+                (
+                  runningText: {
+                    text: string;
+                  },
+                  index: number,
+                ) => {
+                  return (
+                    <div class="rfm-initial-child-container" key={index}>
+                      <div class="rfm-child" style="--transform: none;">
+                        <span class="my-0.5">{runningText.text}</span>
+                      </div>
+                      <div class="rfm-child" style="--transform: none;">
+                        ;
+                      </div>
+                    </div>
+                  );
+                },
+              )}
             </div>
             <div
               class="rfm-marquee"
@@ -125,7 +165,8 @@ export default component$(() => {
         </div>
 
         <Carousel />
-        <ScrollingBanner />
+
+        {siteData.value.siteInfo.banners.length > 0 && <ScrollingBanner />}
 
         <div class="my-2">
           <div class="px-5">
@@ -159,6 +200,7 @@ export default component$(() => {
             </p>
             <div>
               <button class="inline-block h-[35px] w-full min-w-[43%] animate-[change-color_.5s_ease_0s_infinite_normal_none_running] rounded-xl border border-solid border-yellow-600 bg-yellow-600 bg-[linear-gradient(#4a4a4a_0,#484848_50%,#000_95%)] px-0 pb-6 pt-2.5 text-center uppercase leading-[14px] text-black shadow-[inset_0_0_0_2px_#daa520,inset_0_2px_0_0_#daa520,inset_0_4px_4px_2px_#434343,3px_3px_3px_1px_transparent] active:bg-amber-700">
+                <span dangerouslySetInnerHTML={livechat}></span>
                 Live Chat
               </button>
             </div>
@@ -220,7 +262,9 @@ export default component$(() => {
                     <path d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z"></path>
                   </svg>
                   <div class="mt-1 text-center">
-                    <p class="text-xl font-extrabold text-amber-400">3782</p>
+                    <p class="text-xl font-extrabold text-amber-400">
+                      {Math.floor(Math.random() * (7293 - 2800 + 1)) + 2800}
+                    </p>
                     <p class="text-xs">Member Online</p>
                   </div>
                 </div>

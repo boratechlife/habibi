@@ -3,14 +3,17 @@ import {
   type PropsOf,
   component$,
   useComputed$,
+  PropFunction,
 } from "@builder.io/qwik";
 
 type SelectProps = PropsOf<"select"> & {
   label?: string;
   errorMsg?: string;
+  errors?: string[];
   wrapperClasses?: ClassList;
   options: { label: string; value: string }[] | string[];
   placeholderOption?: string;
+  onInput?: PropFunction<(event: Event) => void>;
 };
 
 export default component$<SelectProps>(
@@ -21,6 +24,8 @@ export default component$<SelectProps>(
     class: classes,
     options,
     placeholderOption,
+    onInput,
+    errors,
     ...props
   }) => {
     const resolvedOptions = useComputed$(() => {
@@ -55,6 +60,7 @@ export default component$<SelectProps>(
             "block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-xs uppercase leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none",
             classes,
           ]}
+          onChange$={onInput}
         >
           {resolvedOptions.value.map((opt, index) => (
             <option value={opt.value} key={index}>
@@ -62,7 +68,12 @@ export default component$<SelectProps>(
             </option>
           ))}
         </select>
-        {errorMsg && <span class="text-xs text-red-500">{errorMsg}</span>}
+        {errors &&
+          errors.map((error, index) => (
+            <div key={"error" + index} class="text-sm text-red-500">
+              {error}
+            </div>
+          ))}
       </div>
     );
   },

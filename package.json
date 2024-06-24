@@ -31,12 +31,14 @@
     "@builder.io/qwik-city": "^1.5.6",
     "@builder.io/qwik-react": "0.5.0",
     "@types/eslint": "^8.56.10",
+    "@types/he": "^1.2.3",
     "@types/node": "^20.12.7",
     "@types/pako": "^2.0.3",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.13",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
+    "@unpic/qwik": "^0.0.46",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.57.0",
     "eslint-plugin-qwik": "^1.5.6",
@@ -53,9 +55,11 @@
   },
   "dependencies": {
     "flowbite": "^2.3.0",
+    "he": "^1.2.0",
     "node-fetch": "^3.3.2",
     "pako": "^2.1.0",
     "swiper": "^11.1.4",
+    "yup": "^1.4.0",
     "zod": "^3.23.8"
   }
 }

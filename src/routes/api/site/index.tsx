@@ -23,10 +23,10 @@ export const onGet: RequestHandler = async ({ json }) => {
         list: dataToDecompress,
       };
     } else {
-      console.log("Data to decompress", dataToDecompress);
+      // console.log("Data to decompress", dataToDecompress);
 
       const decompressData = await decompressString(dataToDecompress);
-      console.log("DECOMPRESSED,", decompressData);
+      // console.log("DECOMPRESSED,", decompressData);
       games[catKey] = {
         ...siteGames[catKey],
         list: decompressData,
@@ -34,7 +34,7 @@ export const onGet: RequestHandler = async ({ json }) => {
     }
   }
 
-  json(200, { SiteInfo: siteInfo, SiteGames: games });
+  json(200, { ...siteInfo, SiteGames: games });
 
   // json(200, { hello: siteInfo, parent: siteGames });
 };

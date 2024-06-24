@@ -40,5 +40,5 @@ export const onPost: RequestHandler = async ({ request, json }) => {
 
   const loginBody = await loginCb.json();
   console.log("headers", loginBody);
-  json(200, { message: loginBody });
+  json(200, { loginBody });
 };

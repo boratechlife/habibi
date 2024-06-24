@@ -1,7 +1,14 @@
-import { $, component$, useSignal, useTask$ } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  useContext,
+  useSignal,
+  useTask$,
+} from "@builder.io/qwik";
 import { isDev, isServer } from "@builder.io/qwik/build";
 import Swiper from "swiper";
 import { Autoplay } from "swiper/modules";
+import { SiteDataContext } from "~/routes/layout";
 
 const providerImages = import.meta.glob("/src/media/providers/*", {
   import: "default",
@@ -16,6 +23,27 @@ export default component$(() => {
       title: string;
     }[]
   >();
+
+  const siteData = useContext(SiteDataContext);
+
+  //object .keys to get gateories
+
+  const availableProviders = Object.keys(siteData.value.SiteGames)
+    .map((item) => {
+      return siteData.value.SiteGames[item].list.map((listItem) => {
+        return {
+          provider: listItem.provider,
+          providerIdx: listItem.providerIdx,
+          imgsrc: `${import.meta.env.PUBLIC_IMAGE_URL}/providers/myballs/${listItem.provider}.webp`,
+        };
+      });
+    })
+    .flat();
+
+  // Use a Set to filter out duplicates based on provider
+  const uniqueProviders = Array.from(
+    new Map(availableProviders.map((item) => [item.provider, item])).values(),
+  );
 
   const loadProviders = $(async () => {
     const res = await Promise.all(
@@ -63,18 +91,18 @@ export default component$(() => {
 
         <div class="swiper provider-swiper">
           <div class="swiper-wrapper">
-            {images.value?.map(({ imgSrc, title }, index) => (
+            {uniqueProviders?.map(({ imgsrc, provider }, index) => (
               <div key={index} class="swiper-slide">
                 <div class="w-11/12 rounded-xl border border-solid border-sky-500 bg-sky-900">
                   <img
-                    src={imgSrc}
+                    src={imgsrc}
                     height={48}
                     width={48}
                     class="mx-auto h-12 w-12 p-1"
-                    alt={`${title} logo`}
+                    alt={`${provider} logo`}
                   />
                   <p class="block rounded-bl-xl rounded-br-xl bg-[linear-gradient(#217cb1_0,#003f64_100%)] p-1 text-center text-[0.5rem] uppercase">
-                    {title}
+                    {provider}
                   </p>
                 </div>
               </div>

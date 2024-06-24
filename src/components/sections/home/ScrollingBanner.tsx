@@ -1,4 +1,9 @@
-import { component$, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import {
+  component$,
+  useContext,
+  useStylesScoped$,
+  useTask$,
+} from "@builder.io/qwik";
 import Swiper from "swiper";
 import { Autoplay, Navigation, Scrollbar } from "swiper/modules";
 
@@ -6,13 +11,20 @@ import { isServer } from "@builder.io/qwik/build";
 
 import navigationStyles from "swiper/css/navigation?inline";
 import scrollbarStyles from "swiper/css/scrollbar?inline";
+import { Image } from "@unpic/qwik";
 
 import banner1 from "~/media/banner-1.webp?jsx";
 import banner2 from "~/media/banner-2.webp?jsx";
+import { SiteDataContext } from "~/routes/layout";
 
 export default component$(() => {
   useStylesScoped$(navigationStyles);
   useStylesScoped$(scrollbarStyles);
+
+  const siteData = useContext(SiteDataContext);
+
+  const banners =
+    siteData.value.siteInfo.banners?.filter((rt: any) => rt.isShow) || [];
 
   useTask$(
     ({ cleanup }) => {
@@ -329,6 +341,39 @@ export default component$(() => {
       <div class="overflow-x-clip">
         <div class="swiper banner-swiper">
           <div class="swiper-wrapper">
+            {banners
+              .filter((image: { isShow: any }) => image.isShow)
+              .map(
+                (
+                  banner: {
+                    imageurl: string | undefined;
+                    index: string | number | null | undefined;
+                    imagealt: string | undefined;
+                  },
+                  index: number,
+                ) => (
+                  <div
+                    key={banner.index + "" + index}
+                    class="swiper-slide relative h-[600px] w-screen "
+                  >
+                    <img
+                      src={banner.imageurl}
+                      loading="lazy"
+                      alt={banner.imagealt}
+                      height={600}
+                      width={1200}
+                      class=" absolute h-full w-full object-fill "
+                    />
+                  </div>
+                ),
+              )}
+          </div>
+        </div>
+      </div>
+
+      {/* <div class="overflow-x-clip">
+        <div class="swiper banner-swiper">
+          <div class="swiper-wrapper">
             {[banner1, banner2].map((BannerImage, index) => (
               <div class="swiper-slide" key={index}>
                 <BannerImage class="h-auto w-full" />
@@ -336,7 +381,7 @@ export default component$(() => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 });
