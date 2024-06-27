@@ -8,48 +8,56 @@ type ResponseData = {
 
 export const onPost: RequestHandler = async ({ request, json }) => {
   try {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    const authHeader = request.headers.get("authorization");
-    if (authHeader) {
-      headers.append("Authorization", authHeader);
-    }
+    // const body = {
+    //   amount: Number(data.amount.replace(/[^0-9]/g, "")),
+    //   bank: data.bankSelection,
+    //   return_url: requestEvent.url.origin,
+    //   selectedPromo: false,
+    // };
     const body = await request.text();
 
-    // Determine client IP address
-    let ipAddress =
-      request.headers["originalip"] || request.headers["cf-connecting-ip"];
-    headers.append(
-      "x-clientip",
-      Array.isArray(ipAddress)
-        ? ipAddress[0]
-        : typeof ipAddress === "string"
-          ? ipAddress
-          : "127.0.0.1",
-    );
+    // const bodyNew = {
+    //   amount: Number(body.amount),
+    //   bank: data.bankSelection,
+    //   return_url: requestEvent.url.origin,
+    //   selectedPromo: false,
+    // };
+    const authHeader = request.headers.get("authorization");
+    console.log("what is body", JSON.parse(body));
 
-    console.log("body", ipAddress);
-    const depositCb: Response = await fetch(
-      `${process.env.WALLET_URL}pg/deposit_pg`,
-      {
-        method: "POST",
-        headers,
-        body: body, // Assuming Qwik automatically parses request body
+    const depositCb = await fetch(process.env.WALLET_URL + "pg/deposit_pg", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+        "x-clientip": "0.0.0.0",
       },
-    );
+      body: JSON.stringify(JSON.parse(body)),
+    })
+      .then(async (res) => await res.json())
+      .then((data) => data);
 
-    const depositBody = await depositCb.json();
-
-    if (depositBody.err === 500) {
-      console.log("deposite-body", depositBody);
-      throw depositBody;
+    console.log("what is depositCb", depositCb);
+    if (depositCb.err !== 200) throw new Error(depositCb.err_message);
+    json(200, {
+      success: true,
+      ...depositCb,
+    });
+  } catch (error) {
+    console.warn("depositCb Error", error);
+    if (error instanceof Error) {
+      json(200, {
+        success: false,
+        err: 500,
+        err_message: error?.message,
+      });
+    } else {
+      console.error("An unexpected error occurred", error);
+      json(200, {
+        success: false,
+        err: 500,
+        err_message: error,
+      });
     }
-
-    json(200, depositBody);
-
-    //json(200, { hello: "world" });
-  } catch (error: any) {
-    console.log("error", error);
-    json(500, error);
   }
 };

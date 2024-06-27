@@ -297,16 +297,13 @@ export const getToken = () => {
   return store.auth.token;
 };
 
-const logout = async () => {
-  return await fetch("/api/gemini/logout", {
+export const logout = async (url: string, token: string) => {
+  return await fetch(url + "/api/gemini/logout", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${store.auth.token}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => {
-    if (res.ok) {
-      Object.assign(store, initialState);
-    }
     return res.ok;
   });
 };

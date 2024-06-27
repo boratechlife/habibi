@@ -1,5 +1,11 @@
 import { $, component$, useStore } from "@builder.io/qwik";
-import { Form, routeAction$, z, zod$ } from "@builder.io/qwik-city";
+import {
+  Form,
+  routeAction$,
+  useNavigate,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
 import Select from "~/components/common/form/Select";
@@ -85,7 +91,7 @@ interface ValidationErrors {
 
 export default component$(() => {
   // const action = useRegister();
-
+  const navigate = useNavigate();
   const formData = useStore<any>({
     username: "",
     password: "",
@@ -141,6 +147,9 @@ export default component$(() => {
       },
     );
 
+    if (result.success) {
+      navigate("/login");
+    }
     console.log(result);
   });
   return (

@@ -1,8 +1,69 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import {
+  $,
+  component$,
+  useContext,
+  useStore,
+  useVisibleTask$,
+  useSignal,
+  useResource$,
+} from "@builder.io/qwik";
+import { useContent, type DocumentHead } from "@builder.io/qwik-city";
 import { DatePicker } from "~/components/DatePicker";
+import { AuthContext } from "~/context/auth-context";
+
+interface PlayerStatsI {
+  date: string;
+  validTurnover: string;
+  playerWinLoss: string;
+}
 
 export default component$(() => {
+  const oneWeekBefore = new Date();
+  oneWeekBefore.setDate(new Date().getDate() - 7);
+
+  const authStore = useContext(AuthContext);
+
+  const store = useStore({
+    dateStart: oneWeekBefore,
+    dateEnd: new Date(),
+    playerStats: [] as PlayerStatsI[],
+  });
+
+  const playerName = useSignal<string | null>(null);
+  useVisibleTask$(() => {
+    playerName.value = authStore.user.username;
+  });
+
+  const handleInputChange = $((e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const name: string = target.name;
+    const value: string = target.value;
+    store[name] = new Date(value);
+    console.log("name", name, target.name, store[name]);
+  });
+
+  const loadPlayerStats = $(async () => {
+    const startDate = store.dateStart.toISOString().split("T")[0];
+    const endDate = store.dateEnd.toISOString().split("T")[0];
+
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_QWIK_API_URL}api/yoda/playersummary?playerName=${playerName.value}&dateStart=${startDate}&dateEnd=${endDate}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch player stats");
+    }
+    store.playerStats = await response.json();
+  });
+
+  useVisibleTask$(() => {
+    loadPlayerStats();
+  });
+
+  const onClickSubmit = $(() => {
+    loadPlayerStats();
+  });
+
   return (
     <>
       <section>
@@ -18,7 +79,7 @@ export default component$(() => {
                   Date From<div class="grow"></div>:
                 </div>
                 <div class="w-2/3 px-2">
-                  <DatePicker />
+                  <DatePicker onInput={handleInputChange} name="dateStart" />
                 </div>
               </div>
               <div class="my-3 flex w-full">
@@ -26,13 +87,14 @@ export default component$(() => {
                   Date To:<div class="grow"></div>:
                 </div>
                 <div class="w-2/3 px-2">
-                  <DatePicker />
+                  <DatePicker onInput={handleInputChange} name="dateEnd" />
                 </div>
               </div>
             </div>
             <button
               class="leading-wide mb-3 block w-1/4 rounded-lg bg-[#22c55e] py-2 font-bold  uppercase text-white lg:py-3"
               style="text-shadow: rgba(0, 0, 0, 0.7) 2px 1px 9px;"
+              onClick$={onClickSubmit}
             >
               submit
             </button>
@@ -55,39 +117,19 @@ export default component$(() => {
                   </tr>
                 </thead>
                 <tbody id="transaction">
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-01
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $5000
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $200
-                    </td>
-                  </tr>
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-02
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $4500
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      -$150
-                    </td>
-                  </tr>
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-03
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $5200
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $300
-                    </td>
-                  </tr>
+                  {store.playerStats.map((item) => (
+                    <tr class="pl-0 text-center align-middle leading-3 text-white">
+                      <td class="border-b border-solid border-b-white px-0 py-2.5">
+                        {item.date}
+                      </td>
+                      <td class="border-b border-solid border-b-white px-0 py-2.5">
+                        {item.validTurnover}
+                      </td>
+                      <td class="border-b border-solid border-b-white px-0 py-2.5">
+                        {item.playerWinLoss}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

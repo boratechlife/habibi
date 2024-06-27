@@ -107,6 +107,7 @@ interface Banner {
 }
 
 export interface TransformedListI {
+  providerIdx: any;
   provider: string;
   id: string;
   name: string;

@@ -1,12 +1,42 @@
 // src/components/DatePicker.tsx
-import { PropFunction, component$ } from "@builder.io/qwik";
+import { $, PropFunction, component$, useContext } from "@builder.io/qwik";
 import CloseImage from "~/media/close.png?jsx";
-
+import { logout } from "~/data/auth";
+import { AuthContext } from "~/context/auth-context";
+import { useNavigate } from "@builder.io/qwik-city";
 interface Props {
   onClick: PropFunction<() => void>;
 }
 
 export const Sidebar = component$<Props>(({ onClick }) => {
+  const url = import.meta.env.PUBLIC_QWIK_API_URL;
+
+  const authStore = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleLogout = $(async () => {
+    const token = authStore.user.token;
+    if (!token) {
+      navigate("/");
+    }
+    await logout(url, token)
+      .then((logoutSuccess: boolean) => {
+        if (logoutSuccess) {
+          onClick();
+          navigate("/");
+        }
+      })
+      .finally(() => {
+        authStore.user = "";
+        localStorage.removeItem("auth");
+        onClick();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  });
+
   return (
     <div class="relative ">
       <div
@@ -179,9 +209,9 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                           </a>
                         </li>
                         <li>
-                          <a
+                          <button
+                            onClick$={handleLogout}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
-                            href="/lobby"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +229,7 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Keluar</span>
                             <div class="grow"></div>
                             <span class="undefined my-auto hidden pr-2">●</span>
-                          </a>
+                          </button>
                         </li>
                       </ul>
                     </li>

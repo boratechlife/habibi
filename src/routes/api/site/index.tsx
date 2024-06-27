@@ -3,12 +3,16 @@ import { GamesI, SeoInterface } from "~/interfaces";
 import { decompressString } from "~/utils/decompress";
 
 export const onGet: RequestHandler = async ({ json }) => {
-  const assetsUrl = process.env.NEXT_PUBLIC_ASSETS || "";
+  const assetsUrl = process.env.PUBLIC_ASSETS || "";
   const parent = process.env.NEXT_PUBLIC_MAIN_PARENT || "";
 
-  const siteInfoResponse = await fetch(`${assetsUrl}${parent}-sites.json`);
+  const siteUrl = assetsUrl + "/public-js/sites/" + parent + "-sites.json";
+  const gamesUrl = assetsUrl + "/public-js/sites/" + parent + "-games.json";
+  console.log("URL", siteUrl, gamesUrl);
+
+  const siteInfoResponse = await fetch(siteUrl);
   const siteInfoText = await siteInfoResponse.text();
-  const siteGamesResponse = await fetch(`${assetsUrl}${parent}-games.json`);
+  const siteGamesResponse = await fetch(gamesUrl);
   const siteGamesText = await siteGamesResponse.text();
 
   const siteInfo = JSON.parse(siteInfoText) as SeoInterface;

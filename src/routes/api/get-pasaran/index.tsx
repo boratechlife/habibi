@@ -126,6 +126,6 @@ export const onGet: RequestHandler = async ({ json }) => {
     },
   ];
 
-  const assetsUrl = process.env.NEXT_PUBLIC_ASSETS || "";
+  const assetsUrl = process.env.PUBLIC_ASSETS || "";
   const parent = process.env.NEXT_PUBLIC_MAIN_PARENT || "";
 };

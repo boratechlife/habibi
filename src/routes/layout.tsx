@@ -9,7 +9,9 @@ import {
 } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import type { RequestHandler } from "@builder.io/qwik-city";
+import AuthComponent from "~/components/AuthComponent";
 import { TheHeader } from "~/components/TheHeader";
+import { AuthContext, AuthProvider } from "~/context/auth-context";
 import { SiteInfo } from "~/data/site";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
@@ -52,9 +54,12 @@ export default component$(() => {
   useContextProvider(SiteDataContext, test);
 
   return (
-    <>
-      <TheHeader />
-      <Slot />
-    </>
+    <AuthProvider>
+      <>
+        <AuthComponent />
+        <TheHeader />
+        <Slot />
+      </>
+    </AuthProvider>
   );
 });

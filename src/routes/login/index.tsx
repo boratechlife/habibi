@@ -1,4 +1,10 @@
-import { $, component$, useSignal, useStore } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  useContext,
+  useSignal,
+  useStore,
+} from "@builder.io/qwik";
 import {
   Form,
   routeAction$,
@@ -8,6 +14,7 @@ import {
 } from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
+import { AuthContext } from "~/context/auth-context";
 
 export const useRegisterSchema = z.object({
   username: z.string().min(5),
@@ -31,6 +38,8 @@ export default component$(() => {
     username: "",
     password: "",
   });
+
+  const authContext = useContext(AuthContext);
 
   interface ValidationErrors {
     formErrors: string[];
@@ -94,13 +103,24 @@ export default component$(() => {
       },
     );
     const res = await response.json();
+    if (!res.loginBody) {
+      console.log(res);
+
+      error.value = res.err;
+      alert("error");
+      return;
+    }
 
     if (res.loginBody.err == 500) {
       console.log("res.loginBody.err_message", res.loginBody.err_message);
       error.value = res.loginBody.err_message;
     }
     if (res.loginBody.token && res.loginBody.token.length > 0) {
-      localStorage.setItem("auth", JSON.stringify(res.loginBody));
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({ username: formData.username, ...res.loginBody }),
+      );
+      authContext.user = res.loginBody;
       await nav("/lobby");
     }
     console.log("RESPONSE", res);

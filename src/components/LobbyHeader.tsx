@@ -40,7 +40,7 @@ export default component$(() => {
               >
                 <a
                   target="_self"
-                  href="/id/games/99"
+                  href="/games/99"
                   style="pointer-events: auto;"
                 >
                   <p>favorit</p>
@@ -50,11 +50,7 @@ export default component$(() => {
                 id="cat-12"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case lg:normal-case"
               >
-                <a
-                  target="_self"
-                  href="/id/lobby"
-                  style="pointer-events: auto;"
-                >
+                <a target="_self" href="/lobby" style="pointer-events: auto;">
                   <p>Togel</p>
                 </a>
               </div>
@@ -62,11 +58,7 @@ export default component$(() => {
                 id="cat-0"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
-                  target="_self"
-                  href="/id/games/0"
-                  style="pointer-events: auto;"
-                >
+                <a target="_self" href="/games/0" style="pointer-events: auto;">
                   <p>Slots</p>
                 </a>
               </div>
@@ -76,7 +68,7 @@ export default component$(() => {
               >
                 <a
                   target="_self"
-                  href="/id/games/70"
+                  href="/games/70"
                   style="pointer-events: auto;"
                 >
                   <p>Live Kasino</p>
@@ -86,11 +78,7 @@ export default component$(() => {
                 id="cat-9"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
-                  target="_self"
-                  href="/id/games/9"
-                  style="pointer-events: auto;"
-                >
+                <a target="_self" href="/games/9" style="pointer-events: auto;">
                   <p>Arcade</p>
                 </a>
               </div>
@@ -98,11 +86,7 @@ export default component$(() => {
                 id="cat-7"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
-                  target="_self"
-                  href="/id/games/7"
-                  style="pointer-events: auto;"
-                >
+                <a target="_self" href="/games/7" style="pointer-events: auto;">
                   <p>Ikan</p>
                 </a>
               </div>
@@ -110,11 +94,7 @@ export default component$(() => {
                 id="cat-1"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
-                  target="_self"
-                  href="/id/games/1"
-                  style="pointer-events: auto;"
-                >
+                <a target="_self" href="/games/1" style="pointer-events: auto;">
                   <p>Game Meja</p>
                 </a>
               </div>

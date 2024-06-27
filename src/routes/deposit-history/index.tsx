@@ -1,8 +1,90 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import {
+  $,
+  component$,
+  useContext,
+  useOnWindow,
+  useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
+import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import { DatePicker } from "~/components/DatePicker";
+import { AuthContext } from "~/context/auth-context";
+
+interface DepositHistoryI {
+  playerName: string;
+  transactionTime: string;
+  type: string;
+  winLose: string;
+  status: string;
+}
 
 export default component$(() => {
+  const oneWeekBefore = new Date();
+  oneWeekBefore.setDate(new Date().getDate() - 7);
+
+  const authContext = useContext(AuthContext);
+
+  const store = useStore({
+    fromDate: oneWeekBefore,
+    toDate: new Date(),
+    depositHistories: [] as DepositHistoryI[],
+  });
+
+  const handleInputChange = $((e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const name: string = target.name;
+    const value: string = target.value;
+    store[name] = value;
+    console.log("name", name, target.name, store[name]);
+  });
+
+  const navigate = useNavigate();
+  const loadTransactions = $(async () => {
+    console.log("auth", authContext.user);
+    const startDate = store.fromDate.toISOString().split("T")[0];
+    const endDate = store.toDate.toISOString().split("T")[0];
+    if (authContext.user.username) {
+      const response = await fetch(
+        `/api/yoda/playerTransactions/?${authContext.user.username}&dateStart=${startDate}&dateEnd=${endDate}`,
+      ).then(async (fetchResult) => await fetchResult.json());
+      store.depositHistories = response;
+
+      console.log("res", response);
+    } else {
+      console.log("error", authContext.user);
+    }
+  });
+
+  const onClickSubmit = $(async () => {
+    console.log("auth", authContext.user);
+    const startDate = store.fromDate.toISOString().split("T")[0];
+    const endDate = store.toDate.toISOString().split("T")[0];
+    if (authContext.user.username) {
+      const response = await fetch(
+        `/api/yoda/playerTransactions/?${authContext.user.username}&dateStart=${startDate}&dateEnd=${endDate}`,
+      ).then(async (fetchResult) => await fetchResult.json());
+      store.depositHistories = response;
+
+      console.log("res", response);
+    } else {
+      console.log("error", authContext.user);
+    }
+  });
+
+  useVisibleTask$(() => {
+    const oneWeekBefore = new Date();
+    oneWeekBefore.setDate(new Date().getDate() - 7);
+    store.fromDate = oneWeekBefore;
+    store.toDate = new Date();
+    loadTransactions();
+    // console.log("EXECUTING NOW,...........", authContext.user.userName);
+    // await onClickSubmit();
+  });
+
+  // useVisibleTask$(() => {
+  //   console.log("One week befoe", oneWeekBefore);
+  //   console.log("Contextuser", authContext.user);
+  // });
   return (
     <>
       <section>
@@ -17,7 +99,10 @@ export default component$(() => {
                   Date From<div class="grow"></div>:
                 </div>
                 <div class="w-2/3 px-2">
-                  <DatePicker />
+                  <DatePicker
+                    onInput={$((e) => handleInputChange(e as Event))}
+                    name="fromDate"
+                  />
                 </div>
               </div>
               <div class="my-3 flex w-full">
@@ -25,13 +110,17 @@ export default component$(() => {
                   Date To:<div class="grow"></div>:
                 </div>
                 <div class="w-2/3 px-2">
-                  <DatePicker />
+                  <DatePicker
+                    onInput={$((e) => handleInputChange(e as Event))}
+                    name="toDate"
+                  />
                 </div>
               </div>
             </div>
             <button
               class="leading-wide mb-3 block w-1/4 rounded-lg bg-[#22c55e] py-2 font-bold  uppercase text-white lg:py-3"
               style="text-shadow: rgba(0, 0, 0, 0.7) 2px 1px 9px;"
+              onClick$={onClickSubmit}
             >
               submit
             </button>
@@ -57,48 +146,24 @@ export default component$(() => {
                   </tr>
                 </thead>
                 <tbody id="transaction">
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-01
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Deposit
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $1000
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Completed
-                    </td>
-                  </tr>
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-02
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Withdrawal
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $500
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Pending
-                    </td>
-                  </tr>
-                  <tr class="pl-0 text-center align-middle leading-3 text-white">
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      2024-06-03
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Deposit
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      $1500
-                    </td>
-                    <td class="border-b border-solid border-b-white px-0 py-2.5">
-                      Completed
-                    </td>
-                  </tr>
+                  {store.depositHistories?.map((item) => {
+                    return (
+                      <tr class="pl-0 text-center align-middle leading-3 text-white">
+                        <td class="border-b border-solid border-b-white px-0 py-2.5">
+                          {item.transactionTime}
+                        </td>
+                        <td class="border-b border-solid border-b-white px-0 py-2.5">
+                          {item.type}
+                        </td>
+                        <td class="border-b border-solid border-b-white px-0 py-2.5">
+                          {item.winLose}
+                        </td>
+                        <td class="border-b border-solid border-b-white px-0 py-2.5">
+                          {item.status}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

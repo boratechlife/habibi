@@ -1,7 +1,14 @@
 // src/components/DatePicker.tsx
-import { component$ } from "@builder.io/qwik";
+import { PropFunction, PropsOf, component$ } from "@builder.io/qwik";
 
-export const DatePicker = component$(() => {
+type InputProps = PropsOf<"input"> & {
+  errorMsg?: string;
+  errors?: string[];
+  name: string;
+  onInput?: PropFunction<(event: Event) => void>;
+};
+
+export const DatePicker = component$<InputProps>(({ onInput, name }) => {
   return (
     <div>
       <div class="relative max-w-sm">
@@ -17,8 +24,10 @@ export const DatePicker = component$(() => {
           </svg>
         </div>
         <input
-          type="text"
-          class="block w-full rounded-lg border border-[#808080] bg-transparent p-2.5 ps-2 text-sm text-white placeholder:text-gray-50 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          type="date"
+          onChange$={onInput}
+          name={name}
+          class="block w-full rounded-lg border border-[#808080] bg-transparent p-2.5 ps-2 text-sm text-white  placeholder:text-gray-50 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           placeholder="Select date"
         />
       </div>
