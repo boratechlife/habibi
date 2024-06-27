@@ -112,13 +112,14 @@ export default component$(() => {
           method: "GET",
         });
         const data: GetPasaranResponseI[] = await res.json();
-
+        console.log("Data,,,,,,,,,", data);
         const pools = await calculateCountdown(data);
         firstPools.value = pools.firstPools;
         secondPools.value = pools.secondPools;
-
+        // calculateCountdown(data);
         const interval = setInterval(() => {
           calculateCountdown(data);
+          console.log("INTERVAL............");
         }, 1000);
 
         cleanup(() => clearInterval(interval));

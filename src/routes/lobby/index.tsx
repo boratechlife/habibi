@@ -1,5 +1,6 @@
 import {
   component$,
+  useContext,
   useSignal,
   useStore,
   useTask$,
@@ -7,6 +8,7 @@ import {
 } from "@builder.io/qwik";
 import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import LobbyHeader from "~/components/LobbyHeader";
+import { AuthContext } from "~/context/auth-context";
 
 // const handleClick$ = $((_: any, direction: string) => {
 //   const el = document.querySelector(".no-scrollbar") as HTMLElement;
@@ -44,15 +46,25 @@ export type CategoryIconKeys = keyof CategoryIconI;
 
 export default component$(() => {
   const navigate = useNavigate();
-  const doraFrame = useSignal<HTMLIFrameElement | null>(null);
+  const doraFrame = useSignal<HTMLIFrameElement | undefined>(undefined);
   const authStore = useStore<any>({
     user: null,
   });
+  const baseUrl =
+    import.meta.env.NEXT_PUBLIC_TOGEL_BASE_URL ||
+    "https://doraemon.wirosablengonline.com";
+  const mainParent = import.meta.env.NEXT_PUBLIC_MAIN_PARENT || "defaultParent";
+
+  const authUser = useContext(AuthContext);
+  // Construct the URL properly
+
   const balance = useStore<BalanceResponse | any>({});
   const state = useStore({ isBalanceRetrieved: false });
 
   useVisibleTask$(() => {
     const auth = localStorage.getItem("auth");
+    const iframeSrc = `${baseUrl}?auth_key=${encodeURIComponent(authUser.user.token)}&agent=${encodeURIComponent(mainParent)}`;
+    console.log("iframe", iframeSrc);
 
     if (!auth) {
       navigate("/login");
@@ -101,6 +113,47 @@ export default component$(() => {
     }
   });
 
+  // Handle message events
+  useVisibleTask$(({ cleanup }) => {
+    const handleMessage = (e: MessageEvent) => {
+      const frameRes = e.data.doraResponse;
+
+      if (frameRes && doraFrame.value) {
+        switch (frameRes.type) {
+          case "iframeHeight":
+            doraFrame.value.style.height = frameRes.height + "px";
+            break;
+          case "scrollTo":
+            console.log("what is framres scrollTo", frameRes);
+            window.scrollTo(frameRes.left, frameRes.top);
+            break;
+          case "requestAuth":
+            console.log("must login!!!!!");
+            document.location = "/login";
+            break;
+          default:
+            break;
+        }
+      }
+    };
+    window.addEventListener("message", handleMessage, false);
+
+    cleanup(() => {
+      window.removeEventListener("message", handleMessage, false);
+    });
+  });
+
+  // Update iframe src when auth token changes
+  useVisibleTask$(({ track }) => {
+    track(() => authStore.user.token);
+    if (doraFrame.value) {
+      const iframeSrc = `${baseUrl}?auth_key=${encodeURIComponent(authUser.user.token)}&agent=${encodeURIComponent(mainParent)}`;
+      console.log("iframe", iframeSrc);
+
+      doraFrame.value.src = iframeSrc;
+    }
+  });
+
   return (
     <>
       <section>
@@ -120,6 +173,7 @@ export default component$(() => {
                 class="mt-2 h-full w-full rounded-md"
                 src={`"https://doraemon.wirosablengonline.com/?auth_key=${authStore.user.token}&amp;agent=${authStore.user.agentName}"`}
                 id="doraFrame"
+                ref={doraFrame}
                 scrolling="no"
                 style="height: 200px;"
               ></iframe>

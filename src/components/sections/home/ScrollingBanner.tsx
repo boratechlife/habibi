@@ -354,7 +354,7 @@ export default component$(() => {
                 ) => (
                   <div
                     key={banner.index + "" + index}
-                    class="swiper-slide relative h-[600px] w-screen "
+                    class="swiper-slide relative  h-[400px] w-screen lg:h-[600px] "
                   >
                     <img
                       src={banner.imageurl}
@@ -362,7 +362,7 @@ export default component$(() => {
                       alt={banner.imagealt}
                       height={600}
                       width={1200}
-                      class=" absolute h-full w-full object-fill "
+                      class=" absolute h-full w-full object-cover "
                     />
                   </div>
                 ),

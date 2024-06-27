@@ -28,6 +28,11 @@ export const onPost: RequestHandler = async ({ request, json }) => {
     console.log("re", resetPasswordBody);
     json(200, resetPasswordBody);
   } catch (error: any) {
+    console.log(
+      "error",
+      process.env.NEXT_PUBLIC_MAIN_PARENT,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/resetPassword`,
+    );
     json(500, { message: error });
   }
 

@@ -1,6 +1,7 @@
 import { component$, $, useStore } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { z } from "zod";
+import { ForgotPasswordRequestI } from "~/data/auth";
 
 // Define the Zod schema
 const formSchema = z.object({
@@ -15,7 +16,7 @@ export default component$(() => {
     errors: {} as Record<string, string>,
   });
 
-  const handleSubmit$ = $((event: Event) => {
+  const handleSubmit$ = $(async (event: Event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
@@ -39,11 +40,22 @@ export default component$(() => {
       // Handle successful form submission
       console.log(result.data); // Replace with your logic (e.g., send to server)
 
-      // Clear form state
-      state.userName = "";
-      state.eMail = "";
-      state.errors = {};
-      alert("Password reset request submitted!");
+      try {
+        const res = await fetch("/api/gemini/reset-password", {
+          method: "POST",
+          body: JSON.stringify({
+            ...data,
+            hostName: window.location.hostname,
+          }),
+        });
+        // Clear form state
+        state.userName = "";
+        state.eMail = "";
+        state.errors = {};
+        alert("Password reset request submitted!");
+      } catch (error) {
+        alert("error occured");
+      }
     }
   });
 

@@ -88,7 +88,7 @@ export default component$(() => {
       let providers: Set<string> = new Set();
       let cats = [];
 
-      if (categoryId === "999") {
+      if (categoryId === "99") {
         // Assuming 'isRecommend' property indicates recommended games
         for (const key in siteGames) {
           cats.push({
