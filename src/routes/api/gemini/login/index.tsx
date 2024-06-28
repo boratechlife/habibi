@@ -24,10 +24,10 @@ export const onPost: RequestHandler = async ({ request, json }) => {
   try {
     const requestBody = await request.json();
     console.log("requestBody", requestBody);
-    console.log("URL", `${process.env.NEXT_PUBLIC_BACKEND_URL}user/login`);
+    console.log("URL", `${process.env.PUBLIC_BACKEND_URL}user/login`);
 
     const loginCb: Response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/login`,
+      `${process.env.PUBLIC_BACKEND_URL}user/login`,
       {
         method: "POST",
         headers: headers,

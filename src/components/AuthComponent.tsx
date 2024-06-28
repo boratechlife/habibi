@@ -19,6 +19,31 @@ export default component$(() => {
   const authContext = useContext(AuthContext);
 
   useVisibleTask$(() => {
+    const checkAuthTimeout = () => {
+      const auth = localStorage.getItem("auth");
+
+      const currentPath = loc.url.pathname;
+      if (!auth && !exclusions.includes(currentPath)) {
+        navigate("/login");
+        return;
+      }
+
+      const parsedAuth = JSON.parse(auth!);
+      // authContext.user = parsedAuth;
+
+      const authTime = parsedAuth.time;
+      console.log("AUTH TIME", authTime);
+      const currentTime = new Date().getTime();
+      const timeDifference =
+        (currentTime - new Date(authTime).getTime()) / (1000 * 60); // Convert to minutes
+      console.log("timeDifference", timeDifference);
+      if (timeDifference > 20) {
+        // Log the user out
+        localStorage.removeItem("auth");
+        navigate("/login");
+      }
+    };
+
     const auth = localStorage.getItem("auth");
 
     const currentPath = loc.url.pathname;
@@ -27,10 +52,19 @@ export default component$(() => {
       return;
     }
 
-    const parsedAuth = JSON.parse(auth);
+    const parsedAuth = JSON.parse(auth!);
     // authContext.setUser(parsedAuth);
     authContext.user = parsedAuth;
-    console.log("authContext", authContext.user);
+    let intervalId = null;
+    if (authContext.user) {
+      checkAuthTimeout();
+      // Set interval to check every 2 seconds
+      intervalId = setInterval(checkAuthTimeout, 2000);
+    }
+    if (intervalId) {
+      return () => clearInterval(intervalId);
+    }
+
     // const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
 
     // fetch(url, {

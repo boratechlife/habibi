@@ -118,7 +118,11 @@ export default component$(() => {
     if (res.loginBody.token && res.loginBody.token.length > 0) {
       localStorage.setItem(
         "auth",
-        JSON.stringify({ username: formData.username, ...res.loginBody }),
+        JSON.stringify({
+          time: new Date(),
+          username: formData.username,
+          ...res.loginBody,
+        }),
       );
       authContext.user = res.loginBody;
       await nav("/lobby");

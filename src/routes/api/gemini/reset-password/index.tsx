@@ -15,7 +15,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
 
   try {
     const resetPasswordCb: Response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/resetPassword`,
+      `${process.env.PUBLIC_BACKEND_URL}user/resetPassword`,
       {
         method: "POST",
         headers: headers,
@@ -31,7 +31,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
     console.log(
       "error",
       process.env.NEXT_PUBLIC_MAIN_PARENT,
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/resetPassword`,
+      `${process.env.PUBLIC_BACKEND_URL}user/resetPassword`,
     );
     json(500, { message: error });
   }

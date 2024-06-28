@@ -16,6 +16,7 @@ export const Sidebar = component$<Props>(({ onClick }) => {
   const navigate = useNavigate();
 
   const handleLogout = $(async () => {
+    document.getElementById("close-button")?.click();
     const token = authStore.user.token;
     if (!token) {
       navigate("/");
@@ -61,7 +62,7 @@ export const Sidebar = component$<Props>(({ onClick }) => {
               <div class="flex grow flex-col gap-y-2 overflow-y-auto bg-sky-900 px-2 pb-2 text-white">
                 <div class="flex h-16 shrink-0 items-center">
                   <div class="grow"></div>
-                  <button type="button" onClick$={onClick}>
+                  <button type="button" id="close-button" onClick$={onClick}>
                     <span class="sr-only">Close sidebar</span>
 
                     <CloseImage />

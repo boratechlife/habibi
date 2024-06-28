@@ -26,7 +26,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
 
   try {
     const registerCb: Response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/v2/insert`,
+      `${process.env.PUBLIC_BACKEND_URL}user/v2/insert`,
       {
         method: "POST",
         headers: {

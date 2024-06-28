@@ -13,7 +13,7 @@ export const onGet: RequestHandler = async ({ request, json }) => {
     }
 
     const balanceCb: Response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/bank`,
+      `${process.env.PUBLIC_BACKEND_URL}user/bank`,
       {
         method: "GET",
         headers,

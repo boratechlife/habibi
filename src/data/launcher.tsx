@@ -68,7 +68,7 @@ export const store = {
     }
 
     const launchCb = await fetch(
-      process.env.NEXT_PUBLIC_BACKEND_URL + "launchgame",
+      process.env.PUBLIC_BACKEND_URL + "launchgame",
       {
         method: "POST",
         headers: {

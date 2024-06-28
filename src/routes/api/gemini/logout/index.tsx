@@ -19,7 +19,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
     console.log("Auuth header", authHeader);
 
     const logoutCb: Response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}user/logout`,
+      `${process.env.PUBLIC_BACKEND_URL}user/logout`,
       {
         method: "POST",
         headers,

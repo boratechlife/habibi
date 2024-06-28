@@ -13,10 +13,12 @@ import {
   type DocumentHead,
 } from "@builder.io/qwik-city";
 import { GameCard } from "~/components/GameCard";
+import { GameLauncher } from "~/components/GameLauncher";
 import GamesCarousel from "~/components/GamesCarousel";
 import { LeftSidebar } from "~/components/LeftSidebar";
 import LobbyHeader from "~/components/LobbyHeader";
 import { AuthContext } from "~/context/auth-context";
+import { LaunchProvider } from "~/context/launcherContext";
 import { TransformedListI } from "~/data/site";
 import { SiteDataContext } from "~/routes/layout";
 
@@ -182,9 +184,10 @@ export default component$(() => {
   // const availableProviders = siteStore.providers;
 
   return (
-    <>
+    <LaunchProvider>
       <section class="flex flex-col  py-20">
         <LobbyHeader />
+        {/* <GameLauncher /> */}
         <div class="flex">
           <div>
             {availableProviders.value && (
@@ -211,6 +214,7 @@ export default component$(() => {
                 link="https://example.com"
                 key={item.name + "filtered" + index}
                 title={item.name}
+                game={item}
               />
             ))}
           {store.filteredGameSample.length === 0 &&
@@ -221,11 +225,12 @@ export default component$(() => {
                 link="https://example.com"
                 key={item.name + "" + index}
                 title={item.name}
+                game={item}
               />
             ))}
         </div>
       </section>
-    </>
+    </LaunchProvider>
   );
 });
 
