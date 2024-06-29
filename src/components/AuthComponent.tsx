@@ -14,7 +14,7 @@ export default component$(() => {
   const bank = useSignal(null);
   const loc = useLocation();
 
-  const exclusions = ["/", "/register/", "/forgot-password/"];
+  const exclusions = ["/", "/register/", "/forgot-password/", "/test/"];
 
   const authContext = useContext(AuthContext);
 
