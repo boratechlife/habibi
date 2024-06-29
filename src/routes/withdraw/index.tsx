@@ -13,6 +13,12 @@ import { useRegisterSchema } from "../login";
 export default component$(() => {
   const formData = useStore<any>({
     amount: 0,
+    minWithdraw: 0,
+    availableCredt: 0,
+    payWithPg: false,
+    // minWithdraw: operator?.min.va.Withdraw,
+    // availableCredt: auth.creds?.AvailableCredit || 0,
+    // payWithPg: operator?.payWithPg,
   });
   const authStore = useStore<any>({
     user: null,
@@ -56,6 +62,7 @@ export default component$(() => {
 
       authStore.user = JSON.parse(auth!);
       console.log(authStore.user);
+      formData.availableCredt = authStore.user.AvailableCredit;
 
       try {
         const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
@@ -69,8 +76,10 @@ export default component$(() => {
           .then(async (response) => {
             const data = await response.json();
             bank.value = data;
+            formData.payWithPg = data.Operator.payWithPg === 1 ? true : false;
+            formData.minWithdraw = data.Operator?.min.va.Withdraw;
 
-            // console.log("Data", data);
+            // operator?.payWithPg
           })
           .catch((err) => {
             console.log("error", err);
@@ -95,21 +104,22 @@ export default component$(() => {
               value.replace(/\./g, "").replace(/,/g, "."),
             );
 
-            if (bank.Operator) {
-              const minAmount = bank.Operator.min.va.Withdraw;
+            if (bank.value && bank.value.Operator) {
+              const minAmount = bank.value.Operator.min.va.Withdraw;
               if (formattedAmount < minAmount) {
-                throw new Error("Amount must be more than " + minAmount);
-              } else if (formattedAmount > auth.AvailableCredit) {
-                throw new Error(
-                  "Amount must be less than " + auth.AvailableCredit,
-                );
+                return false;
+              } else if (formattedAmount > authStore.user.AvailableCredit) {
+                // throw new Error(
+                //   "Amount must be less than " + authStore.user.AvailableCredit,
+                // );
+                return false;
               } else {
                 return true;
               }
             }
           },
           {
-            message: `Minimum 0 and max 1000`,
+            message: `Minimum ${bank.value.Operator.min.va.Withdraw} and max ${authStore.user.AvailableCredit}`,
             path: ["amount"],
           },
         ),
@@ -124,7 +134,27 @@ export default component$(() => {
       return;
     }
 
-    console.log("result", result);
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/withdraw`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authStore.user.token}`,
+        },
+        body: JSON.stringify({
+          ...formData,
+        }),
+      },
+    );
+
+    const res = await response.json();
+    if (res.err === 200) {
+      alert("success");
+      navigate("/lobby");
+    } else {
+      alert(res.err_message);
+    }
   });
 
   return (

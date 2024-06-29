@@ -32,11 +32,11 @@ export default component$(() => {
       // authContext.user = parsedAuth;
 
       const authTime = parsedAuth.time;
-      console.log("AUTH TIME", authTime);
+
       const currentTime = new Date().getTime();
       const timeDifference =
         (currentTime - new Date(authTime).getTime()) / (1000 * 60); // Convert to minutes
-      console.log("timeDifference", timeDifference);
+
       if (timeDifference > 20) {
         // Log the user out
         localStorage.removeItem("auth");
