@@ -83,7 +83,7 @@ export default component$(() => {
     const userIpAddress = await getUserIpAddress();
 
     const response = await fetch(
-      `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/login`,
+      `${import.meta.env.PUBLIC_QWIK_API_URL}api/gemini/login`,
       {
         method: "POST",
         headers: {
