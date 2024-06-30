@@ -4,6 +4,7 @@ import { isServer } from "@builder.io/qwik/build";
 import Swiper from "swiper";
 import { Autoplay } from "swiper/modules";
 import { GetPasaranResponseI, ShownPoolsInterface } from "~/routes";
+import { useGetPasaran } from "~/routes/layout";
 
 // const carouselList: {
 //   title: string;
@@ -17,7 +18,6 @@ import { GetPasaranResponseI, ShownPoolsInterface } from "~/routes";
 //     num: "1710152527",
 //     time: "05:57:16",
 //   },
-
 // ];
 
 export default component$(() => {
@@ -94,27 +94,32 @@ export default component$(() => {
 
     return { firstPools: [], secondPools: [] };
   });
+  const getPasaran = useGetPasaran();
 
   useTask$(
     ({ cleanup }) => {
       if (isServer) {
         return;
       }
-
+      // const myHeaders = new Headers();
+      // myHeaders.append("accept", "application/json");
+      // myHeaders.append("content-type", "application/json");
       const fetchAndCalculate = async () => {
-        const url = `${import.meta.env.PUBLIC_QWIK_API_URL}api/get-pasaran`;
-        console.log("import", url);
-        const res = await fetch(url, {
-          method: "GET",
-        });
-        const data: GetPasaranResponseI[] = await res.json();
-        console.log("Data,,,,,,,,,", data);
-        const pools = await calculateCountdown(data);
+        // // const url = `${import.meta.env.PUBLIC_QWIK_API_URL}api/get-pasaran`;
+        // const url = `https://api.wirosablengonline.com/dora/pasaran-agent/${import.meta.env.PUBLIC_MAIN_PARENT}`;
+        // console.log("import", url);
+        // const res = await fetch(url, {
+        //   method: "GET",
+        //   headers: myHeaders,
+        // });
+        // const data: GetPasaranResponseI[] = await res.json();
+        console.log("Data,,,,,,,,,", getPasaran.value);
+        const pools = await calculateCountdown(getPasaran.value);
         firstPools.value = pools.firstPools;
         secondPools.value = pools.secondPools;
         // calculateCountdown(data);
         const interval = setInterval(() => {
-          calculateCountdown(data);
+          calculateCountdown(getPasaran.value);
           console.log("INTERVAL............");
         }, 1000);
 

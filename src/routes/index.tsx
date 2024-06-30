@@ -50,10 +50,10 @@ export const parasanContext = createContextId<Signal<ShownPoolsInterface[]>>(
 export default component$(() => {
   const siteData = useContext(SiteDataContext);
 
-  const livechat = (siteData.value as SiteInfo).siteInfo.footer_livechat;
+  const livechat = (siteData.value as SiteInfo).siteInfo?.footer_livechat;
 
   const runningTexts =
-    siteData.value.siteInfo.runningText?.filter((rt: any) => rt.isShow) || [];
+    siteData.value.siteInfo?.runningText?.filter((rt: any) => rt.isShow) || [];
 
   // useTask$(async () => {
   //   const response = await fetch(`http://localhost:5173/api/test`);
@@ -160,7 +160,7 @@ export default component$(() => {
 
         <Carousel />
 
-        {siteData.value.siteInfo.banners.length > 0 && <ScrollingBanner />}
+        {siteData.value.siteInfo?.banners.length > 0 && <ScrollingBanner />}
 
         <div class="my-2">
           <div class="px-5">
