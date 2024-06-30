@@ -44,7 +44,7 @@ export interface ForgotPasswordRequestI {
   eMail: string;
 }
 
-interface AuthStore {
+export interface AuthStore {
   auth: AuthI;
   balance: BalanceI;
   error: any;
@@ -179,7 +179,7 @@ export interface GenericResponseI {
   err_message: string;
 }
 
-const initialState = {
+export const initialState = {
   auth: {
     userName: "",
     token: "",
@@ -256,47 +256,6 @@ const initialState = {
 //   }
 // });
 
-export const login = async (fields: LoginRequestI) => {
-  return fetch("/api/gemini/login", {
-    method: "POST",
-    body: JSON.stringify(fields),
-  })
-    .then(async (res) => res.json())
-    .then((data: AuthI | GenericResponseI) => {
-      if ("token" in data) {
-        store.auth = data;
-      }
-      return data;
-    });
-};
-
-export const getBalance = async () => {
-  return fetch("/api/gemini/balance", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-  })
-    .then(async (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error((await res.json()).message);
-      }
-    })
-    .then((data) => {
-      store.balance = data;
-      return "success";
-    })
-    .catch((err: Error) => {
-      return err.message;
-    });
-};
-
-export const getToken = () => {
-  return store.auth.token;
-};
-
 export const logout = async (url: string, token: string) => {
   return await fetch(url + "/api/gemini/logout", {
     method: "POST",
@@ -305,97 +264,6 @@ export const logout = async (url: string, token: string) => {
     },
   }).then((res) => {
     return res.ok;
-  });
-};
-
-export const getBankInfo = async () => {
-  await fetch("/api/gemini/bank", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-  })
-    .then(async (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error((await res.json()).message);
-      }
-    })
-    .then((data) => {
-      if (data.err >= 400) throw new Error(data);
-      store.bank = data;
-      return "success";
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
-    });
-};
-
-export const deposit = async (fields: DepositRequestI) => {
-  return await fetch("/api/gemini/deposit", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-    body: JSON.stringify({
-      ...fields,
-      return_url: `${window.location.protocol}//${window.location.host}`,
-    }),
-  }).then(async (res) => res.json());
-};
-
-export const refreshBalance = async () => {
-  return fetch("/api/gemini/balance", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-  })
-    .then(async (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error((await res.json()).message);
-      }
-    })
-    .then((data) => {
-      if (data.Result === "SUSPEND") throw "AccountSuspend";
-      if (data.err === 500) {
-        logout();
-        throw "ERROR " + data.err_message;
-      }
-      if (data.isMaintenanceMode) {
-        Object.assign(store, initialState);
-        alert("Site under-maintenance!");
-      }
-      store.auth = {
-        ...store.auth,
-        ...data,
-        LastUpdate: new Date().getTime(),
-      };
-      if (data.promos.length > 0 && !data.promos[0].meta_data.showAllGames) {
-        // await navigateTo({name: 'PROMOTION-GAME'});
-      }
-      return true;
-    })
-    .catch((err: Error) => {
-      console.error("refreshBalance error ", err);
-      logout();
-      return err.message;
-    });
-};
-
-export const kickMe = async () => {
-  return fetch("/api/gemini/kick", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-  }).then(() => {
-    Object.assign(store, initialState);
-    logout();
   });
 };
 
@@ -414,20 +282,6 @@ export const forgotPassword = async (fields: ForgotPasswordRequestI) => {
     body: JSON.stringify({
       ...fields,
       hostName: window.location.hostname,
-    }),
-  }).then(async (res) => res.json());
-};
-
-export const withdraw = async (fields: WithdrawRequestI) => {
-  return fetch("/api/gemini/withdraw", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${store.auth.token}`,
-    },
-    body: JSON.stringify({
-      ...fields,
-      noBSC: !store.balance.isCrypto,
-      payWithPg: Boolean(store.bank.Operator.payWithPg),
     }),
   }).then(async (res) => res.json());
 };

@@ -2,7 +2,6 @@ import {
   type PropsOf,
   component$,
   type ClassList,
-  QRL,
   PropFunction,
   useSignal,
 } from "@builder.io/qwik";
@@ -16,15 +15,7 @@ type InputProps = PropsOf<"input"> & {
 };
 
 export default component$<InputProps>(
-  ({
-    label,
-    errorMsg,
-    class: classes,
-    onInput,
-    errors,
-    wrapperClasses,
-    ...props
-  }) => {
+  ({ label, class: classes, onInput, errors, wrapperClasses, ...props }) => {
     const isView = useSignal(false);
 
     return (

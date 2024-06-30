@@ -12,14 +12,9 @@ interface ThumbnailCardProps {
 }
 
 export const GameCard = component$<ThumbnailCardProps>(
-  ({ image, link, title, game }) => {
+  ({ image, title, game }) => {
     const launchStore = useContext(LaunchContext);
-    const {
-      showLauncherDialog,
-      gameLaunchResult,
-      closeLauncherDialog,
-      launchGameAction,
-    } = launchStore;
+    const { launchGameAction } = launchStore;
     const location = useLocation();
     const handleOnClick = $(() => {
       console.log("Game", game);

@@ -1,15 +1,9 @@
 import {
-  $,
   Signal,
   component$,
   createContextId,
   useContext,
-  useContextProvider,
-  useResource$,
-  useSignal,
-  useStore,
   useStylesScoped$,
-  useTask$,
 } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index-styles.css?inline";
@@ -22,7 +16,8 @@ import ReadMoreImage from "~/media/read-more-animated.webp?jsx";
 import "swiper/css";
 import BaseLayout from "~/components/common/BaseLayout";
 import { SeoInterface, GamesI } from "~/interfaces";
-import { SiteDataContext, ThemeContext } from "./layout";
+import { SiteDataContext } from "./layout";
+import { SiteInfo } from "~/data/site";
 
 export interface ShownPoolsInterface {
   pasaran_id: string;
@@ -53,10 +48,9 @@ export const parasanContext = createContextId<Signal<ShownPoolsInterface[]>>(
 );
 
 export default component$(() => {
-  const theme = useContext(ThemeContext);
   const siteData = useContext(SiteDataContext);
 
-  const livechat = siteData.value.siteInfo.footer_livechat;
+  const livechat = (siteData.value as SiteInfo).siteInfo.footer_livechat;
 
   const runningTexts =
     siteData.value.siteInfo.runningText?.filter((rt: any) => rt.isShow) || [];

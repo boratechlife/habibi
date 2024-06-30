@@ -1,11 +1,5 @@
 import { $, component$, useStore } from "@builder.io/qwik";
-import {
-  Form,
-  routeAction$,
-  useNavigate,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
+import { Form, useNavigate, z } from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
 import Select from "~/components/common/form/Select";
@@ -127,25 +121,22 @@ export default component$(() => {
       return;
     }
 
-    const response = await fetch(
-      `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          referralCode: formData.referralCode,
-          userName: formData.username,
-          password: formData.password,
-          eMail: formData.email,
-          telephone: formData.telephone,
-          bank: formData.bank,
-          bankName: formData.bankName,
-          bankAccount: formData.bankAccount,
-        }),
+    await fetch(`${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        referralCode: formData.referralCode,
+        userName: formData.username,
+        password: formData.password,
+        eMail: formData.email,
+        telephone: formData.telephone,
+        bank: formData.bank,
+        bankName: formData.bankName,
+        bankAccount: formData.bankAccount,
+      }),
+    });
 
     if (result.success) {
       navigate("/login");

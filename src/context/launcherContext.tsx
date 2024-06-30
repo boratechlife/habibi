@@ -66,7 +66,7 @@ const initialGameState: TransformedListI = {
 
 export const LaunchContext = createContextId<LaunchStore>("launch-context");
 
-export const LaunchProvider = component$((props: { children: any }) => {
+export const LaunchProvider = component$(() => {
   const auth = useContext(AuthContext);
   const SiteInfo = useContext(SiteDataContext);
   const launchStore = useStore({

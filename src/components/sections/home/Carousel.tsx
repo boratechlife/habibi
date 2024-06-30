@@ -5,10 +5,6 @@ import Swiper from "swiper";
 import { Autoplay } from "swiper/modules";
 import { GetPasaranResponseI, ShownPoolsInterface } from "~/routes";
 
-interface PoolInferface {
-  secondPools: ShownPoolsInterface[];
-}
-
 // const carouselList: {
 //   title: string;
 //   recent_results: number[];

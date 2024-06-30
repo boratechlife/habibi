@@ -1,8 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-type ResponseData = {
-  message: string;
-};
 export const onPost: RequestHandler = async ({ request, json }) => {
   const headers = new Headers();
   const body = JSON.parse(await request.text());

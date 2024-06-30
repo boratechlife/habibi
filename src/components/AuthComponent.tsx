@@ -1,17 +1,9 @@
-import {
-  component$,
-  useSignal,
-  useVisibleTask$,
-  useContext,
-} from "@builder.io/qwik";
+import { component$, useVisibleTask$, useContext } from "@builder.io/qwik";
 import { useLocation, useNavigate } from "@builder.io/qwik-city";
 import { AuthContext } from "~/context/auth-context";
 
 export default component$(() => {
   const navigate = useNavigate();
-  const showTersalin = useSignal<Boolean>(false);
-  const isBankRetrieved = useSignal<Boolean>(false);
-  const bank = useSignal(null);
   const loc = useLocation();
 
   const exclusions = ["/", "/register/", "/forgot-password/", "/test/"];

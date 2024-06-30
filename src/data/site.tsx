@@ -1,4 +1,3 @@
-import { component$, useStore, useTask$, useWatch$ } from "@builder.io/qwik"; // Define interfaces
 interface Popup {
   callToAction_url: string;
   callToAction_label: string;
@@ -60,6 +59,7 @@ interface PromoGame {
 }
 
 export interface SiteInfo {
+  [x: string]: any;
   banners: Banner[];
   canonical: string;
   footer_livechat: string;

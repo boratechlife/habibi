@@ -4,11 +4,10 @@ import {
   useOnDocument,
   useSignal,
   useStore,
-  useVisibleTask$,
 } from "@builder.io/qwik";
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 import CustomInput from "~/components/common/form/CustomInput";
-import { useRegisterSchema } from "../login";
+import { BankI } from "~/data/auth";
 
 export default component$(() => {
   const formData = useStore<any>({
@@ -31,7 +30,7 @@ export default component$(() => {
     };
   }
 
-  const bank = useSignal(null);
+  const bank = useSignal<BankI>();
 
   const fieldErrors = useStore<ValidationErrors>({
     formErrors: [],
@@ -66,7 +65,7 @@ export default component$(() => {
 
       try {
         const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
-        const response = fetch(url, {
+        fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +118,7 @@ export default component$(() => {
             }
           },
           {
-            message: `Minimum ${bank.value.Operator.min.va.Withdraw} and max ${authStore.user.AvailableCredit}`,
+            message: `Minimum ${bank.value && bank.value.Operator.min.va.Withdraw} and max ${authStore.user.AvailableCredit}`,
             path: ["amount"],
           },
         ),

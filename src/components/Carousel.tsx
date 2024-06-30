@@ -49,7 +49,7 @@ const Carousel = component$<CarouselProps>(
     // Start from the first actual slide (index 1)
     const currentIndex = useSignal(0);
     // Reference to the carousel track
-    const trackRef = useSignal<HTMLDivElement>(null);
+    const trackRef = useSignal<HTMLDivElement>();
 
     // Duplicate slides to create the seamless effect
     const totalSlides = slides.length;
@@ -84,19 +84,6 @@ const Carousel = component$<CarouselProps>(
       //     console.log("extendedSlides.value 0", extendedSlides.value);
       //     currentIndex.value++;
       //   }
-    });
-
-    // Function to reset the track position without animation
-    const resetTrack = $(() => {
-      if (trackRef.value) {
-        trackRef.value.style.transition = "none";
-        trackRef.value.style.transform = `translateX(-${totalSlides * 100}%)`;
-        setTimeout(() => {
-          if (trackRef.value) {
-            trackRef.value.style.transition = "transform 0.5s ease-in-out";
-          }
-        }, 50);
-      }
     });
 
     // Move to the next slide

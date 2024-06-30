@@ -1,9 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-type ResponseData = {
-  message: string;
-};
-
 //Ensure you include the necessary headers (Authorization, originalip or cf-connecting-ip if applicable) and the request body in JSON format.
 
 export const onPost: RequestHandler = async ({ request, json }) => {
@@ -29,7 +25,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: authHeader,
+        Authorization: `${authHeader}`,
         "x-clientip": "0.0.0.0",
       },
       body: JSON.stringify(JSON.parse(body)),

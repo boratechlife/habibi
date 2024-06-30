@@ -8,7 +8,7 @@ import {
 } from "@builder.io/qwik-city";
 
 import RouterHead from "~/components/common/Head";
-import { routeLoader$ } from "@builder.io/qwik-city";
+
 // import the Flowbite module
 import { initFlowbite } from "flowbite";
 

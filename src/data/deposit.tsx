@@ -1,6 +1,6 @@
 export interface DepositStore {
   isStop: boolean;
-  timerId: 0 | number; // Changed from NodeJS.Timeout to number for simplicity
+  timerId: 0 | any; // Changed from NodeJS.Timeout to number for simplicity
   countDownTime: number;
   expectedAmount: number;
   bnbTokenWithdrawFees: object;
@@ -13,7 +13,7 @@ export interface DepositStore {
 
 export const initialState: DepositStore = {
   isStop: true,
-  timerId: 0,
+  timerId: null,
   countDownTime: 0,
   expectedAmount: 0,
   bnbTokenWithdrawFees: {},

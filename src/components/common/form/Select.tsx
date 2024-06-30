@@ -19,7 +19,6 @@ type SelectProps = PropsOf<"select"> & {
 export default component$<SelectProps>(
   ({
     label,
-    errorMsg,
     wrapperClasses,
     class: classes,
     options,

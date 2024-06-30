@@ -8,7 +8,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
     headers.append("x-org", process.env.NEXT_PUBLIC_MAIN_PARENT);
   }
 
-  let ipAddress =
+  const ipAddress =
     request.headers.get("originalip") ||
     request.headers.get("cf-connecting-ip");
 
@@ -32,7 +32,7 @@ export const onPost: RequestHandler = async ({ request, json }) => {
         method: "POST",
         headers: headers,
         body: JSON.stringify(requestBody), // Converting request body to JSON string
-        duplex: "half", // Adding duplex option to handle body streaming
+        // duplex: "half", // Adding duplex option to handle body streaming
       },
     );
 

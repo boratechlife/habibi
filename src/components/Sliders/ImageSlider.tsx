@@ -12,9 +12,8 @@ interface CarouselProps {
   interval?: number;
 }
 
-export default component$<CarouselProps>(
-  ({ slides, autoPlay = false, interval = 3000 }) => {
-    useStylesScoped$(`
+export default component$<CarouselProps>(() => {
+  useStylesScoped$(`
         .slider-wrapper .image-list {
          display:grid;
          overflow:scroll;
@@ -74,139 +73,134 @@ export default component$<CarouselProps>(
      bottom:-10px;
      }
       `);
-    const ImageList = useSignal<HTMLElement>();
-    const prevButton = useSignal<HTMLButtonElement>();
-    const nextButton = useSignal<HTMLButtonElement>();
+  const ImageList = useSignal<HTMLElement>();
+  const prevButton = useSignal<HTMLButtonElement>();
+  const nextButton = useSignal<HTMLButtonElement>();
 
-    const maxScroll = useSignal<number>(0);
-    useVisibleTask$(() => {
-      if (ImageList.value) {
-        maxScroll.value =
-          ImageList.value?.scrollWidth - ImageList.value.clientWidth;
-      }
-    });
+  const maxScroll = useSignal<number>(0);
+  useVisibleTask$(() => {
+    if (ImageList.value) {
+      maxScroll.value =
+        ImageList.value?.scrollWidth - ImageList.value.clientWidth;
+    }
+  });
 
-    const handleOnClick = $((e: Event) => {
-      console.log("EVENT", (e.target as HTMLElement).id);
-      const direction =
-        e.target && (e.target as HTMLElement).id === "prev-button" ? -1 : 1;
+  const handleOnClick = $((e: Event) => {
+    console.log("EVENT", (e.target as HTMLElement).id);
+    const direction =
+      e.target && (e.target as HTMLElement).id === "prev-button" ? -1 : 1;
 
-      if (ImageList.value) {
-        const scrollAmount = ImageList.value?.clientWidth * direction;
-        ImageList.value.scrollBy({
-          left: scrollAmount,
-          behavior: "smooth",
-        });
-        console.log(
-          "scrollAmount",
-          ImageList.value.scrollLeft,
-          maxScroll.value,
-        );
+    if (ImageList.value) {
+      const scrollAmount = ImageList.value?.clientWidth * direction;
+      ImageList.value.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+      console.log("scrollAmount", ImageList.value.scrollLeft, maxScroll.value);
 
-        if (ImageList.value.scrollLeft >= maxScroll.value && nextButton.value) {
-          nextButton.value.disabled = true;
-        } else {
-          if (nextButton.value) {
-            nextButton.value.disabled = false;
-          }
-        }
-
-        if (ImageList.value.scrollLeft <= 0 && prevButton.value) {
-          prevButton.value.disabled = true;
-        } else {
-          if (prevButton.value) {
-            prevButton.value.disabled = false;
-          }
+      if (ImageList.value.scrollLeft >= maxScroll.value && nextButton.value) {
+        nextButton.value.disabled = true;
+      } else {
+        if (nextButton.value) {
+          nextButton.value.disabled = false;
         }
       }
-    });
-    return (
-      <>
-        <section class="containr w-full">
-          <div class="slider-wrapper relative w-full">
-            <button
-              id="prev-button"
-              ref={prevButton}
-              class="absolute left-0 top-1/2 -translate-y-1/2 rounded border bg-white p-4 disabled:opacity-70"
-              onClick$={handleOnClick}
-            >
-              Prev
-            </button>
-            <button
-              id="next-button"
-              ref={nextButton}
-              class="absolute right-0 top-1/2 -translate-y-1/2 rounded border bg-white p-4 disabled:opacity-50"
-              onClick$={handleOnClick}
-            >
-              Next
-            </button>
 
-            <div class="image-list *:w-[400px]" ref={ImageList}>
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 1"
-                class="image-item"
-                width={325}
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 2"
-                class="image-item"
-                width={325}
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 3"
-                class="image-item"
-                width={325}
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 4"
-                class="image-item"
-                width={325}
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 5"
-                class="image-item"
-              />
+      if (ImageList.value.scrollLeft <= 0 && prevButton.value) {
+        prevButton.value.disabled = true;
+      } else {
+        if (prevButton.value) {
+          prevButton.value.disabled = false;
+        }
+      }
+    }
+  });
+  return (
+    <>
+      <section class="containr w-full">
+        <div class="slider-wrapper relative w-full">
+          <button
+            id="prev-button"
+            ref={prevButton}
+            class="absolute left-0 top-1/2 -translate-y-1/2 rounded border bg-white p-4 disabled:opacity-70"
+            onClick$={handleOnClick}
+          >
+            Prev
+          </button>
+          <button
+            id="next-button"
+            ref={nextButton}
+            class="absolute right-0 top-1/2 -translate-y-1/2 rounded border bg-white p-4 disabled:opacity-50"
+            onClick$={handleOnClick}
+          >
+            Next
+          </button>
 
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 2"
-                class="image-item"
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 3"
-                class="image-item"
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 4"
-                class="image-item"
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 5"
-                class="image-item"
-              />
-              <img
-                src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
-                alt="img 5"
-                class="image-item"
-              />
-            </div>
+          <div class="image-list *:w-[400px]" ref={ImageList}>
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 1"
+              class="image-item"
+              width={325}
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 2"
+              class="image-item"
+              width={325}
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 3"
+              class="image-item"
+              width={325}
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 4"
+              class="image-item"
+              width={325}
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 5"
+              class="image-item"
+            />
 
-            <div class="slider-scrollbar">
-              <div class="scrollbar-track">
-                <div class="scrollbar-thumb"></div>
-              </div>
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 2"
+              class="image-item"
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 3"
+              class="image-item"
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 4"
+              class="image-item"
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 5"
+              class="image-item"
+            />
+            <img
+              src="/img/free-photo-of-off-road-expedition-through-the-desert.jpeg"
+              alt="img 5"
+              class="image-item"
+            />
+          </div>
+
+          <div class="slider-scrollbar">
+            <div class="scrollbar-track">
+              <div class="scrollbar-thumb"></div>
             </div>
           </div>
-        </section>
-      </>
-    );
-  },
-);
+        </div>
+      </section>
+    </>
+  );
+});

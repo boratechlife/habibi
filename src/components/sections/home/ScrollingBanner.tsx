@@ -11,10 +11,7 @@ import { isServer } from "@builder.io/qwik/build";
 
 import navigationStyles from "swiper/css/navigation?inline";
 import scrollbarStyles from "swiper/css/scrollbar?inline";
-import { Image } from "@unpic/qwik";
 
-import banner1 from "~/media/banner-1.webp?jsx";
-import banner2 from "~/media/banner-2.webp?jsx";
 import { SiteDataContext } from "~/routes/layout";
 
 export default component$(() => {

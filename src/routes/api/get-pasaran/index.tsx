@@ -1,6 +1,4 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
-import { GamesI, SeoInterface } from "~/interfaces";
-import { decompressString } from "~/utils/decompress";
 
 export type GetPasaranResponseI = {
   pasaran_id: number;
@@ -47,85 +45,4 @@ export const onGet: RequestHandler = async ({ json }) => {
   } catch (error) {
     console.error("Error fetching pasaran data:", error);
   }
-  const fakeResponse: GetPasaranResponseI[] = [
-    {
-      pasaran_id: 1710152587,
-      opened_at: null,
-      agent_id: "cronos",
-      pasaran_name: "SYDNEY",
-      pasaran_shortname: "SYD",
-      pasaran_sourcedata_id: 1696673094,
-      open_day: [true, true, true, true, true, true, true],
-      daily_closetime: "13:30:00",
-      daily_drawtime: "13:50:00",
-      display_order: null,
-      is_shown: false,
-      status_now: null,
-      episode: 13043,
-      next_closetime: null,
-      pasaran_active: true,
-      comment: null,
-      recent_results: [],
-      agents: [
-        "arctest",
-        "buditogel",
-        "bimatoto",
-        "habibitoto",
-        "indrajitu",
-        "acong88",
-        "armani188",
-        "ayambet",
-        "burungbet",
-        "indoforwin",
-        "megaforwin",
-        "nagaforwin",
-        "nasgor88",
-        "plnslot",
-        "sateslot",
-      ],
-    },
-    {
-      pasaran_id: 1717408466,
-      opened_at: null,
-      agent_id: "cronos",
-      pasaran_name: "JEPANG",
-      pasaran_shortname: "JAPAN",
-      pasaran_sourcedata_id: 1710152527,
-      open_day: [true, true, true, true, true, true, true],
-      daily_closetime: "16:50:00",
-      daily_drawtime: "17:20:00",
-      display_order: null,
-      is_shown: false,
-      status_now: null,
-      episode: 12989,
-      next_closetime: 1717494600,
-      pasaran_active: false,
-      comment: null,
-      recent_results: [],
-      agents: ["arctest", "buditogel", "bimatoto", "habibitoto", "indrajitu"],
-    },
-    {
-      pasaran_id: 1717408547,
-      opened_at: null,
-      agent_id: "cronos",
-      pasaran_name: "CHINA POOLS",
-      pasaran_shortname: "CHINA",
-      pasaran_sourcedata_id: 1710152527,
-      open_day: [true, true, true, true, true, true, true],
-      daily_closetime: "15:15:00",
-      daily_drawtime: "15:30:00",
-      display_order: null,
-      is_shown: false,
-      status_now: null,
-      episode: 12989,
-      next_closetime: 1717488900,
-      pasaran_active: false,
-      comment: null,
-      recent_results: [],
-      agents: ["arctest", "buditogel", "bimatoto", "habibitoto", "indrajitu"],
-    },
-  ];
-
-  const assetsUrl = process.env.PUBLIC_ASSETS || "";
-  const parent = process.env.NEXT_PUBLIC_MAIN_PARENT || "";
 };

@@ -1,29 +1,19 @@
-import { component$, useStore, $, useContext } from "@builder.io/qwik";
-import { LaunchContext } from "~/context/launcherContext";
+import { component$ } from "@builder.io/qwik";
 
 export const GameLauncher = component$(() => {
-  const store = useStore({
-    game: null,
-    showLauncherDialog: false,
-    gameLaunchResult: { url: "", html: "" },
-    open: false,
-    gamePopUpWindowRef: null as Window | null,
-  });
+  // const store = useStore({
+  //   game: null,
+  //   showLauncherDialog: false,
+  //   gameLaunchResult: { url: "", html: "" },
+  //   open: false,
+  //   gamePopUpWindowRef: null as Window | null,
+  // });
 
-  const launchStore = useContext(LaunchContext);
-  const {
-    game,
-    showLauncherDialog,
-    gameLaunchResult,
-    closeLauncherDialog,
-    launchGameAction,
-  } = launchStore;
-
-  const openGame = () => {
-    if (gameLaunchResult.url !== "") {
-      window.open(gameLaunchResult.url, "_blank");
-    }
-  };
+  // const openGame = () => {
+  //   if (gameLaunchResult.url !== "") {
+  //     window.open(gameLaunchResult.url, "_blank");
+  //   }
+  // };
   //   const launchStore = useLaunchStore();
 
   //   const btnCloseDialog = useRef<HTMLButtonElement>(null);

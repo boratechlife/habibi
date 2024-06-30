@@ -2,21 +2,16 @@ import {
   $,
   component$,
   useContext,
-  useOnDocument,
   useSignal,
   useStore,
-  useTask$,
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
-import { isBrowser, isServer } from "@builder.io/qwik/build";
 import DepositPending from "~/components/DepositPending";
 import CustomInput from "~/components/common/form/CustomInput";
 import CustomSelect from "~/components/common/form/CustomSelect";
-import Input from "~/components/common/form/Input";
-import Select from "~/components/common/form/Select";
 import { AuthContext } from "~/context/auth-context";
-import { BankInfoI, DepositRequestI, OperatorI } from "~/data/auth";
+import { BankI, BankInfoI, DepositRequestI, OperatorI } from "~/data/auth";
 
 interface Player {
   bank: string;
@@ -54,7 +49,7 @@ interface Operator {
   payWithPg: number;
 }
 
-interface UserAccount {
+export interface UserAccount {
   player: Player;
   Operator: Operator;
   pendingMinutes: number | null;
@@ -98,7 +93,7 @@ export default component$(() => {
   const authStore = useStore<any>({
     user: null,
   });
-  const bank = useSignal<UserAccount>(null);
+  const bank = useSignal<BankI>();
   const authContext = useContext(AuthContext);
   //const accountList = bank?.Operator?.banks.filter((bank) => bank.isShow) || [];
 
@@ -176,9 +171,9 @@ export default component$(() => {
           const formattedAmount = Number(
             value.replaceAll(".", "").replaceAll(",", "."),
           );
-          if (bank.Operator) {
+          if (bank.value && bank.value.Operator) {
             const bankType =
-              (bank.Operator?.banks
+              (bank.value.Operator?.banks
                 .find(
                   (bank: BankInfoI) =>
                     bank.bankName === formData.bankAccountName.split("-")[0],
@@ -187,8 +182,8 @@ export default component$(() => {
 
             const minimumDeposit: number =
               bankType === "va"
-                ? bank.Operator.min?.va.Deposit
-                : bank.Operator.min?.[bankType];
+                ? bank.value.Operator.min?.va.Deposit
+                : bank.value.Operator.min?.[bankType];
 
             if (formattedAmount < minimumDeposit) {
               throw new Error(

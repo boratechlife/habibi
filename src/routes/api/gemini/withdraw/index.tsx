@@ -1,9 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-type ResponseData = {
-  message: string;
-};
-
 export const onPost: RequestHandler = async ({ request, json }) => {
   const data = await request.json();
   const authHeader = request.headers.get("authorization");
@@ -28,21 +24,21 @@ export const onPost: RequestHandler = async ({ request, json }) => {
       .then(async (res) => res.json())
       .then((data) => data);
     console.log("what is withdrawCb", withdrawCb);
-    return json(200, {
+    json(200, {
       success: true,
       ...withdrawCb,
     });
   } catch (error) {
     console.warn("withdrawCb Error", error);
     if (error instanceof Error) {
-      return json(200, {
+      json(200, {
         success: false,
         err: 500,
         err_message: error?.message,
       });
     } else {
       console.error("An unexpected error occurred", error);
-      return json(200, {
+      json(200, {
         success: false,
         err: 500,
         err_message: error,

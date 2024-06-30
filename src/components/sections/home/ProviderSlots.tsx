@@ -30,13 +30,15 @@ export default component$(() => {
 
   const availableProviders = Object.keys(siteData.value.SiteGames)
     .map((item) => {
-      return siteData.value.SiteGames[item].list.map((listItem) => {
-        return {
-          provider: listItem.provider,
-          providerIdx: listItem.providerIdx,
-          imgsrc: `${import.meta.env.PUBLIC_IMAGE_URL}/providers/myballs/${listItem.provider}.webp`,
-        };
-      });
+      return siteData.value.SiteGames[item].list.map(
+        (listItem: { provider: any; providerIdx: any }) => {
+          return {
+            provider: listItem.provider,
+            providerIdx: listItem.providerIdx,
+            imgsrc: `${import.meta.env.PUBLIC_IMAGE_URL}/providers/myballs/${listItem.provider}.webp`,
+          };
+        },
+      );
     })
     .flat();
 

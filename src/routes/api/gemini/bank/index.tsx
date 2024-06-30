@@ -1,8 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-type ResponseData = {
-  message: string;
-};
 export const onGet: RequestHandler = async ({ request, json }) => {
   try {
     const headers = new Headers();

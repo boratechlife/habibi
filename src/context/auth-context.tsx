@@ -2,9 +2,7 @@ import {
   Slot,
   component$,
   createContextId,
-  useContext,
   useContextProvider,
-  type Signal,
 } from "@builder.io/qwik";
 import { useStore, $, type QRL } from "@builder.io/qwik";
 
@@ -15,7 +13,7 @@ interface AuthContextType {
 
 export const AuthContext = createContextId<AuthContextType>("auth-context");
 
-export const AuthProvider = component$((props: { children: any }) => {
+export const AuthProvider = component$(() => {
   const authStore = useStore({
     user: null,
   });

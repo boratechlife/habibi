@@ -1,9 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-type ResponseData = {
-  message: string;
-};
-
 //testertobrut
 // Abcd1234
 

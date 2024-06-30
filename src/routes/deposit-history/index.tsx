@@ -2,11 +2,10 @@ import {
   $,
   component$,
   useContext,
-  useOnWindow,
   useStore,
   useVisibleTask$,
 } from "@builder.io/qwik";
-import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
+import { type DocumentHead } from "@builder.io/qwik-city";
 import { DatePicker } from "~/components/DatePicker";
 import { AuthContext } from "~/context/auth-context";
 
@@ -34,11 +33,9 @@ export default component$(() => {
     const target = e.target as HTMLInputElement;
     const name: string = target.name;
     const value: string = target.value;
-    store[name] = value;
-    console.log("name", name, target.name, store[name]);
+    (store as any)[name] = value;
   });
 
-  const navigate = useNavigate();
   const loadTransactions = $(async () => {
     console.log("auth", authContext.user);
     const startDate = store.fromDate.toISOString().split("T")[0];

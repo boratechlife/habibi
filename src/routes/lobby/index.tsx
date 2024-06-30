@@ -3,7 +3,6 @@ import {
   useContext,
   useSignal,
   useStore,
-  useTask$,
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
@@ -77,7 +76,7 @@ export default component$(() => {
 
     try {
       const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/balance`;
-      const response = fetch(url, {
+      fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

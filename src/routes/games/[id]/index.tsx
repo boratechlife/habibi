@@ -13,7 +13,6 @@ import {
   type DocumentHead,
 } from "@builder.io/qwik-city";
 import { GameCard } from "~/components/GameCard";
-import { GameLauncher } from "~/components/GameLauncher";
 import GamesCarousel from "~/components/GamesCarousel";
 import { LeftSidebar } from "~/components/LeftSidebar";
 import LobbyHeader from "~/components/LobbyHeader";
@@ -43,23 +42,23 @@ export default component$(() => {
   const availableProviders = useSignal<any[]>();
   const categories = useSignal<any[]>();
 
-  const fetchData = $(() => {
-    setTimeout(() => {
-      if (filteredGames.value) {
-        store.gameSample = filteredGames.value
-          .filter((g) =>
-            store.selectedProvider.length > 0
-              ? g.provider === store.selectedProvider
-              : true,
-          )
-          .slice(0, store.gameSample.length + 12);
-      }
-    }, 100);
-  });
+  // const fetchData = $(() => {
+  //   setTimeout(() => {
+  //     if (filteredGames.value) {
+  //       store.gameSample = filteredGames.value
+  //         .filter((g) =>
+  //           store.selectedProvider.length > 0
+  //             ? g.provider === store.selectedProvider
+  //             : true,
+  //         )
+  //         .slice(0, store.gameSample.length + 12);
+  //     }
+  //   }, 100);
+  // });
 
   const fetchFilteredData = $(() => {
     setTimeout(() => {
-      if (filteredGames) {
+      if (filteredGames.value) {
         store.filteredGameSample = filteredGames.value
           .filter((g) =>
             store.selectedProvider.length > 0
@@ -86,9 +85,9 @@ export default component$(() => {
     (categoryId: string): TransformedListI[] => {
       const siteGames = siteStore.value.SiteGames;
 
-      let fGames: TransformedListI[] = [];
-      let providers: Set<string> = new Set();
-      let cats = [];
+      const fGames: TransformedListI[] = [];
+      const providers: Set<string> = new Set();
+      const cats = [];
 
       if (categoryId === "99") {
         // Assuming 'isRecommend' property indicates recommended games
