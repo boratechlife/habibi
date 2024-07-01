@@ -9,6 +9,7 @@ import { routeAction$, useNavigate, z, zod$ } from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
 import { AuthContext } from "~/context/auth-context";
+import { fetchLogin } from "~/utils/Main";
 
 export const useRegisterSchema = z.object({
   username: z.string().min(5),
@@ -60,7 +61,8 @@ export default component$(() => {
   });
   const nav = useNavigate();
   // const action = useLoginUser();
-  const error = useSignal("");
+  const error = useSignal<any>();
+
   const handleSubmit = $(async (e: Event) => {
     e.preventDefault();
     console.log("form Data", formData);
@@ -68,7 +70,6 @@ export default component$(() => {
     const result = await useRegisterSchema.safeParseAsync(formData);
 
     if (!result.success) {
-      // console.error("Validation errors:", result);
       fieldErrors.fieldErrors = result.error.formErrors.fieldErrors;
       console.log("ERRORS", fieldErrors.fieldErrors);
       return;
@@ -82,52 +83,43 @@ export default component$(() => {
 
     const userIpAddress = await getUserIpAddress();
 
-    const response = await fetch(
-      `${import.meta.env.PUBLIC_QWIK_API_URL}api/gemini/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          originalip: userIpAddress, // Add the IP address here as a custom header
-        },
-        body: JSON.stringify({
-          userName: formData.username,
-          password: formData.password,
-        }),
-      },
-    );
-    const res = await response.json();
-    if (!res.loginBody) {
-      console.log(res);
+    const loginResult = await fetchLogin(formData, userIpAddress);
 
+    const res = loginResult.loginBody;
+    console.log("LOGN RESULT", res);
+
+    if (!res.Result) {
+      console.log("Result", res);
       error.value = res.err;
       alert("error");
       return;
     }
 
-    if (res.loginBody.err == 500) {
-      console.log("res.loginBody.err_message", res.loginBody.err_message);
-      error.value = res.loginBody.err_message;
+    if (res.err == 500) {
+      console.log("res.loginBody.err_message", res.err_message);
+      error.value = res.err_message;
     }
-    if (res.loginBody.token && res.loginBody.token.length > 0) {
+
+    if (res.token && res.token.length > 0) {
       localStorage.setItem(
         "auth",
         JSON.stringify({
           time: new Date(),
           username: formData.username,
-          ...res.loginBody,
+          ...res,
         }),
       );
-      authContext.user = res.loginBody;
+      authContext.user = res;
       await nav("/lobby");
     }
+
     console.log("RESPONSE", res);
   });
 
   return (
     <BaseLayout autoLogoSize>
       <div class="bg-[linear-gradient(#217cb1_0,#003f64_100%)] pt-2">
-        {error.value.length > 0 && (
+        {error.value && error.value.length > 0 && (
           <div class="text-red-500">{error.value}</div>
         )}
         <div class="space-y-2">

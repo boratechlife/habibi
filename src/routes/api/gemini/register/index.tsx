@@ -9,11 +9,11 @@ export const onPost: RequestHandler = async ({ request, json }) => {
     ...JSON.parse(textBody),
     password_confirm: JSON.parse(textBody).password,
     agentName: process.env.NEXT_PUBLIC_MAIN_PARENT,
-    currency: process.env.REGISTER_CURRENCY,
+    currency: process.env.PUBLIC_REGISTER_CURRENCY,
     firstName: "-",
     lastName: "-",
-    status: process.env.REGISTER_STATUS,
-    tableLimit: process.env.REGISTER_TABLE_LIMIT,
+    status: process.env.PUBLIC_REGISTER_STATUS,
+    tableLimit: process.env.PUBLIC_REGISTER_TABLE_LIMIT,
   };
 
   // const readableStream = request.request.body;

@@ -8,6 +8,7 @@ import {
 import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import LobbyHeader from "~/components/LobbyHeader";
 import { AuthContext } from "~/context/auth-context";
+import { fetchBalance } from "~/utils/Main";
 
 // const handleClick$ = $((_: any, direction: string) => {
 //   const el = document.querySelector(".no-scrollbar") as HTMLElement;
@@ -60,7 +61,7 @@ export default component$(() => {
   const balance = useStore<BalanceResponse | any>({});
   const state = useStore({ isBalanceRetrieved: false });
 
-  useVisibleTask$(() => {
+  useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
     const iframeSrc = `${baseUrl}?auth_key=${encodeURIComponent(authUser.user.token)}&agent=${encodeURIComponent(mainParent)}`;
     console.log("iframe", iframeSrc);
@@ -74,41 +75,27 @@ export default component$(() => {
     authStore.user = JSON.parse(auth!);
     // console.log(authStore.user);
 
-    try {
-      const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/balance`;
-      fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authStore.user.token}`,
-        },
-      })
-        .then(async (response) => {
-          const data = await response.json();
+    const token = authStore.user.token;
+    console.log("token", authStore);
+    const result = await fetchBalance(token);
 
-          if (data.Result) {
-            balance.Result = data.Result; // Adjust the possible values based on actual usage
-            balance.AvailableCredit = data.AvailableCredit;
-            balance.newMember = data.newMember;
-            balance.promos = data.promos; // Replace `any` with the appropriate type if known
-            balance.isValidate = data.isValidate;
-            balance.pendingPintuDeposit = data.pendingPintuDeposit; // Replace `any` with the appropriate type if known
-            balance.pendingPintuExpiry = data.pendingPintuExpiry; // Replace `any` with the appropriate type if known
-            balance.pendingMinutes = data.pendingMinutes;
-            balance.isCrypto = data.isCrypto;
-            balance.isMaintenanceMode = data.isMaintenanceMode;
-            state.isBalanceRetrieved = true;
-            console.log("Data", data);
-          } else {
-            console.log("message", data.message);
-            state.isBalanceRetrieved = false;
-          }
-        })
-        .catch((err) => {
-          console.log("error", err);
-        });
-    } catch (error) {
-      console.error("Error fetching balance:", error);
+    if (result.success) {
+      const balanceBody = result.data;
+      balance.Result = balanceBody.Result;
+      balance.AvailableCredit = balanceBody.AvailableCredit;
+      balance.newMember = balanceBody.newMember;
+      balance.promos = balanceBody.promos;
+      balance.isValidate = balanceBody.isValidate;
+      balance.pendingPintuDeposit = balanceBody.pendingPintuDeposit;
+      balance.pendingPintuExpiry = balanceBody.pendingPintuExpiry;
+      balance.pendingMinutes = balanceBody.pendingMinutes;
+      balance.isCrypto = balanceBody.isCrypto;
+      balance.isMaintenanceMode = balanceBody.isMaintenanceMode;
+      state.isBalanceRetrieved = true;
+      console.log("Data", balanceBody);
+    } else {
+      console.log("message", result.message);
+      state.isBalanceRetrieved = false;
     }
   });
 

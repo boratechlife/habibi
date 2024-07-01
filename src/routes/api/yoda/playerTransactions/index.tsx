@@ -24,13 +24,15 @@ export const onGet: RequestHandler = async ({ request, json }) => {
   const dateStart = url.searchParams.get("dateStart");
   const dateEnd = url.searchParams.get("dateEnd");
 
-  const queryYoda: Response = await fetch(process.env.GRAPHQL_URL || "", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `{playerTransactions(
+  const queryYoda: Response = await fetch(
+    process.env.PUBLIC_GRAPHQL_URL || "",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `{playerTransactions(
           first: 20
           playerName: "${playerName}"
           dateStart: "${dateStart}"
@@ -47,8 +49,9 @@ export const onGet: RequestHandler = async ({ request, json }) => {
             status
           }
         }}`,
-    }),
-  });
+      }),
+    },
+  );
 
   const body = await queryYoda.json();
   const responseBody = (body as YodaResponseDataI).data.playerTransactions

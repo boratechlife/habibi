@@ -1,8 +1,13 @@
-import { $, component$, useStore } from "@builder.io/qwik";
-import { Form, useNavigate, z } from "@builder.io/qwik-city";
+import { $, component$, useSignal, useStore } from "@builder.io/qwik";
+import { useNavigate, z } from "@builder.io/qwik-city";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
 import Select from "~/components/common/form/Select";
+import {
+  fetchCheckAccountNo,
+  fetchCheckPhone,
+  fetchRegister,
+} from "~/utils/Main";
 
 export const useRegisterSchema = z.object({
   username: z.string().min(5),
@@ -20,14 +25,16 @@ export const useRegisterSchema = z.object({
           return false;
         }
 
-        const response = await fetch(
-          import.meta.env.PUBLIC_QWIK_API_URL +
-            "api/yoda/checkphone?phoneNo=+62" +
-            value.substring(1),
-        ).then((fetchResult) => fetchResult.json());
+        const phoneNo = `+62${value.substring(1)}`;
+        const result = await fetchCheckPhone(phoneNo);
 
-        console.log("phone", value);
-        return !response.exists;
+        if (!result.success) {
+          console.error("Error", result.error);
+          return;
+        }
+
+        const responseBody = result.data;
+        return !responseBody.exists;
       },
       {
         message: "Nomor telpon tidak bisa di gunakan! sudah terdaftar",
@@ -49,12 +56,16 @@ export const useRegisterSchema = z.object({
     .refine(
       async (value) => {
         if (value.length >= 10 && value.length <= 18) {
-          const response = await fetch(
-            import.meta.env.PUBLIC_QWIK_API_URL +
-              "api/yoda/checkAccountNo?accountNo=" +
-              value,
-          ).then((fetchResult) => fetchResult.json());
-          return !response.exist;
+          const result = await fetchCheckAccountNo(value);
+
+          if (!result.success) {
+            console.error("Error", result.error);
+            return false;
+          }
+
+          const responseBody = result.data;
+          console.log("Account number check response", responseBody);
+          return !responseBody.exist;
         }
         return true;
       },
@@ -96,6 +107,7 @@ export default component$(() => {
     bankAccount: "",
     referralCode: "",
   });
+  const error = useSignal<any>();
   const fieldErrors = useStore<ValidationErrors>({
     formErrors: [],
     fieldErrors: {},
@@ -115,38 +127,27 @@ export default component$(() => {
     const result = await useRegisterSchema.safeParseAsync(formData);
 
     if (!result.success) {
-      // console.error("Validation errors:", result);
       fieldErrors.fieldErrors = result.error.formErrors.fieldErrors;
       console.log("ERRORS", fieldErrors.fieldErrors);
       return;
     }
 
-    await fetch(`${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        referralCode: formData.referralCode,
-        userName: formData.username,
-        password: formData.password,
-        eMail: formData.email,
-        telephone: formData.telephone,
-        bank: formData.bank,
-        bankName: formData.bankName,
-        bankAccount: formData.bankAccount,
-      }),
-    });
+    const registerResult = await fetchRegister(formData);
 
-    if (result.success) {
-      navigate("/login");
+    if (!registerResult.success) {
+      console.log("Error", registerResult.error);
+      error.value = registerResult.error;
+      alert("error");
+      return;
     }
-    console.log(result);
+
+    console.log("Registration successful", registerResult.data);
+    navigate("/login");
   });
   return (
     <BaseLayout autoLogoSize>
       <div class="mx-auto bg-[linear-gradient(#217cb1,#003f64)] pt-2">
-        <Form class="space-y-3">
+        <div class="space-y-3">
           <div>
             <div class="mb-[15px]  bg-sky-300  py-2.5 text-center text-lg text-white ">
               Informasi Pribadi
@@ -302,7 +303,7 @@ export default component$(() => {
               </a>
             </div>
           </div>
-        </Form>
+        </div>
       </div>
     </BaseLayout>
   );

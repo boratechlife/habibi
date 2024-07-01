@@ -1,3 +1,6 @@
+import type { UserRegister } from "~/routes/register";
+import cryptojs from "crypto-js";
+
 const bankTHB = [
   {
     label: "ธนาคารกสิกรไทย ( Kbank ) ",
@@ -186,6 +189,224 @@ const reverseMap = (val: string) => {
 // };
 
 export const paths_to_show = ["/", "/login/", "/register/"];
+
+
+
+// utils/fetchRegister.js
+
+export const fetchRegister = async (formData: UserRegister) => {
+  const body = {
+    ...formData,
+    password_confirm: formData.password,
+    userName:formData.username,
+    agentName: import.meta.env.PUBLIC_MAIN_PARENT,
+    currency: import.meta.env.PUBLIC_REGISTER_CURRENCY,
+    firstName: "-",
+    lastName: "-",
+    status: import.meta.env.PUBLIC_REGISTER_STATUS,
+    tableLimit: import.meta.env.PUBLIC_REGISTER_TABLE_LIMIT,
+  };
+
+  console.log("request.json()", body);
+
+  const hash = cryptojs
+  .MD5(`${body.userName}${body.password}${body.agentName}REGIS`)
+  .toString();
+
+  console.log("Hash", hash)
+  try {
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/v2/insert`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-sig": hash,
+        },
+        body: JSON.stringify(body),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const registerBody = await response.json();
+
+    if (registerBody.err === 500) {
+      throw new Error(registerBody.err_message || "Registration failed");
+    }
+
+    if (
+      registerBody.err === undefined &&
+      registerBody.agentName !== import.meta.env.PUBLIC_MAIN_PARENT
+    ) {
+      throw new Error("You are not allowed to access from this site");
+    }
+
+    return {
+      success: true,
+      data: registerBody,
+    };
+  } catch (error:any) {
+    console.error("Error during registration request:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the registration process.",
+    };
+  }
+};
+
+
+// utils/fetchCheckAccountNo.js
+
+export const fetchCheckAccountNo = async (accountNo: any) => {
+  try {
+    const response = await fetch(import.meta.env.PUBLIC_GRAPHQL_URL || "", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `{checkuserByAttr(agentName:"${import.meta.env.PUBLIC_MAIN_PARENT}",
+          accountNo:"${accountNo}"){exist}}`,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const body = await response.json();
+    return {
+      success: true,
+      data: body.data.checkuserByAttr,
+    };
+  } catch (error) {
+    console.error("Error during account number check request:", error);
+    return {
+      success: false,
+      error: "An error occurred during the account number check process.",
+    };
+  }
+};
+
+
+// utils/fetchCheckPhone.js
+
+export const fetchCheckPhone = async (phoneNo: any) => {
+  try {
+    const response = await fetch(import.meta.env.PUBLIC_GRAPHQL_URL || "", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `{checkuserByAttr(agentName:"${import.meta.env.PUBLIC_MAIN_PARENT}",
+          telephoneNo:"${phoneNo}"){exist}}`,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const body = await response.json();
+    console.log("Body",body)
+    return {
+      success: true,
+      data: body.data.checkuserByAttr,
+    };
+  } catch (error) {
+    console.error("Error during phone check request:", error);
+    return {
+      success: false,
+      error: "An error occurred during the phone check process.",
+    };
+  }
+};
+
+
+
+// utils/fetchLogin.js
+
+export const fetchLogin = async (formData: { username: any; password: any; }, userIpAddress: string) => {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  if (import.meta.env.NEXT_PUBLIC_MAIN_PARENT) {
+    headers.append("x-org", import.meta.env.NEXT_PUBLIC_MAIN_PARENT);
+  }
+
+  headers.append("x-clientip", userIpAddress || "127.0.0.1");
+
+  try {
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/login`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          userName: formData.username,
+          password: formData.password,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const loginBody = await response.json();
+    return {
+      success: true,
+      loginBody,
+    };
+  } catch (error) {
+    console.error("Error during login request:", error);
+    return {
+      success: false,
+      error: "An error occurred during the login process.",
+    };
+  }
+};
+
+
+// utils/fetchBalance.js
+
+export const fetchBalance = async (token: any) => {
+  try {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/balance`, {
+      method: "GET",
+      headers,
+    });
+
+    const balanceBody = await response.json();
+
+    if (balanceBody.err === 500) {
+      throw new Error("Failed to retrieve balance");
+    }
+
+    return {
+      success: true,
+      data: balanceBody,
+    };
+  } catch (error:any) {
+    console.error("Error fetching balance:", error);
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
 
 const formatMoney = (
   amount: number,
