@@ -185,6 +185,8 @@ const reverseMap = (val: string) => {
 //   // );
 // };
 
+export const paths_to_show = ["/", "/login/", "/register/"];
+
 const formatMoney = (
   amount: number,
   decimalCount = 2,

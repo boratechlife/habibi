@@ -6,7 +6,7 @@ import {
   useContextProvider,
   useSignal,
 } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$, useLocation } from "@builder.io/qwik-city";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import AuthComponent from "~/components/AuthComponent";
 import { TheHeader } from "~/components/TheHeader";
@@ -15,6 +15,7 @@ import { type SiteInfo } from "~/data/site";
 import { decompressString } from "~/utils/decompress";
 import { type GamesI, type SeoInterface } from "~/interfaces";
 import { GetPasaranResponseI } from ".";
+import { paths_to_show } from "~/utils/Main";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -122,6 +123,7 @@ export default component$(() => {
   const test: any = useProductDetails();
 
   const theme = useSignal("dark");
+  const loc = useLocation();
 
   useContextProvider(ThemeContext, theme);
   useContextProvider(SiteDataContext, test);
@@ -130,7 +132,8 @@ export default component$(() => {
     <AuthProvider>
       <>
         <AuthComponent />
-        <TheHeader />
+        {!paths_to_show.includes(loc.url.pathname) && <TheHeader />}
+
         <Slot />
       </>
     </AuthProvider>
