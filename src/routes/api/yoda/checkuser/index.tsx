@@ -5,7 +5,6 @@ export interface YodaResponseDataI {
     checkuserByAttr: Boolean;
   };
 }
-// http://localhost:3000/api/checkuser?username=johndoe
 
 export const onGet: RequestHandler = async ({ request, json }) => {
   const url = new URL(request.url);

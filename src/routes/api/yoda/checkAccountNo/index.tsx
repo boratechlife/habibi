@@ -5,7 +5,7 @@ export interface YodaResponseDataI {
     checkuserByAttr: Boolean;
   };
 }
-// http://localhost:5173/api/test?accountNo=123456
+
 export const onGet: RequestHandler = async ({ request, json }) => {
   const url = new URL(request.url);
   const accountNo = url.searchParams.get("accountNo");

@@ -9,7 +9,6 @@ export interface YodaResponseDataI {
     }[];
   };
 }
-// http://localhost:3000/api/pbs?playerName=johndoe&dateStart=2023-01-01&dateEnd=2023-01-31
 
 export const onGet: RequestHandler = async ({ request, json }) => {
   const url = new URL(request.url);

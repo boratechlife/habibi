@@ -1,7 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
 
-// http://localhost:3000/api/playerTransactions?playerName=johndoe&dateStart=2023-01-01&dateEnd=2023-01-31
-
 export interface YodaResponseDataI {
   data: {
     playerTransactions: {

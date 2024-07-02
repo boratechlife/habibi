@@ -4,6 +4,7 @@ import {
   createContextId,
   useContext,
   useStylesScoped$,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index-styles.css?inline";
@@ -55,17 +56,9 @@ export default component$(() => {
   const runningTexts =
     siteData.value.siteInfo?.runningText?.filter((rt: any) => rt.isShow) || [];
 
-  // useTask$(async () => {
-  //   const response = await fetch(`http://localhost:5173/api/test`);
-
-  //   const data = await response.json();
-
-  //   console.log("Data", data);
-  //   state.data = data;
-  //   // state.siteInfo = data.SiteInfo;
-  //   // state.siteGames = data.SiteGames;
-  // });
-
+  useVisibleTask$(() => {
+    console.log("Banner", siteData.value.siteInfo);
+  });
   useStylesScoped$(styles);
   return (
     <BaseLayout>
@@ -159,7 +152,6 @@ export default component$(() => {
         </div>
 
         <Carousel />
-
         {siteData.value.siteInfo?.banners.length > 0 && <ScrollingBanner />}
 
         <div class="my-2">
