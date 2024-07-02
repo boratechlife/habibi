@@ -9,6 +9,7 @@ import {
 import { type DocumentHead } from "@builder.io/qwik-city";
 import { DatePicker } from "~/components/DatePicker";
 import { AuthContext } from "~/context/auth-context";
+import { fetchPlayerStats } from "~/utils/Main";
 
 interface PlayerStatsI {
   date: string;
@@ -44,14 +45,14 @@ export default component$(() => {
     const startDate = store.dateStart.toISOString().split("T")[0];
     const endDate = store.dateEnd.toISOString().split("T")[0];
 
-    const response = await fetch(
-      `${import.meta.env.PUBLIC_QWIK_API_URL}api/yoda/playersummary?playerName=${playerName.value}&dateStart=${startDate}&dateEnd=${endDate}`,
-    );
+    const result = await fetchPlayerStats(playerName, startDate, endDate);
 
-    if (!response.ok) {
+    if (!result.success) {
+      console.error("Error", result.error);
       throw new Error("Failed to fetch player stats");
     }
-    store.playerStats = await response.json();
+
+    store.playerStats = result.data;
   });
 
   useVisibleTask$(() => {

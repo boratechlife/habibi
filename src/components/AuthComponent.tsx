@@ -56,25 +56,6 @@ export default component$(() => {
     if (intervalId) {
       return () => clearInterval(intervalId);
     }
-
-    // const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
-
-    // fetch(url, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${parsedAuth.token}`,
-    //   },
-    // })
-    //   .then(async (response) => {
-    //     const data = await response.json();
-    //     bank.value = data;
-    //     isBankRetrieved.value = true;
-    //   })
-    //   .catch((err) => {
-    //     console.log("error", err);
-    //     isBankRetrieved.value = false;
-    //   });
   });
 
   return <section></section>;

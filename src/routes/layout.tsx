@@ -41,13 +41,6 @@ export const SiteDataContext = createContextId<Signal<SiteInfo>>(
   "docs.site-info-context",
 );
 
-// export const useProductDetails = routeLoader$(async () => {
-//   const url = `${process.env.PUBLIC_QWIK_API_URL}api/site`;
-//   const res = await fetch(url);
-//   const siteData = await res.json();
-//   return siteData;
-// });
-
 let siteInfo = "";
 let siteGames = "";
 
@@ -108,7 +101,6 @@ export const useGetPasaran = routeLoader$(async () => {
   myHeaders.append("accept", "application/json");
   myHeaders.append("content-type", "application/json");
 
-  // const url = `${import.meta.env.PUBLIC_QWIK_API_URL}api/get-pasaran`;
   const url = `https://api.wirosablengonline.com/dora/pasaran-agent/${import.meta.env.PUBLIC_MAIN_PARENT}`;
   console.log("import", url);
   const res = await fetch(url, {

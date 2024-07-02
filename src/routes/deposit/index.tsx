@@ -11,7 +11,8 @@ import DepositPending from "~/components/DepositPending";
 import CustomInput from "~/components/common/form/CustomInput";
 import CustomSelect from "~/components/common/form/CustomSelect";
 import { AuthContext } from "~/context/auth-context";
-import { BankI, BankInfoI, DepositRequestI, OperatorI } from "~/data/auth";
+import type { BankI, BankInfoI, OperatorI } from "~/data/auth";
+import { fetchBankInfo, fetchDeposit } from "~/utils/Main";
 
 interface Player {
   bank: string;
@@ -97,34 +98,27 @@ export default component$(() => {
   const authContext = useContext(AuthContext);
   //const accountList = bank?.Operator?.banks.filter((bank) => bank.isShow) || [];
 
-  const getBank = $(() => {
-    try {
-      const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
-      fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authStore.user.token}`,
-        },
-      })
-        .then(async (response) => {
-          const data = await response.json();
-          bank.value = data;
+  const getBank = $(async () => {
+    const token = authStore.user.token;
 
-          console.log("Bank", bank.value);
-          isBankRetrieved.value = true;
-          // console.log("Data", data);
-        })
-        .catch((err) => {
-          console.log("error", err);
-          isBankRetrieved.value = false;
-        });
-    } catch (error) {
-      console.error("Error fetching balance:", error);
+    if (!token) {
+      alert("You need to be logged in to fetch bank info.");
+      navigate("/");
+      return;
+    }
+
+    const bankInfoResult = await fetchBankInfo(token);
+
+    if (!bankInfoResult.success) {
+      console.log("Error", bankInfoResult.error);
       isBankRetrieved.value = false;
+    } else {
+      bank.value = bankInfoResult.data;
+      isBankRetrieved.value = true;
+      console.log("Bank", bank.value);
     }
   });
-  useVisibleTask$(() => {
+  useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
 
     console.log("Contextuser", authContext.user);
@@ -137,34 +131,10 @@ export default component$(() => {
     authStore.user = JSON.parse(auth!);
     console.log(authStore.user);
 
-    try {
-      const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
-      fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authStore.user.token}`,
-        },
-      })
-        .then(async (response) => {
-          const data = await response.json();
-          bank.value = data;
-
-          console.log("Bank", bank.value);
-          isBankRetrieved.value = true;
-          // console.log("Data", data);
-        })
-        .catch((err) => {
-          console.log("error", err);
-          isBankRetrieved.value = false;
-        });
-    } catch (error) {
-      console.error("Error fetching balance:", error);
-      isBankRetrieved.value = false;
-    }
+    await getBank();
   });
 
-  const handleSubmit = $((e: Event) => {
+  const handleSubmit = $(async (e: Event) => {
     const schema = z.object({
       amount: z.string().refine(
         (value) => {
@@ -211,61 +181,29 @@ export default component$(() => {
       return;
     }
 
-    const deposit = async (
-      fields: DepositRequestI,
-      url: string,
-      token: string,
-    ) => {
-      return await fetch("/api/gemini/deposit", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...fields,
-          return_url: `${window.location.protocol}//${window.location.host}`,
-        }),
-      }).then(async (res) => {
-        return await res.json();
-      });
-    };
-    const url = import.meta.env.PUBLIC_QWIK_API_URL + "api/gemini/deposit";
     const token = authStore.user.token;
-    deposit(
+
+    if (!token) {
+      alert("You need to be logged in to make a deposit.");
+      navigate("/");
+      return;
+    }
+
+    const depositResult = await fetchDeposit(
       {
         amount: parseInt(formData.amount),
         bank: formData.bankAccountName,
       },
-      url,
       token,
-    ).then((response) => {
-      if (!response.success) {
-        console.log("err", response.err_message);
-      } else {
-        getBank();
-        console.log(response);
-        // retrieveBankInfo();
-      }
-    });
-    // const response = await fetch(
-    //   `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/register`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       referralCode: formData.referralCode,
-    //       userName: formData.username,
-    //       password: formData.password,
-    //       eMail: formData.email,
-    //       telephone: formData.telephone,
-    //       bank: formData.bank,
-    //       bankName: formData.bankName,
-    //       bankAccount: formData.bankAccount,
-    //     }),
-    //   },
-    // );
+    );
+
+    if (!depositResult.success) {
+      console.log("err", depositResult.error);
+    } else {
+      await getBank();
+      console.log(depositResult.data);
+      // retrieveBankInfo();
+    }
 
     console.log(result);
   });

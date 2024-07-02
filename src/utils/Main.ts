@@ -192,6 +192,47 @@ export const paths_to_show = ["/", "/login/", "/register/"];
 
 
 
+// utils/fetchBankInfo.js
+
+export const fetchBankInfo = async (token:string) => {
+  try {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/bank`, {
+      method: "GET",
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const bankInfo = await response.json();
+
+    if (bankInfo.err === 500) {
+      throw new Error("Failed to retrieve Bank Info");
+    }
+
+    return {
+      success: true,
+      data: bankInfo,
+    };
+  } catch (error:any) {
+    console.error("Error fetching bank info:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the fetch process.",
+    };
+  }
+};
+
+
+
 // utils/fetchRegister.js
 
 export const fetchRegister = async (formData: UserRegister) => {
@@ -370,6 +411,174 @@ export const fetchLogin = async (formData: { username: any; password: any; }, us
     };
   }
 };
+
+
+// utils/fetchDeposit.js
+
+export const fetchDeposit = async (fields: any, token: any) => {
+  try {
+    const response = await fetch(import.meta.env.PUBLIC_WALLET_URL + "pg/deposit_pg", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+        "x-clientip": "0.0.0.0",
+      },
+      body: JSON.stringify({
+        ...fields,
+        return_url: `${window.location.protocol}//${window.location.host}`,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const depositBody = await response.json();
+
+    if (depositBody.err !== 200) {
+      throw new Error(depositBody.err_message || "Deposit failed");
+    }
+
+    return {
+      success: true,
+      data: depositBody,
+    };
+  } catch (error:any) {
+    console.error("Error during deposit request:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the deposit process.",
+    };
+  }
+};
+
+
+// utils/fetchPlayerStats.js
+
+export const fetchPlayerStats = async (playerName: any, dateStart: any, dateEnd: any) => {
+  try {
+    const response = await fetch(import.meta.env.PUBLIC_GRAPHQL_URL || "", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `{pbs(
+          playerName: "${playerName}"
+          dateStart: "${dateStart}"
+          dateEnd: "${dateEnd}"
+        ) {
+          date
+          validTurnover
+          playerWinLoss
+        }}`,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const body = await response.json();
+    return {
+      success: true,
+      data: body.data.pbs,
+    };
+  } catch (error:any) {
+    console.error("Error fetching player stats:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the fetch process.",
+    };
+  }
+};
+
+
+// utils/fetchWithdraw.js
+
+export const fetchWithdraw = async (formData: any, token:string) => {
+  console.log("token", `Bearer ${token}`)
+  try {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    const response = await fetch(`${import.meta.env.PUBLIC_WALLET_URL}admin/user/withdraw`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        ...formData,
+        noBSC: true,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const withdrawBody = await response.json();
+
+    if (withdrawBody.err === 500) {
+      throw new Error(withdrawBody.err_message || "Withdrawal failed");
+    }
+
+    return {
+      success: true,
+      data: withdrawBody,
+    };
+  } catch (error:any) {
+    console.error("Error during withdraw request:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the withdraw process.",
+    };
+  }
+};
+
+
+// utils/fetchLogout.js
+
+export const fetchLogout = async (token:string) => {
+  try {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/logout`, {
+      method: "POST",
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const logoutBody = await response.json();
+
+    if (logoutBody.err === 500) {
+      throw new Error(logoutBody.err_message || "Logout failed");
+    }
+
+    return {
+      success: true,
+      data: logoutBody,
+    };
+  } catch (error:any) {
+    console.error("Error during logout request:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the logout process.",
+    };
+  }
+};
+
 
 
 // utils/fetchBalance.js

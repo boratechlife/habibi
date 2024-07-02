@@ -8,6 +8,7 @@ import {
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 import CustomInput from "~/components/common/form/CustomInput";
 import { BankI } from "~/data/auth";
+import { fetchBankInfo, fetchWithdraw } from "~/utils/Main";
 
 export default component$(() => {
   const formData = useStore<any>({
@@ -50,7 +51,7 @@ export default component$(() => {
   });
   useOnDocument(
     "load",
-    $(() => {
+    $(async () => {
       const auth = localStorage.getItem("auth");
 
       if (!auth) {
@@ -63,28 +64,25 @@ export default component$(() => {
       console.log(authStore.user);
       formData.availableCredt = authStore.user.AvailableCredit;
 
-      try {
-        const url = import.meta.env.PUBLIC_QWIK_API_URL + `api/gemini/bank`;
-        fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authStore.user.token}`,
-          },
-        })
-          .then(async (response) => {
-            const data = await response.json();
-            bank.value = data;
-            formData.payWithPg = data.Operator.payWithPg === 1 ? true : false;
-            formData.minWithdraw = data.Operator?.min.va.Withdraw;
+      const token = authStore.user.token;
 
-            // operator?.payWithPg
-          })
-          .catch((err) => {
-            console.log("error", err);
-          });
-      } catch (error) {
-        console.error("Error fetching balance:", error);
+      if (!token) {
+        alert("You need to be logged in to fetch bank info.");
+        navigate("/");
+        return;
+      }
+
+      const bankInfoResult = await fetchBankInfo(token);
+
+      if (!bankInfoResult.success) {
+        console.log("Error", bankInfoResult.error);
+        alert("Error");
+      } else {
+        bank.value = bankInfoResult.data;
+        formData.payWithPg =
+          bankInfoResult.data.Operator.payWithPg === 1 ? true : false;
+        formData.minWithdraw = bankInfoResult.data.Operator?.min?.va?.Withdraw;
+        console.log(bankInfoResult.data);
       }
     }),
   );
@@ -133,26 +131,21 @@ export default component$(() => {
       return;
     }
 
-    const response = await fetch(
-      `${import.meta.env.PUBLIC_QWIK_API_URL}/api/gemini/withdraw`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authStore.user.token}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-        }),
-      },
-    );
+    const token = authStore.user.token;
 
-    const res = await response.json();
-    if (res.err === 200) {
-      alert("success");
+    if (!token) {
+      alert("You need to be logged in to withdraw.");
+      navigate("/");
+      return;
+    }
+
+    const withdrawResult = await fetchWithdraw(formData, token);
+
+    if (withdrawResult.success) {
+      alert("Withdrawal successful");
       navigate("/lobby");
     } else {
-      alert(res.err_message);
+      alert(withdrawResult.error);
     }
   });
 

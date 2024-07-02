@@ -4,20 +4,8 @@ import { type RequestHandler } from "@builder.io/qwik-city";
 
 export const onPost: RequestHandler = async ({ request, json }) => {
   try {
-    // const body = {
-    //   amount: Number(data.amount.replace(/[^0-9]/g, "")),
-    //   bank: data.bankSelection,
-    //   return_url: requestEvent.url.origin,
-    //   selectedPromo: false,
-    // };
     const body = await request.text();
 
-    // const bodyNew = {
-    //   amount: Number(body.amount),
-    //   bank: data.bankSelection,
-    //   return_url: requestEvent.url.origin,
-    //   selectedPromo: false,
-    // };
     const authHeader = request.headers.get("authorization");
     console.log("what is body", JSON.parse(body));
 

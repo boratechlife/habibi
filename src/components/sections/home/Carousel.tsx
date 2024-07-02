@@ -101,18 +101,8 @@ export default component$(() => {
       if (isServer) {
         return;
       }
-      // const myHeaders = new Headers();
-      // myHeaders.append("accept", "application/json");
-      // myHeaders.append("content-type", "application/json");
+
       const fetchAndCalculate = async () => {
-        // // const url = `${import.meta.env.PUBLIC_QWIK_API_URL}api/get-pasaran`;
-        // const url = `https://api.wirosablengonline.com/dora/pasaran-agent/${import.meta.env.PUBLIC_MAIN_PARENT}`;
-        // console.log("import", url);
-        // const res = await fetch(url, {
-        //   method: "GET",
-        //   headers: myHeaders,
-        // });
-        // const data: GetPasaranResponseI[] = await res.json();
         console.log("Data,,,,,,,,,", getPasaran.value);
         const pools = await calculateCountdown(getPasaran.value);
         firstPools.value = pools.firstPools;

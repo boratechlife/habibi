@@ -1,18 +1,15 @@
 // src/components/DatePicker.tsx
 import { $, PropFunction, component$, useContext } from "@builder.io/qwik";
 import CloseImage from "~/media/close.png?jsx";
-import { logout } from "~/data/auth";
 import { AuthContext } from "~/context/auth-context";
 import { useNavigate } from "@builder.io/qwik-city";
+import { fetchLogout } from "~/utils/Main";
 interface Props {
   onClick: PropFunction<() => void>;
 }
 
 export const Sidebar = component$<Props>(({ onClick }) => {
-  const url = import.meta.env.PUBLIC_QWIK_API_URL;
-
   const authStore = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const handleLogout = $(async () => {
@@ -20,22 +17,18 @@ export const Sidebar = component$<Props>(({ onClick }) => {
     const token = authStore.user.token;
     if (!token) {
       navigate("/");
-    }
-    await logout(url, token)
-      .then((logoutSuccess: boolean) => {
-        if (logoutSuccess) {
-          onClick();
-          navigate("/");
-        }
-      })
-      .finally(() => {
+    } else {
+      const logoutResult = await fetchLogout(token);
+
+      if (logoutResult.success) {
         authStore.user = "";
         localStorage.removeItem("auth");
         onClick();
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+        navigate("/");
+      } else {
+        console.log("error", logoutResult.error);
+      }
+    }
   });
 
   return (
