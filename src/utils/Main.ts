@@ -190,11 +190,9 @@ const reverseMap = (val: string) => {
 
 export const paths_to_show = ["/", "/login/", "/register/"];
 
-
-
 // utils/fetchBankInfo.js
 
-export const fetchBankInfo = async (token:string) => {
+export const fetchBankInfo = async (token: string) => {
   try {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -203,10 +201,13 @@ export const fetchBankInfo = async (token:string) => {
       headers.append("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/bank`, {
-      method: "GET",
-      headers,
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/bank`,
+      {
+        method: "GET",
+        headers,
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -222,7 +223,7 @@ export const fetchBankInfo = async (token:string) => {
       success: true,
       data: bankInfo,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error fetching bank info:", error);
     return {
       success: false,
@@ -231,15 +232,13 @@ export const fetchBankInfo = async (token:string) => {
   }
 };
 
-
-
 // utils/fetchRegister.js
 
 export const fetchRegister = async (formData: UserRegister) => {
   const body = {
     ...formData,
     password_confirm: formData.password,
-    userName:formData.username,
+    userName: formData.username,
     agentName: import.meta.env.PUBLIC_MAIN_PARENT,
     currency: import.meta.env.PUBLIC_REGISTER_CURRENCY,
     firstName: "-",
@@ -251,10 +250,10 @@ export const fetchRegister = async (formData: UserRegister) => {
   console.log("request.json()", body);
 
   const hash = cryptojs
-  .MD5(`${body.userName}${body.password}${body.agentName}REGIS`)
-  .toString();
+    .MD5(`${body.userName}${body.password}${body.agentName}REGIS`)
+    .toString();
 
-  console.log("Hash", hash)
+  console.log("Hash", hash);
   try {
     const response = await fetch(
       `${import.meta.env.PUBLIC_BACKEND_URL}user/v2/insert`,
@@ -289,15 +288,15 @@ export const fetchRegister = async (formData: UserRegister) => {
       success: true,
       data: registerBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error during registration request:", error);
     return {
       success: false,
-      error: error.message || "An error occurred during the registration process.",
+      error:
+        error.message || "An error occurred during the registration process.",
     };
   }
 };
-
 
 // utils/fetchCheckAccountNo.js
 
@@ -332,7 +331,6 @@ export const fetchCheckAccountNo = async (accountNo: any) => {
   }
 };
 
-
 // utils/fetchCheckPhone.js
 
 export const fetchCheckPhone = async (phoneNo: any) => {
@@ -353,7 +351,7 @@ export const fetchCheckPhone = async (phoneNo: any) => {
     }
 
     const body = await response.json();
-    console.log("Body",body)
+    console.log("Body", body);
     return {
       success: true,
       data: body.data.checkuserByAttr,
@@ -367,11 +365,12 @@ export const fetchCheckPhone = async (phoneNo: any) => {
   }
 };
 
-
-
 // utils/fetchLogin.js
 
-export const fetchLogin = async (formData: { username: any; password: any; }, userIpAddress: string) => {
+export const fetchLogin = async (
+  formData: { username: any; password: any },
+  userIpAddress: string,
+) => {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
@@ -412,23 +411,25 @@ export const fetchLogin = async (formData: { username: any; password: any; }, us
   }
 };
 
-
 // utils/fetchDeposit.js
 
 export const fetchDeposit = async (fields: any, token: any) => {
   try {
-    const response = await fetch(import.meta.env.PUBLIC_WALLET_URL + "pg/deposit_pg", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-        "x-clientip": "0.0.0.0",
+    const response = await fetch(
+      import.meta.env.PUBLIC_WALLET_URL + "pg/deposit_pg",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "x-clientip": "0.0.0.0",
+        },
+        body: JSON.stringify({
+          ...fields,
+          return_url: `${window.location.protocol}//${window.location.host}`,
+        }),
       },
-      body: JSON.stringify({
-        ...fields,
-        return_url: `${window.location.protocol}//${window.location.host}`,
-      }),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -444,7 +445,7 @@ export const fetchDeposit = async (fields: any, token: any) => {
       success: true,
       data: depositBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error during deposit request:", error);
     return {
       success: false,
@@ -453,10 +454,13 @@ export const fetchDeposit = async (fields: any, token: any) => {
   }
 };
 
-
 // utils/fetchPlayerStats.js
 
-export const fetchPlayerStats = async (playerName: any, dateStart: any, dateEnd: any) => {
+export const fetchPlayerStats = async (
+  playerName: any,
+  dateStart: any,
+  dateEnd: any,
+) => {
   try {
     const response = await fetch(import.meta.env.PUBLIC_GRAPHQL_URL || "", {
       method: "POST",
@@ -485,7 +489,7 @@ export const fetchPlayerStats = async (playerName: any, dateStart: any, dateEnd:
       success: true,
       data: body.data.pbs,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error fetching player stats:", error);
     return {
       success: false,
@@ -494,11 +498,10 @@ export const fetchPlayerStats = async (playerName: any, dateStart: any, dateEnd:
   }
 };
 
-
 // utils/fetchWithdraw.js
 
-export const fetchWithdraw = async (formData: any, token:string) => {
-  console.log("token", `Bearer ${token}`)
+export const fetchWithdraw = async (formData: any, token: string) => {
+  console.log("token", `Bearer ${token}`);
   try {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -507,14 +510,17 @@ export const fetchWithdraw = async (formData: any, token:string) => {
       headers.append("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(`${import.meta.env.PUBLIC_WALLET_URL}admin/user/withdraw`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        ...formData,
-        noBSC: true,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_WALLET_URL}admin/user/withdraw`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ...formData,
+          noBSC: true,
+        }),
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -530,7 +536,7 @@ export const fetchWithdraw = async (formData: any, token:string) => {
       success: true,
       data: withdrawBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error during withdraw request:", error);
     return {
       success: false,
@@ -539,10 +545,9 @@ export const fetchWithdraw = async (formData: any, token:string) => {
   }
 };
 
-
 // utils/fetchLogout.js
 
-export const fetchLogout = async (token:string) => {
+export const fetchLogout = async (token: string) => {
   try {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -551,10 +556,13 @@ export const fetchLogout = async (token:string) => {
       headers.append("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/logout`, {
-      method: "POST",
-      headers,
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/logout`,
+      {
+        method: "POST",
+        headers,
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -570,7 +578,7 @@ export const fetchLogout = async (token:string) => {
       success: true,
       data: logoutBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error during logout request:", error);
     return {
       success: false,
@@ -578,8 +586,6 @@ export const fetchLogout = async (token:string) => {
     };
   }
 };
-
-
 
 // utils/fetchBalance.js
 
@@ -592,10 +598,13 @@ export const fetchBalance = async (token: any) => {
       headers.append("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/balance`, {
-      method: "GET",
-      headers,
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/balance`,
+      {
+        method: "GET",
+        headers,
+      },
+    );
 
     const balanceBody = await response.json();
 
@@ -607,7 +616,7 @@ export const fetchBalance = async (token: any) => {
       success: true,
       data: balanceBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error fetching balance:", error);
     return {
       success: false,
@@ -615,7 +624,6 @@ export const fetchBalance = async (token: any) => {
     };
   }
 };
-
 
 const formatMoney = (
   amount: number,

@@ -3,6 +3,7 @@ import {
   component$,
   createContextId,
   useContext,
+  useSignal,
   useStylesScoped$,
   useVisibleTask$,
 } from "@builder.io/qwik";
@@ -52,6 +53,7 @@ export const parasanContext = createContextId<Signal<ShownPoolsInterface[]>>(
 export default component$(() => {
   const siteData = useContext(SiteDataContext);
   const authStore = useContext(AuthContext);
+  const isLoggedIn = useSignal(false);
 
   const livechat = (siteData.value as SiteInfo).siteInfo?.footer_livechat;
 
@@ -60,6 +62,10 @@ export default component$(() => {
 
   useVisibleTask$(() => {
     console.log("Banner", siteData.value.siteInfo);
+    setTimeout(() => {
+      isLoggedIn.value = authStore.user ? true : false;
+      console.log("changed...........");
+    }, 10);
 
     console.log("auth", authStore.user);
   });
@@ -67,8 +73,7 @@ export default component$(() => {
   return (
     <BaseLayout>
       <div class="bg-[linear-gradient(#217cb1_0,#003f64_100%)] pt-7">
-        {authStore.user}
-        {authStore.user !== null && (
+        {!isLoggedIn.value && (
           <div class="grid grid-cols-2 gap-12 px-2">
             <a
               class="mb-2.5 block h-11 min-w-fit rounded-full  border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,inset_-1px_-3px_0_0_#4dbeff,inset_0_2px_4px_2px_#5ac4ff,0_0_0_0_rgba(0,0,0,.2)]"
@@ -76,8 +81,9 @@ export default component$(() => {
             >
               Sign In
             </a>
+
             <a
-              class="mb-2.5 block h-11 rounded-full border-0  bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_0_-4px_0_0_#008bdc,_inset_0_5px_8px_0_#0e74b6,_0_0_0_0_rgba(0,0,0,.2)]"
+              class="mb-2.5 flex h-11 items-center rounded-full border-0 bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_0_-4px_0_0_#008bdc,_inset_0_5px_8px_0_#0e74b6,_0_0_0_0_rgba(0,0,0,.2)] lg:block lg:px-5"
               href="/register"
             >
               Sign Up
