@@ -37,7 +37,7 @@ export default component$<InputProps>(
           {...props}
           onInput$={onInput}
           type={props.name == "password" && !isView.value ? "password" : "text"}
-          class={[classes]}
+          class={[classes, "text-base"]}
         />
         {props.name == "password" && (
           <div

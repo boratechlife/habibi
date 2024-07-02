@@ -81,7 +81,7 @@ export default component$(() => {
               id="cat-99"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/99" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -97,13 +97,13 @@ export default component$(() => {
                   <path class="fill-none" d="M0,0h30v30H0V0z"></path>
                 </svg>
                 <p>favorite</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-12"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/lobby" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -115,13 +115,13 @@ export default component$(() => {
                   <path class="fill-none" d="M0,0h30v30H0V0z"></path>
                 </svg>
                 <p>Lottery</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-0"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/0" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -139,13 +139,13 @@ export default component$(() => {
                   <path class="fill-none" d="M0,0h30v30H0V0z"></path>
                 </svg>
                 <p>Slots</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-70"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/70" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -181,13 +181,13 @@ export default component$(() => {
                   <path class="fill-none" d="M0,0h30v30H0V0z"></path>
                 </svg>
                 <p>Live Casino</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-9"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/9" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -203,13 +203,13 @@ export default component$(() => {
                   <path class="fill-none" d="M0,0h30v30H0V0z"></path>
                 </svg>
                 <p>Arcade</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-7"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/7" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   class="mx-auto mb-[5px] mt-0 block h-10 w-10 fill-white"
@@ -224,13 +224,13 @@ export default component$(() => {
                   </g>
                 </svg>
                 <p>Fish</p>
-              </a>
+              </div>
             </div>
             <div
               id="cat-1"
               class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-gray-400 transition-all  duration-[0.3s] focus:rounded focus:no-underline"
             >
-              <a target="_blank" href="/games/1" style="pointer-events: none;">
+              <div style="pointer-events: none;">
                 <svg
                   version="1.1"
                   x="0px"
@@ -324,7 +324,7 @@ export default component$(() => {
                   </g>
                 </svg>
                 <p>Table</p>
-              </a>
+              </div>
             </div>
           </div>
 
