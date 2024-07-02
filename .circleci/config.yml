@@ -18,7 +18,6 @@ jobs:
       - run:
           name: Build Project
           command: |
-            # Your build commands here
             npm
             npm run build
 
