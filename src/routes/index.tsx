@@ -19,6 +19,7 @@ import BaseLayout from "~/components/common/BaseLayout";
 import { SeoInterface, GamesI } from "~/interfaces";
 import { SiteDataContext } from "./layout";
 import { SiteInfo } from "~/data/site";
+import { AuthContext } from "~/context/auth-context";
 
 export interface ShownPoolsInterface {
   pasaran_id: string;
@@ -50,6 +51,7 @@ export const parasanContext = createContextId<Signal<ShownPoolsInterface[]>>(
 
 export default component$(() => {
   const siteData = useContext(SiteDataContext);
+  const authStore = useContext(AuthContext);
 
   const livechat = (siteData.value as SiteInfo).siteInfo?.footer_livechat;
 
@@ -58,34 +60,40 @@ export default component$(() => {
 
   useVisibleTask$(() => {
     console.log("Banner", siteData.value.siteInfo);
+
+    console.log("auth", authStore.user);
   });
   useStylesScoped$(styles);
   return (
     <BaseLayout>
       <div class="bg-[linear-gradient(#217cb1_0,#003f64_100%)] pt-7">
-        <div class="grid grid-cols-2 gap-12 px-2">
-          <a
-            class="mb-2.5 block h-11 min-w-fit rounded-full  border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,inset_-1px_-3px_0_0_#4dbeff,inset_0_2px_4px_2px_#5ac4ff,0_0_0_0_rgba(0,0,0,.2)]"
-            href="/login"
-          >
-            Sign In
-          </a>
-          <a
-            class="mb-2.5 block h-11 rounded-full border-0  bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_0_-4px_0_0_#008bdc,_inset_0_5px_8px_0_#0e74b6,_0_0_0_0_rgba(0,0,0,.2)]"
-            href="/register"
-          >
-            Sign Up
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-              class="inline-block h-5 w-5"
+        {authStore.user}
+        {authStore.user !== null && (
+          <div class="grid grid-cols-2 gap-12 px-2">
+            <a
+              class="mb-2.5 block h-11 min-w-fit rounded-full  border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,inset_-1px_-3px_0_0_#4dbeff,inset_0_2px_4px_2px_#5ac4ff,0_0_0_0_rgba(0,0,0,.2)]"
+              href="/login"
             >
-              <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z"></path>
-            </svg>
-          </a>
-        </div>
+              Sign In
+            </a>
+            <a
+              class="mb-2.5 block h-11 rounded-full border-0  bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_0_-4px_0_0_#008bdc,_inset_0_5px_8px_0_#0e74b6,_0_0_0_0_rgba(0,0,0,.2)]"
+              href="/register"
+            >
+              Sign Up
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                class="inline-block h-5 w-5"
+              >
+                <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z"></path>
+              </svg>
+            </a>
+          </div>
+        )}
+
         <div class="flex bg-sky-900 p-2 text-xs text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"

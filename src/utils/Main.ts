@@ -383,7 +383,7 @@ export const fetchLogin = async (formData: { username: any; password: any; }, us
 
   try {
     const response = await fetch(
-      `${import.meta.env.PUBLIC_BACKEND_URL}user/login`,
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/v2/login`,
       {
         method: "POST",
         headers: headers,
