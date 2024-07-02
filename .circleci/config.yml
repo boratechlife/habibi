@@ -1,0 +1,41 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.2.0
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:stable
+    environment:
+      CLOUDFLARE_API_TOKEN: sujS8CPYjGjAPb1J1bitUVzvzbykYtY-UHlRUJv0
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "18.17.0"
+      - run: node --version
+
+      - run:
+          name: Build Project
+          command: |
+            # Your build commands here
+            npm
+            npm run build
+
+      - run:
+          name: Install Wrangler
+          command: |
+            npm install -g wrangler
+            wrangler whoami
+      - run:
+          name: Deploy with Wrangler
+          command: wrangler pages deploy
+
+workflows:
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - cloudflare
