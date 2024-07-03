@@ -1,6 +1,4 @@
-import { component$ } from "@builder.io/qwik";
-
-export const FavoriteSvg = component$(() => {
+export const FavoriteSvg = () => {
   return (
     <svg
       version="1.1"
@@ -17,9 +15,9 @@ export const FavoriteSvg = component$(() => {
       <path class="fill-none" d="M0,0h30v30H0V0z"></path>
     </svg>
   );
-});
+};
 
-export const LotterySvg = component$(() => {
+export const LotterySvg = () => {
   return (
     <svg
       version="1.1"
@@ -32,10 +30,10 @@ export const LotterySvg = component$(() => {
       <path class="fill-none" d="M0,0h30v30H0V0z"></path>
     </svg>
   );
-});
+};
 
 // Similarly, create components for other SVGs...
-export const SlotsSvg = component$(() => {
+export const SlotsSvg = () => {
   return (
     <svg
       version="1.1"
@@ -54,9 +52,9 @@ export const SlotsSvg = component$(() => {
       <path class="fill-none" d="M0,0h30v30H0V0z"></path>
     </svg>
   );
-});
+};
 
-export const ArcadeSvg = component$(() => {
+export const ArcadeSvg = () => {
   return (
     <svg
       version="1.1"
@@ -73,8 +71,8 @@ export const ArcadeSvg = component$(() => {
       <path class="fill-none" d="M0,0h30v30H0V0z"></path>
     </svg>
   );
-});
-export const FishSvg = component$(() => {
+};
+export const FishSvg = () => {
   return (
     <svg
       version="1.1"
@@ -90,8 +88,8 @@ export const FishSvg = component$(() => {
       </g>
     </svg>
   );
-});
-export const TableSvg = component$(() => {
+};
+export const TableSvg = () => {
   return (
     <svg
       version="1.1"
@@ -186,9 +184,9 @@ export const TableSvg = component$(() => {
       </g>
     </svg>
   );
-});
+};
 
-export const LiveCasinoSvg = component$(() => {
+export const LiveCasinoSvg = () => {
   return (
     <svg
       version="1.1"
@@ -225,4 +223,4 @@ export const LiveCasinoSvg = component$(() => {
       <path class="fill-none" d="M0,0h30v30H0V0z"></path>
     </svg>
   );
-});
+};
