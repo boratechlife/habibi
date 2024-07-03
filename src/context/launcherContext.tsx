@@ -12,6 +12,7 @@ import {
 import { AuthContext } from "./auth-context";
 import he from "he";
 import { SiteDataContext } from "~/routes/layout";
+import { type GameI } from "~/types/Games";
 
 interface TransformedListI {
   provider: string;
@@ -42,7 +43,7 @@ interface LaunchStore {
     html: boolean;
     game: TransformedListI;
   };
-  launchGameAction: QRL<(game: TransformedListI, path: string) => void>;
+  launchGameAction: QRL<(game: GameI, path: string) => void>;
   closeLauncherDialog: QRL<() => void>;
 }
 
@@ -126,6 +127,11 @@ export const LaunchProvider = component$(() => {
     }
 
     if (launchCb.html) {
+      const pgs_window = window.open("about:blank", "PGS", "_parent");
+      pgs_window?.focus();
+      pgs_window?.document.open();
+      pgs_window?.document.write(he.decode(launchCb.data));
+      pgs_window?.document.close();
       launchStore.gameLaunchResult = {
         err: launchCb.err || 200,
         err_message: launchCb.err_message,
@@ -134,6 +140,7 @@ export const LaunchProvider = component$(() => {
         game,
       };
     } else {
+      window.location.href = launchCb.url;
       launchStore.gameLaunchResult = {
         err: launchCb.err || 200,
         err_message: launchCb.err_message,

@@ -2,13 +2,15 @@
 import { $, component$, useContext } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
 import { LaunchContext } from "~/context/launcherContext";
-import { TransformedListI } from "~/data/site";
+import { type GameI } from "~/types/Games";
+
+import { transform } from "~/utils/transform";
 
 interface ThumbnailCardProps {
   image: string;
   link: string;
   title: string;
-  game: TransformedListI;
+  game: any;
 }
 
 export const GameCard = component$<ThumbnailCardProps>(
@@ -18,7 +20,8 @@ export const GameCard = component$<ThumbnailCardProps>(
     const location = useLocation();
     const handleOnClick = $(() => {
       console.log("Game", game);
-      launchGameAction(game, location.url.pathname);
+      const gameTransform: GameI = transform(game, game.gType);
+      launchGameAction(gameTransform, location.url.pathname);
     });
     return (
       <div class="">
@@ -30,6 +33,8 @@ export const GameCard = component$<ThumbnailCardProps>(
               alt={title}
               class="aspect-square max-h-min w-full rounded-t-md md:w-40 lg:w-full"
               loading="lazy"
+              width={200}
+              height={200}
             />
           </div>
         </div>
