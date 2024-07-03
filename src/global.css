@@ -3,8 +3,15 @@
  * View the full documentation at https://tailwindcss.com
  */
 @tailwind base;
+button {
+  @apply hover:border-2 hover:border-white disabled:border-slate-200 disabled:!bg-slate-50 disabled:text-slate-500 disabled:shadow-none disabled:ring-0;
+}
+
 @tailwind components;
 .custom-bg-gradient {
   background: linear-gradient(45deg, rgb(6, 61, 93), rgb(21, 121, 173));
+}
+.custom-href {
+  @apply hover:border-2 hover:border-white disabled:border-slate-200 disabled:!bg-slate-50 disabled:text-slate-500 disabled:shadow-none disabled:ring-0;
 }
 @tailwind utilities;
