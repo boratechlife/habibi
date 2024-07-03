@@ -12,7 +12,6 @@ import {
 import { AuthContext } from "./auth-context";
 import he from "he";
 import { SiteDataContext } from "~/routes/layout";
-import { type GameI } from "~/types/Games";
 
 interface TransformedListI {
   provider: string;
@@ -43,7 +42,7 @@ interface LaunchStore {
     html: boolean;
     game: TransformedListI;
   };
-  launchGameAction: QRL<(game: GameI, path: string) => void>;
+  launchGameAction: QRL<(game: any, path: string) => void>;
   closeLauncherDialog: QRL<() => void>;
 }
 
