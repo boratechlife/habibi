@@ -193,7 +193,12 @@ export const paths_to_show = ["/", "/login/", "/register/"];
 
 // utils/fetchResetPassword.js
 
-export const fetchResetPassword = async (data) => {
+export const fetchResetPassword = async (data: { // {
+    //   label: 'TRUEMONEY',
+    //   value: 'TRUEWALLET',
+    // },
+    userName: FormDataEntryValue | null; eMail: FormDataEntryValue | null;
+  }) => {
   try {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
