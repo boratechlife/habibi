@@ -76,9 +76,10 @@ export default component$(() => {
     }
 
     async function getUserIpAddress() {
-      // const response = await fetch("https://api.ipify.org?format=json");
-      // const data = await response.json();
-      return "127.0.0.1";
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      return data.ip;
+      // return "127.0.0.1";
     }
 
     const userIpAddress = await getUserIpAddress();

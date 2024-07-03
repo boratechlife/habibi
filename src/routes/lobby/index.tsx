@@ -147,7 +147,7 @@ export default component$(() => {
           <div class="bg-sky-900 py-3 pl-2 text-white accent-sky-100 ">
             <div class="border-b-2 border-solid border-white py-3 pl-2">
               <h1 class="text-2xl font-bold">
-                {authStore.user && authStore.user.agentName}
+                {authStore.user && authStore.user.username}
               </h1>
               <div class="text-lg">
                 Balance: <span class="font-bold">Rp. 0</span>
