@@ -190,15 +190,16 @@ const reverseMap = (val: string) => {
 
 export const paths_to_show = ["/", "/login/", "/register/"];
 
-
 // utils/fetchResetPassword.js
 
-export const fetchResetPassword = async (data: { // {
-    //   label: 'TRUEMONEY',
-    //   value: 'TRUEWALLET',
-    // },
-    userName: FormDataEntryValue | null; eMail: FormDataEntryValue | null;
-  }) => {
+export const fetchResetPassword = async (data: {
+  // {
+  //   label: 'TRUEMONEY',
+  //   value: 'TRUEWALLET',
+  // },
+  userName: FormDataEntryValue | null;
+  eMail: FormDataEntryValue | null;
+}) => {
   try {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -207,14 +208,17 @@ export const fetchResetPassword = async (data: { // {
       headers.append("x-org", import.meta.env.NEXT_PUBLIC_MAIN_PARENT);
     }
 
-    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/resetPassword`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        ...data,
-        hostName: window.location.hostname,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/resetPassword`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ...data,
+          hostName: window.location.hostname,
+        }),
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -225,17 +229,15 @@ export const fetchResetPassword = async (data: { // {
       success: true,
       data: resetPasswordBody,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error during reset password request:", error);
     return {
       success: false,
-      error: error.message || "An error occurred during the reset password process.",
+      error:
+        error.message || "An error occurred during the reset password process.",
     };
   }
 };
-
-
-
 
 // utils/fetchBankInfo.js
 
@@ -445,9 +447,27 @@ export const fetchLogin = async (
     }
 
     const loginBody = await response.json();
+
+    const balanceCb = await fetch(
+      import.meta.env.PUBLIC_BACKEND_URL + "/user/balance",
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + loginBody.token,
+        },
+      },
+    ).then(async (res) => res.json());
+
+    const values = {
+      userName: formData.username.toString().toLowerCase().trim(),
+      ...loginBody,
+      ...balanceCb,
+      LastUpdate: new Date().getTime(),
+    };
+
     return {
       success: true,
-      loginBody,
+      values,
     };
   } catch (error) {
     console.error("Error during login request:", error);
