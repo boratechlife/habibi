@@ -86,7 +86,7 @@ export default component$(() => {
 
     const loginResult = await fetchLogin(formData, userIpAddress);
 
-    const res = loginResult.loginBody;
+    const res = loginResult.values;
     console.log("LOGN RESULT", res);
 
     if (!res.Result) {
