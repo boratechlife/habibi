@@ -191,6 +191,46 @@ const reverseMap = (val: string) => {
 export const paths_to_show = ["/", "/login/", "/register/"];
 
 
+// utils/fetchResetPassword.js
+
+export const fetchResetPassword = async (data) => {
+  try {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    if (import.meta.env.NEXT_PUBLIC_MAIN_PARENT) {
+      headers.append("x-org", import.meta.env.NEXT_PUBLIC_MAIN_PARENT);
+    }
+
+    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}user/resetPassword`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        ...data,
+        hostName: window.location.hostname,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const resetPasswordBody = await response.json();
+    return {
+      success: true,
+      data: resetPasswordBody,
+    };
+  } catch (error:any) {
+    console.error("Error during reset password request:", error);
+    return {
+      success: false,
+      error: error.message || "An error occurred during the reset password process.",
+    };
+  }
+};
+
+
+
 
 // utils/fetchBankInfo.js
 
