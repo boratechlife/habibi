@@ -19,7 +19,7 @@ export default component$(() => {
         navigate("/login");
         return;
       }
-
+      console.log("Current path", currentPath);
       const parsedAuth = JSON.parse(auth!);
       // authContext.user = parsedAuth;
 

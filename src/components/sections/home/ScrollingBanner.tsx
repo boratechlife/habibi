@@ -2,7 +2,7 @@ import {
   component$,
   useContext,
   useStylesScoped$,
-  useTask$,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import Swiper from "swiper";
 import { Autoplay, Navigation, Scrollbar } from "swiper/modules";
@@ -35,7 +35,7 @@ export default component$(() => {
   const banners =
     siteData.value.siteInfo.banners?.filter((rt: any) => rt.isShow) || [];
 
-  useTask$(
+  useVisibleTask$(
     ({ cleanup }) => {
       if (isServer) {
         return;
@@ -82,7 +82,7 @@ export default component$(() => {
         swiperIconsInstance.destroy();
       });
     },
-    { eagerness: "visible" },
+    // { eagerness: "visible" },
   );
   return (
     <div class="mx-2.5 mt-2 block overflow-x-hidden rounded-sm border border-solid border-sky-500 bg-[linear-gradient(#217cb1_0,#003f64_100%)]">

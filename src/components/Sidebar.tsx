@@ -16,15 +16,17 @@ export const Sidebar = component$<Props>(({ onClick }) => {
     document.getElementById("close-button")?.click();
     const token = authStore.user.token;
     if (!token) {
-      navigate("/");
+      await navigate("/");
     } else {
       const logoutResult = await fetchLogout(token);
 
       if (logoutResult.success) {
-        authStore.user = "";
+        authStore.user = null;
+
         localStorage.removeItem("auth");
+
         onClick();
-        navigate("/");
+        document.location = "/";
       } else {
         console.log("error", logoutResult.error);
       }
