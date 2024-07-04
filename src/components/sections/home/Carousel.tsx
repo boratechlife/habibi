@@ -1,4 +1,10 @@
-import { $, component$, useSignal, useTask$ } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  useSignal,
+  useTask$,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import { isServer } from "@builder.io/qwik/build";
 
 import Swiper from "swiper";
@@ -96,7 +102,7 @@ export default component$(() => {
   });
   const getPasaran = useGetPasaran();
 
-  useTask$(
+  useVisibleTask$(
     ({ cleanup }) => {
       if (isServer) {
         return;
@@ -145,7 +151,7 @@ export default component$(() => {
         });
       });
     },
-    { eagerness: "visible" },
+    // { eagerness: "visible" },
   );
 
   return (
@@ -158,7 +164,7 @@ export default component$(() => {
                 "swiper-slide",
                 index + 1 > firstPools.value.length && "lg:!hidden",
               ]}
-              key={index}
+              key={index + "first"}
             >
               <div class="w-11/12 rounded-xl border border-solid border-sky-500 bg-sky-900">
                 <p class="mb-3 w-full text-center text-neutral-200">
@@ -186,7 +192,7 @@ export default component$(() => {
                 "swiper-slide",
                 index + 1 > secondPools.value.length && "lg:!hidden",
               ]}
-              key={index}
+              key={index + "second"}
             >
               <div class="w-11/12 rounded-xl border border-solid border-sky-500 bg-sky-900">
                 <p class="mb-3 w-full text-center text-neutral-200">
