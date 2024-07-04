@@ -1,10 +1,4 @@
-import {
-  $,
-  component$,
-  useSignal,
-  useTask$,
-  useVisibleTask$,
-} from "@builder.io/qwik";
+import { $, component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import { isServer } from "@builder.io/qwik/build";
 
 import Swiper from "swiper";
