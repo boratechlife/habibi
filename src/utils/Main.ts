@@ -284,6 +284,7 @@ export const fetchBankInfo = async (token: string) => {
 // utils/fetchRegister.js
 
 export const fetchRegister = async (formData: UserRegister) => {
+  console.log("Register", formData);
   const body = {
     ...formData,
     password_confirm: formData.password,
@@ -431,7 +432,7 @@ export const fetchLogin = async (
 
   try {
     const response = await fetch(
-      `${import.meta.env.PUBLIC_BACKEND_URL}user/v2/login`,
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/login`,
       {
         method: "POST",
         headers: headers,

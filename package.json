@@ -57,10 +57,10 @@
     "undici": "*",
     "vite": "^5.2.10",
     "vite-tsconfig-paths": "^4.2.1",
+    "@modular-forms/qwik": "^0.26.1",
     "wrangler": "^3.0.0"
   },
   "dependencies": {
-    "antd": "^5.18.3",
     "crypto-js": "^4.2.0",
     "flowbite": "^2.3.0",
     "he": "^1.2.0",

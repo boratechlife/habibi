@@ -89,7 +89,7 @@ export const useProductDetails = routeLoader$(async (requestEvent) => {
 
   const _siteInfo = JSON.parse(siteInfo) as SeoInterface;
   // delete _siteInfo?.siteInfo.attributes;
-  console.log("what is SiteGames", games);
+  // console.log("what is SiteGames", games);
   return {
     ..._siteInfo,
     SiteGames: games,
