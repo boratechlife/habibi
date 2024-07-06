@@ -1,4 +1,4 @@
-import type { UserRegister } from "~/routes/register";
+import type { UserRegister } from "~/routes/register-old";
 import cryptojs from "crypto-js";
 
 const bankTHB = [
