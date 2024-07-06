@@ -11,7 +11,7 @@ import Input from "~/components/common/form/Input";
 import { AuthContext } from "~/context/auth-context";
 import { fetchLogin } from "~/utils/Main";
 
-export const useRegisterSchema = z.object({
+export const useLoginSchema = z.object({
   username: z.string().min(5),
   password: z.string().min(8),
 });
@@ -67,7 +67,7 @@ export default component$(() => {
     e.preventDefault();
     console.log("form Data", formData);
 
-    const result = await useRegisterSchema.safeParseAsync(formData);
+    const result = await useLoginSchema.safeParseAsync(formData);
 
     if (!result.success) {
       fieldErrors.fieldErrors = result.error.formErrors.fieldErrors;

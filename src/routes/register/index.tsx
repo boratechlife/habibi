@@ -1,13 +1,105 @@
-import { $, component$, useSignal, useStore } from "@builder.io/qwik";
-import { useNavigate, z } from "@builder.io/qwik-city";
-import BaseLayout from "~/components/common/BaseLayout";
-import Input from "~/components/common/form/Input";
-import Select from "~/components/common/form/Select";
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable qwik/no-use-visible-task */
+import cryptojs from "crypto-js";
 import {
-  fetchCheckAccountNo,
-  fetchCheckPhone,
-  fetchRegister,
-} from "~/utils/Main";
+  $,
+  component$,
+  useContext,
+  useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
+import {
+  routeAction$,
+  zod$,
+  z,
+  Form,
+  useNavigate,
+} from "@builder.io/qwik-city";
+import { fetchCheckAccountNo, fetchCheckPhone, fetchLogin } from "~/utils/Main";
+import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
+import { useLoginSchema } from "../login";
+import { AuthContext } from "~/context/auth-context";
+
+const formSchema = z.object({
+  userName: z
+    .string({ required_error: "Username di perlukan" })
+    .min(1, { message: "Username di perlukan" }) // This ensures the field is not empty
+    .min(6, { message: "username minimum 6 karakter" })
+    .max(15, { message: "username tidak boleh lebih dari 15 karakter" })
+    .regex(/^[a-z0-9]+$/, {
+      message: "username harus terdiri dari huruf kecil dan angka saja",
+    })
+    .refine(
+      async (value) => {
+        if (value.length > 6) {
+          const userNameExist = await queryUserName(value);
+          return !userNameExist;
+        }
+        return true;
+      },
+      { message: "Username is already taken" },
+    ),
+  password: z.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+    message:
+      "Kata sandi harus mengandung setidaknya satu huruf, satu angka, dan memiliki panjang minimal 8 karakter.",
+  }),
+  eMail: z
+    .string()
+    .min(1, { message: "Harap masukan email anda!" })
+    .email({ message: "Format email adalah xxx@yyy.com" }),
+  telephone: z
+    .string()
+    .min(1, { message: "harap masukan nomor telpon anda!" })
+    .max(13, { message: "Nomor telepon maksimal 13 karakter" })
+    .regex(/^\d+$/, { message: "telephone harus angka" })
+    .refine(
+      async (value) => {
+        const phoneExist = await queryPhone(value);
+        return !phoneExist;
+      },
+      { message: "Nomor telephone sudah terdaftar" },
+    ),
+
+  bank: z.enum(
+    [
+      "BCA",
+      "BLU",
+      "MANDIRI",
+      "BNI",
+      "BRI",
+      "BSI",
+      "CIMB",
+      "DANAMON",
+      "JAGO",
+      "PERMATA",
+      "PANIN",
+      "DANA",
+      "OVO",
+      "GOPAY",
+      "LINK-AJA",
+    ],
+    { errorMap: () => ({ message: "Pilih Bank anda!" }) },
+  ),
+  bankName: z.string().min(1, { message: "Harap masukan nama lengkap anda!" }),
+  bankAccount: z
+    .string()
+    .min(1, { message: "harap masukan nomor rekening anda" })
+    .max(18, { message: "Lebih dari 18 digit, hubungi ADMIN" })
+    .regex(/^\d+$/, { message: "nomor rekening harus angka" })
+    .refine(
+      async (value) => {
+        const accountNoExist = await queryBankAccountNo(value);
+        return !accountNoExist;
+      },
+      { message: "Nomor rekening sudah terdaftar" },
+    ),
+  referral: z.string().optional(),
+  agentName: z.string(),
+  currency: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  status: z.string(),
+});
 
 export const useRegisterSchema = z.object({
   username: z.string().min(5),
@@ -76,235 +168,463 @@ export const useRegisterSchema = z.object({
   referralCode: z.string(),
 });
 
-export interface UserRegister {
-  username: string;
-  password: string;
-  email: string;
-  telephone: string;
-  bank: string;
-  bankName: string;
-  bankAccount: string;
-  referralCode: string;
-}
+// Infer the type
+export type LoginForm = z.infer<typeof formSchema>;
 
-interface ValidationErrors {
-  formErrors: string[];
-  fieldErrors: {
-    [field: string]: string[];
+// Use the inferred type in routeLoader$
+// export const useFormLoader = routeLoader$<LoginForm>(() => ({
+//   userName: "",
+//   password: "",
+//   eMail: "",
+//   telephone: "",
+//   bank:'',
+//   bankName: "",
+//   bankAccount: "",
+//   referralCode: "",
+// }));
+
+// Refactor to use routeAction$
+export const useRegister = routeAction$(async (data) => {
+  console.info("what is data", JSON.stringify(data, null, 2));
+  const hash = cryptojs
+    .MD5(`${data.userName}${data.password}${data.agentName}REGIS`)
+    .toString();
+
+  const registerCb = await fetch(
+    import.meta.env.PUBLIC_BACKEND_URL + "/user/v2/insert",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-sig": hash,
+      },
+      body: JSON.stringify(data),
+    },
+  )
+    .then(async (res) => {
+      try {
+        return await res.json();
+      } catch (err) {
+        return await res.text();
+      }
+    })
+    .catch((err) => {
+      console.error("Fetch error:", err);
+      return { error: "An error occurred during the request" };
+    });
+
+  console.log("what is registerCb", registerCb);
+  return {
+    success: true,
+    data: registerCb.err_message,
   };
-}
+}, zod$(formSchema));
 
-export default component$(() => {
-  // const action = useRegister();
-  const navigate = useNavigate();
-  const formData = useStore<any>({
-    username: "",
-    password: "",
-    email: "",
-    telephone: "",
-    bank: "",
-    bankName: "",
-    bankAccount: "",
-    referralCode: "",
-  });
-  const error = useSignal<any>();
-  const fieldErrors = useStore<ValidationErrors>({
-    formErrors: [],
-    fieldErrors: {},
-  });
-  const handleInputChange = $((e: Event) => {
-    const target = e.target as HTMLInputElement;
-    const name: string = target.name;
-    const value: string = target.value;
-    formData[name] = value;
-    console.log("name", name, target.name, formData[name]);
+const App = component$(() => {
+  const action = useRegister();
+  const nav = useNavigate();
+  const authContext = useContext(AuthContext);
+  const register_state = useStore({
+    openLoginModal: false,
+    formData: {
+      // userName: "xperia" + Math.floor(Math.random() * 1000),
+      // password: "Abcd8899",
+      // referral: "",
+      // eMail: "test@test.com",
+      // telephone: "0811947761",
+      // bank: "BCA",
+      // bankName: "Testing",
+      // bankAccount: "0811947762",
+      userName: "",
+      password: "",
+      referral: "",
+      eMail: "",
+      telephone: "",
+      bank: "-",
+      bankName: "",
+      bankAccount: "",
+    },
+    errors: {
+      userName: "",
+      password: "",
+      eMail: "",
+      telephone: "",
+      bank: "",
+      bankName: "",
+      bankAccount: "",
+      referral: "",
+    },
   });
 
-  const handleSubmit = $(async (e: Event) => {
-    e.preventDefault();
-    console.log("form Data", formData);
+  type FormFields = keyof typeof formSchema.shape;
 
-    const result = await useRegisterSchema.safeParseAsync(formData);
+  const validateField = $(async (field: FormFields, value: string) => {
+    const schema = formSchema.shape[field];
+
+    if (!schema) {
+      return;
+    }
+
+    if (value === "") {
+      // Clear the error if the field is empty
+      register_state.errors = { ...register_state.errors, [field]: "" };
+      if (action.value?.fieldErrors) {
+        action.value.fieldErrors[field] = "" || [];
+      }
+      return;
+    }
+
+    const result = await schema.safeParseAsync(value);
+
+    if (result.success) {
+      // Clear the error if the field meets the criteria
+      register_state.errors = { ...register_state.errors, [field]: "" };
+    } else {
+      // Set the error message if validation fails
+      register_state.errors = {
+        ...register_state.errors,
+        [field]: result.error.errors[0].message,
+      };
+    }
+  });
+
+  const handleInputChange = $((field: FormFields, event: Event) => {
+    const target = event.target as HTMLInputElement;
+    let value = target.value;
+    console.log("Value", value);
+    if (
+      action.value?.fieldErrors &&
+      action.value.fieldErrors[target.name as FormFields]
+    ) {
+      action.value.fieldErrors[target.name as FormFields] = [];
+    }
+
+    if (target.name === "userName") {
+      value = target.value.toLowerCase().trim();
+    }
+
+    register_state.formData = { ...register_state.formData, [field]: value };
+    validateField(field, value);
+  });
+  const handleLogin = $(async () => {
+    console.log("form Data", register_state.formData);
+
+    const result = await useLoginSchema.safeParseAsync({
+      username: register_state.formData.userName,
+      password: register_state.formData.userName,
+    });
 
     if (!result.success) {
-      fieldErrors.fieldErrors = result.error.formErrors.fieldErrors;
-      console.log("ERRORS", fieldErrors.fieldErrors);
+      alert("Error logging in");
       return;
     }
 
-    const registerResult = await fetchRegister(formData);
+    async function getUserIpAddress() {
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      return data.ip;
+      // return "127.0.0.1";
+    }
 
-    if (!registerResult.success) {
-      console.log("Error", registerResult.error);
-      error.value = registerResult.error;
-      alert("error");
+    const userIpAddress = await getUserIpAddress();
+
+    const loginResult = await fetchLogin(
+      {
+        username: register_state.formData.userName,
+        password: register_state.formData.userName,
+      },
+      userIpAddress,
+    );
+
+    const res = loginResult.values;
+    console.log("LOGN RESULT", res);
+
+    if (!res.Result) {
+      console.log("Result", res);
+
+      alert("error Login in");
       return;
     }
 
-    console.log("Registration successful", registerResult.data);
-    navigate("/login");
+    if (res.err == 500) {
+      console.log("res.loginBody.err_message", res.err_message);
+      alert(res.err_message);
+    }
+
+    if (res.token && res.token.length > 0) {
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          time: new Date(),
+          username: register_state.formData.userName,
+          ...res,
+        }),
+      );
+      authContext.user = res;
+      await nav("/lobby");
+    }
+
+    console.log("RESPONSE", res);
   });
+  useVisibleTask$(async ({ track }) => {
+    track(() => action.value);
+    const referral: string = localStorage.getItem("referral") || "";
+    if (referral) {
+      register_state.formData.referral = referral || "";
+    }
+
+    if (action.value && action.value.success) {
+      register_state.openLoginModal = true;
+
+      console.log("LOGIN TO BE ACTIVATED");
+    }
+  });
+
+  if (action.value) {
+    console.log("ACTION", action.value);
+    if (action.value.failed) {
+      // action failed if query string has no secret
+      // action.value satisfies { failed: true; message: string };
+    } else {
+      // action.value satisfies { searchResult: string };
+      handleLogin();
+    }
+  }
+
   return (
-    <BaseLayout autoLogoSize>
-      <div class="mx-auto bg-[linear-gradient(#217cb1,#003f64)] pt-2">
-        <div class="space-y-3">
-          <div>
-            <div class="mb-[15px]  bg-sky-300  py-2.5 text-center text-lg text-white ">
-              Informasi Pribadi
-            </div>
-
-            <div class="space-y-1 px-10">
-              <Input
-                label="Nama Pengguna"
-                name="username"
-                placeholder="Nama Pengguna Anda"
-                errors={
-                  fieldErrors.fieldErrors && fieldErrors.fieldErrors.username
-                }
-                onInput={$((e) => handleInputChange(e as any))}
-                required
-              />
-              <Input
-                label="Kata Sandi"
-                name="password"
-                type="password"
-                errors={
-                  fieldErrors.fieldErrors && fieldErrors.fieldErrors.password
-                }
-                onInput={$((e) => handleInputChange(e as Event))}
-                placeholder="Kata Sandi Anda"
-                required
-              />
-
-              <div class="">
-                <Input
-                  label="Email"
-                  name="email"
-                  errors={
-                    fieldErrors.fieldErrors && fieldErrors.fieldErrors.email
-                  }
-                  onInput={$((e) => handleInputChange(e as Event))}
-                  type="email"
-                  placeholder="email@example.com"
-                />
+    <>
+      <Form action={action} class="mx-auto mt-20 w-2/3 space-y-4">
+        <div class="bg-[linear-gradient(#217cb1,#003f64)] pt-2">
+          <div class="space-y-3">
+            <div>
+              <div class="mb-[15px] bg-sky-300 py-2.5 text-center text-lg text-white">
+                Informasi Pribadi
               </div>
+              <div class="space-y-1 px-10">
+                <div>
+                  <label class="block text-white">Nama Pengguna *</label>
+                  <input
+                    name="userName"
+                    type="text"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("userName", event),
+                    )}
+                    placeholder="Nama Pengguna Anda"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
 
-              <div>
-                <Input
-                  label="No. Telepon"
-                  name="telephone"
-                  errors={
-                    fieldErrors.fieldErrors && fieldErrors.fieldErrors.telephone
-                  }
-                  onInput={$((e) => handleInputChange(e as Event))}
-                  type="text"
-                  placeholder="Nomor Telefon Anda"
-                />
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.userName)
+                      ? action.value?.fieldErrors?.userName.join(", ")
+                      : action.value?.fieldErrors?.userName ||
+                        register_state.errors.userName}
+                  </p>
+                </div>
 
-                <div class="text-sm text-gray-500">
-                  {formData.telephone.length}/ 13
+                <div>
+                  <label class="block text-white">Kata Sandi *</label>
+                  <input
+                    name="password"
+                    type="password"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("password", event),
+                    )}
+                    placeholder="Kata Sandi Anda"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.password)
+                      ? action.value?.fieldErrors?.password.join(", ")
+                      : action.value?.fieldErrors?.password ||
+                        register_state.errors.password}
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-white">Email *</label>
+                  <input
+                    name="eMail"
+                    type="email"
+                    placeholder="email@example.com"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("eMail", event),
+                    )}
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.eMail)
+                      ? action.value?.fieldErrors?.eMail.join(", ")
+                      : action.value?.fieldErrors?.eMail ||
+                        register_state.errors.eMail}
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-white">No. Telepon *</label>
+                  <input
+                    name="telephone"
+                    type="text"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("telephone", event),
+                    )}
+                    placeholder="Nomor Telefon Anda"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
+
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.telephone)
+                      ? action.value?.fieldErrors?.telephone.join(", ")
+                      : action.value?.fieldErrors?.telephone ||
+                        register_state.errors.telephone}
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
+            <div>
+              <div class="mb-[15px] mt-10 bg-sky-300 py-2.5 text-center text-lg text-white">
+                Informasi Pembayaran
+              </div>
+              <div class="space-y-1 px-10">
+                <div>
+                  <label class="block text-white">Bank *</label>
+                  <select
+                    name="bank"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    onChange$={$((event: Event) =>
+                      handleInputChange("bank", event),
+                    )}
+                  >
+                    <option value="" disabled>
+                      -- Pilih Bank --
+                    </option>
+                    <option value="BCA">BCA</option>
+                    <option value="BLU">BLU</option>
+                    <option value="BNI">BNI</option>
+                    <option value="BRI">BRI</option>
+                    <option value="BSI">BSI</option>
+                    <option value="CIMB">CIMB</option>
+                    <option value="DANA">DANA</option>
+                    <option value="DANAMON">DANAMON</option>
+                    <option value="JAGO">JAGO</option>
+                    <option value="MANDIRI">MANDIRI</option>
+                    <option value="PERMATA">PERMATA</option>
+                    <option value="OVO">OVO</option>
+                  </select>
 
-          <div>
-            <div class="mb-[15px] bg-sky-300 px-0 py-2.5 text-center text-lg text-white ">
-              Informasi Pembayaran
-            </div>
-            <div class="space-y-1 px-10">
-              <Select
-                label="Bank"
-                name="bank"
-                errors={fieldErrors.fieldErrors && fieldErrors.fieldErrors.bank}
-                placeholderOption="-- Pilih Bank --"
-                onInput={$((e) => handleInputChange(e as Event))}
-                options={[
-                  { label: "bca", value: "BCA" },
-                  { label: "blu", value: "BLU" },
-                  { label: "bni", value: "BNI" },
-                  { label: "bri", value: "BRI" },
-                  { label: "bsi", value: "BSI" },
-                  { label: "cimb niaga", value: "CIMB" },
-                  { label: "dana", value: "DANA" },
-                  { label: "danamon", value: "DANAMON" },
-                  { label: "jago", value: "JAGO" },
-                  { label: "mandiri", value: "MANDIRI" },
-                  { label: "pertama", value: "PERMATA" },
-                  { label: "ovo", value: "OVO" },
-                ]}
-                required
-              />
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.bank)
+                      ? action.value?.fieldErrors?.bank.join(", ")
+                      : action.value?.fieldErrors?.bank ||
+                        register_state.errors.bank}
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-white">Nama Lengkap *</label>
+                  <input
+                    name="bankName"
+                    type="text"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("bankName", event),
+                    )}
+                    placeholder="Nama lengkap anda sesuai dengan buku tabungan"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.bankName)
+                      ? action.value?.fieldErrors?.bankName.join(", ")
+                      : action.value?.fieldErrors?.bankName ||
+                        register_state.errors.bankName}
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-white">No. Rekening *</label>
+                  <input
+                    name="bankAccount"
+                    type="text"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("bankAccount", event),
+                    )}
+                    placeholder="Nomor rekening anda"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
 
-              <Input
-                label="Nama Lengkap"
-                placeholder="Nama lengkap anda sesuai dengan buku tabungan"
-                name="bankName"
-                errors={
-                  fieldErrors.fieldErrors && fieldErrors.fieldErrors.bankName
-                }
-                onInput={$((e) => handleInputChange(e as Event))}
-                autocomplete="off"
-                required
-              />
-
-              <div>
-                <Input
-                  label="No. Rekening"
-                  placeholder="Nomor rekening anda"
-                  name="bankAccount"
-                  errors={
-                    fieldErrors.fieldErrors &&
-                    fieldErrors.fieldErrors.bankAccount
-                  }
-                  onInput={$((e) => handleInputChange(e as Event))}
-                  autocomplete="off"
-                  required
+                  <p class="text-red-500">
+                    {Array.isArray(action.value?.fieldErrors?.bankAccount)
+                      ? action.value?.fieldErrors?.bankAccount.join(", ")
+                      : action.value?.fieldErrors?.bankAccount ||
+                        register_state.errors.bankAccount}
+                  </p>
+                </div>
+                <input
+                  type="hidden"
+                  name="agentName"
+                  value={import.meta.env.PUBLIC_MAIN_PARENT}
                 />
-                <div class="text-sm text-gray-500">
-                  {" "}
-                  {formData.bankAccount.length}/ 18
+                <input
+                  type="hidden"
+                  name="currency"
+                  value={import.meta.env.PUBLIC_REGISTER_CURRENCY}
+                />
+                <input type="hidden" name="firstName" value="-" />
+                <input type="hidden" name="lastName" value="-" />
+                <input
+                  type="hidden"
+                  name="status"
+                  value={import.meta.env.PUBLIC_REGISTER_STATUS}
+                />
+                <input
+                  type="hidden"
+                  name="tableLimit"
+                  value={import.meta.env.PUBLIC_REGISTER_TABLE_LIMIT}
+                />
+
+                <div>
+                  <label class="block text-white">Referral</label>
+                  <input
+                    name="referralCode"
+                    type="text"
+                    onInput$={$((event: Event) =>
+                      handleInputChange("referral", event),
+                    )}
+                    placeholder="Kode Referensi"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                  />
+                  {Array.isArray(action.value?.fieldErrors?.referral)
+                    ? action.value?.fieldErrors?.referral.join(", ")
+                    : action.value?.fieldErrors?.referral ||
+                      register_state.errors.referral}
                 </div>
               </div>
-
-              <Input
-                wrapperClasses="pt-2"
-                label="Referral"
-                placeholder="Kode Referensi"
-                name="referralCode"
-                errors={
-                  fieldErrors.fieldErrors &&
-                  fieldErrors.fieldErrors.referralCode
-                }
-                onInput={$((e) => handleInputChange(e as Event))}
-                autocomplete="off"
-              />
             </div>
-          </div>
-
-          <div class="px-10">
-            <button
-              onClick$={handleSubmit}
-              class="w-full rounded-3xl  border-0 border-solid border-[#f0a50e] bg-[#ff9806] bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] p-3 uppercase text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)] hover:bg-[#ffb31b]"
-            >
-              Daftar
-            </button>
-
-            <div class="mb-5 mt-5 text-center text-xs text-gray-500">
-              <p>
-                Dengan meng-klik tombol DAFTAR, saya menyatakan bahwa saya
-                berumur diatas 18 tahun dan telah membaca dan menyetujui syarat
-                &amp; ketentuan PAUS4D.
-              </p>
-            </div>
-            <div class="pb-5 text-center text-xs">
-              <a class="uppercase text-white hover:bg-[#ffb31b]" href="#">
-                syarat &amp; ketentuan
-              </a>
+            <div class="px-10">
+              <button
+                type="submit"
+                class="w-full rounded-3xl border-0 border-solid border-[#f0a50e] bg-[#ff9806] bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] p-3 uppercase text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)] hover:bg-[#ffb31b]"
+              >
+                Daftar
+              </button>
+              <div class="mb-5 mt-5 text-center text-xs text-gray-500">
+                <p>
+                  Dengan meng-klik tombol DAFTAR, saya menyatakan bahwa saya
+                  berumur diatas 18 tahun dan telah membaca dan menyetujui
+                  syarat &amp; ketentuan PAUS4D.
+                </p>
+              </div>
+              <div class="pb-5 text-center text-xs">
+                <a class="uppercase text-white hover:bg-[#ffb31b]" href="#">
+                  syarat &amp; ketentuan
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </BaseLayout>
+      </Form>
+
+      {action.value?.success && (
+        <p class="text-red-500">
+          Registration successful. Redirecting to login...
+        </p>
+      )}
+    </>
   );
 });
+
+export default App;
