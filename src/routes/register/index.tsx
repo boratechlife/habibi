@@ -396,7 +396,7 @@ const App = component$(() => {
     <BaseLayout autoLogoSize>
       <Form
         action={action}
-        class="mx-auto space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
+        class="mx-auto mt-20 space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
       >
         <div class="bg-[linear-gradient(#217cb1,#003f64)] pt-2">
           <div class="space-y-3">
