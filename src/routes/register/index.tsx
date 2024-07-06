@@ -19,6 +19,7 @@ import { fetchCheckAccountNo, fetchCheckPhone, fetchLogin } from "~/utils/Main";
 import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
 import { useLoginSchema } from "../login";
 import { AuthContext } from "~/context/auth-context";
+import BaseLayout from "~/components/common/BaseLayout";
 
 const formSchema = z.object({
   userName: z
@@ -392,7 +393,7 @@ const App = component$(() => {
   }
 
   return (
-    <>
+    <BaseLayout autoLogoSize>
       <Form
         action={action}
         class="mx-auto space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
@@ -626,7 +627,7 @@ const App = component$(() => {
           Registration successful. Redirecting to login...
         </p>
       )}
-    </>
+    </BaseLayout>
   );
 });
 
