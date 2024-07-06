@@ -393,7 +393,10 @@ const App = component$(() => {
 
   return (
     <>
-      <Form action={action} class="mx-auto mt-20 w-2/3 space-y-4">
+      <Form
+        action={action}
+        class="mx-auto space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
+      >
         <div class="bg-[linear-gradient(#217cb1,#003f64)] pt-2">
           <div class="space-y-3">
             <div>
