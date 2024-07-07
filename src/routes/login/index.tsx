@@ -86,7 +86,7 @@ export default component$(() => {
     const userIpAddress = await getUserIpAddress();
 
     const loginResult = await fetchLogin(formData, userIpAddress);
-    formSubmitting.value = false;
+
     const res = loginResult.values;
     console.log("LOGN RESULT", res);
 
@@ -94,12 +94,14 @@ export default component$(() => {
       console.log("Result", res);
       error.value = res.err;
       alert("error");
+      formSubmitting.value = false;
       return;
     }
 
     if (res.err == 500) {
       console.log("res.loginBody.err_message", res.err_message);
       error.value = res.err_message;
+      formSubmitting.value = false;
     }
 
     if (res.token && res.token.length > 0) {
@@ -112,10 +114,11 @@ export default component$(() => {
         }),
       );
       authContext.user = res;
+      formSubmitting.value = false;
       await nav("/lobby");
     }
 
-    console.log("RESPONSE", res);
+    // console.log("RESPONSE", res);
   });
 
   const handleKeyDown = $((event: KeyboardEvent) => {
@@ -162,6 +165,7 @@ export default component$(() => {
             <button
               type="submit"
               onClick$={handleSubmit}
+              disabled={formSubmitting.value}
               class="a mb-2.5 block h-11 w-full rounded-full border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)]"
             >
               Masuk

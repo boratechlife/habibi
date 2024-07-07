@@ -15,3 +15,16 @@ button {
   @apply hover:border-2 hover:border-white disabled:border-slate-200 disabled:!bg-slate-50 disabled:text-slate-500 disabled:shadow-none disabled:ring-0;
 }
 @tailwind utilities;
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable qwik/no-use-visible-task */
 import {
   $,
   component$,
@@ -118,6 +119,7 @@ export default component$(() => {
       console.log("Bank", bank.value);
     }
   });
+
   useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
 
@@ -127,10 +129,8 @@ export default component$(() => {
     }
     // Get the token
     // console.log(localStorage.getItem("auth"));
-
     authStore.user = JSON.parse(auth!);
     console.log(authStore.user);
-
     await getBank();
   });
 

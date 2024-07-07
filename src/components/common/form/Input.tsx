@@ -2,8 +2,9 @@ import {
   type PropsOf,
   component$,
   type ClassList,
-  PropFunction,
+  type PropFunction,
   useSignal,
+  type QRL,
 } from "@builder.io/qwik";
 
 type InputProps = PropsOf<"input"> & {
@@ -12,10 +13,19 @@ type InputProps = PropsOf<"input"> & {
   errors?: string[];
   wrapperClasses?: ClassList;
   onInput?: PropFunction<(event: Event) => void>;
+  onKeyDown?: QRL<(event: KeyboardEvent) => void>;
 };
 
 export default component$<InputProps>(
-  ({ label, class: classes, onInput, errors, wrapperClasses, ...props }) => {
+  ({
+    label,
+    class: classes,
+    onInput,
+    onKeyDown,
+    errors,
+    wrapperClasses,
+    ...props
+  }) => {
     const isView = useSignal(false);
 
     return (
@@ -36,6 +46,7 @@ export default component$<InputProps>(
         <input
           {...props}
           onInput$={onInput}
+          onKeyDown$={onKeyDown}
           type={props.name == "password" && !isView.value ? "password" : "text"}
           class={[
             "block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base  normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none",

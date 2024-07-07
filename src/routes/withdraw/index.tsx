@@ -6,8 +6,10 @@ import {
   useStore,
 } from "@builder.io/qwik";
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
+
 import CustomInput from "~/components/common/form/CustomInput";
-import { BankI } from "~/data/auth";
+
+import { type BankI } from "~/data/auth";
 import { fetchBankInfo, fetchWithdraw } from "~/utils/Main";
 
 export default component$(() => {
@@ -15,7 +17,7 @@ export default component$(() => {
     amount: 0,
     minWithdraw: 0,
     availableCredt: 0,
-    payWithPg: false,
+    payWithPg: true,
     // minWithdraw: operator?.min.va.Withdraw,
     // availableCredt: auth.creds?.AvailableCredit || 0,
     // payWithPg: operator?.payWithPg,
@@ -49,6 +51,7 @@ export default component$(() => {
     resetErrors();
     console.log("name", name, target.name, formData[name]);
   });
+
   useOnDocument(
     "load",
     $(async () => {
@@ -63,7 +66,7 @@ export default component$(() => {
       authStore.user = JSON.parse(auth!);
       console.log(authStore.user);
       formData.availableCredt = authStore.user.AvailableCredit;
-
+      formData.minWithdraw = authStore.user;
       const token = authStore.user.token;
 
       if (!token) {
@@ -154,9 +157,10 @@ export default component$(() => {
       <section>
         <div class="mt-16 h-full pb-10 text-white">
           <div class="border-b-2 border-solid border-white py-3 pl-2">
-            <h1 class="text-2xl font-bold">testertobrut</h1>
+            <h1 class="text-2xl font-bold"></h1>
             <div class="text-lg">
-              Balance: <span class="font-bold">Rp. 0</span>
+              Balance:
+              <span class="font-bold">Rp. {formData.availableCredt}</span>
             </div>
           </div>
           <div class="pl-2 pt-10">
@@ -192,19 +196,21 @@ export default component$(() => {
                 <div class="my-auto flex h-full w-1/3">
                   Nama Bank<div class="grow"></div>:
                 </div>
-                <div class="w-2/3 px-2"></div>
+                <div class="w-2/3 px-2">{bank.value?.player.bank}</div>
               </div>
               <div class="mb-2 flex w-full">
                 <div class="my-auto flex h-full w-1/3">
                   Nama Rekening<div class="grow"></div>:
                 </div>
-                <div class="w-2/3 px-2"></div>
+                <div class="w-2/3 px-2">
+                  {bank.value?.player.bankAccountName}
+                </div>
               </div>
               <div class="mb-2 flex w-full">
                 <div class="my-auto flex h-full w-1/3">
                   No Rekening<div class="grow"></div>:
                 </div>
-                <div class="w-2/3 px-2"></div>
+                <div class="w-2/3 px-2">{bank.value?.player.bankAccount}</div>
               </div>
               <div class="px-2">
                 <button

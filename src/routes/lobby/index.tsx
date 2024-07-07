@@ -64,8 +64,8 @@ export default component$(() => {
 
   useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
-    const iframeSrc = `${baseUrl}?auth_key=${authUser.user.token}&agent=${mainParent}`;
-    console.log("iframe", iframeSrc);
+    // const iframeSrc = `${baseUrl}?auth_key=${authUser.user.token}&agent=${mainParent}`;
+    // console.log("iframe", iframeSrc);
 
     if (!auth) {
       navigate("/login");
@@ -77,7 +77,7 @@ export default component$(() => {
     // console.log(authStore.user);
 
     const token = authStore.user.token;
-    console.log("token", authStore);
+
     const result = await fetchBalance(token);
 
     if (result.success) {
@@ -133,12 +133,14 @@ export default component$(() => {
   // Update iframe src when auth token changes
   useVisibleTask$(({ track }) => {
     track(() => authStore.user.token);
-    if (doraFrame.value) {
-      const iframeSrc = `${baseUrl}?auth_key=${encodeURIComponent(authUser.user.token)}&agent=${encodeURIComponent(mainParent)}`;
-      console.log("iframe", iframeSrc);
+    setTimeout(() => {
+      if (doraFrame.value) {
+        const iframeSrc = `${baseUrl}?auth_key=${authUser.user.token}&agent=${mainParent}`;
+        console.log("iframe", iframeSrc);
 
-      doraFrame.value.src = iframeSrc;
-    }
+        doraFrame.value.src = iframeSrc;
+      }
+    }, 800);
   });
 
   return (
@@ -158,7 +160,7 @@ export default component$(() => {
             {authStore.user && (
               <iframe
                 class="mt-2 h-full w-full rounded-md"
-                src={`"https://doraemon.wirosablengonline.com/?auth_key=${authStore.user.token}&amp;agent=${authStore.user.agentName}"`}
+                src=""
                 id="doraFrame"
                 ref={doraFrame}
                 scrolling="no"
@@ -173,11 +175,11 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "LOTTO",
   meta: [
     {
-      name: "description",
-      content: "Qwik site description",
+      name: "TOGEL",
+      content: "TOGEL",
     },
   ],
 };

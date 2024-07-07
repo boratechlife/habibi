@@ -25,6 +25,7 @@ export default component$<BankComponentProps>(({ bank }) => {
       });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const copyToClipboard = $(() => {
     navigator.clipboard.writeText(bank.details?.address || "");
     showTersalin.value = true;
@@ -53,7 +54,7 @@ export default component$<BankComponentProps>(({ bank }) => {
             </div>
           </div>
 
-          {bank.details?.wallet && (
+          {/* {bank.details?.wallet && (
             <div class="flex flex-col">
               <p>Harap selesaikan transaksi anda di DANA!</p>
               <a
@@ -64,7 +65,7 @@ export default component$<BankComponentProps>(({ bank }) => {
                 Klik sini untuk ke DANA
               </a>
             </div>
-          )}
+          )} */}
         </div>
 
         {bank.details?.contentQris ||
@@ -108,7 +109,7 @@ export default component$<BankComponentProps>(({ bank }) => {
             </>
           ))}
 
-        {bank.details?.type === "va" && (
+        {/* {bank.details?.type === "va" && (
           <>
             <div class="flex flex-col">
               <div class="mb-2 inline-flex items-center rounded-md border-2 border-dotted border-sky-300 p-2">
@@ -153,7 +154,7 @@ export default component$<BankComponentProps>(({ bank }) => {
               }
             />
           </>
-        )}
+        )} */}
       </div>
     </section>
   );
