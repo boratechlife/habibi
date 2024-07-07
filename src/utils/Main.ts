@@ -432,7 +432,7 @@ export const fetchLogin = async (
 
   try {
     const response = await fetch(
-      `${import.meta.env.PUBLIC_BACKEND_URL}user/login`,
+      `${import.meta.env.PUBLIC_BACKEND_URL}user/v2/login`,
       {
         method: "POST",
         headers: headers,
@@ -483,21 +483,18 @@ export const fetchLogin = async (
 
 export const fetchDeposit = async (fields: any, token: any) => {
   try {
-    const response = await fetch(
-      import.meta.env.PUBLIC_WALLET_URL + "pg/deposit_pg",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "x-clientip": "0.0.0.0",
-        },
-        body: JSON.stringify({
-          ...fields,
-          return_url: `${window.location.protocol}//${window.location.host}`,
-        }),
+    const response = await fetch(import.meta.env.WALLET_URL + "pg/deposit_pg", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "x-clientip": "0.0.0.0",
       },
-    );
+      body: JSON.stringify({
+        ...fields,
+        return_url: `${window.location.protocol}//${window.location.host}`,
+      }),
+    });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
