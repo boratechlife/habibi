@@ -217,22 +217,29 @@ export default component$(() => {
         <section>
           <div class="mt-16 h-full pb-10 text-white">
             <div class="border-b-2 border-solid border-white py-3 pl-2">
-              <h1 class="text-2xl font-bold">testertobrut</h1>
+              <h1 class="text-2xl font-bold">{authContext.user.username}</h1>
               <div class="text-lg">
-                Balance: <span class="font-bold">Rp. 0</span>
+                Balance:
+                <span class="font-bold">
+                  Rp. {authContext.user.AvailableCredit}
+                </span>
               </div>
             </div>
             <div class="pl-2">
               <div class="text-lg uppercase text-sky-400">form deposit</div>
               <div class="my-2 border-b-2 border-solid border-white"></div>
               <div>
-                Bank: <span class="font-bold">BCA</span>
+                Bank: <span class="font-bold">{bank.value.player.bank}</span>
               </div>
               <div>
-                Nama Rekening: <span class="font-bold">bambang gentolet</span>
+                Nama Rekening:{" "}
+                <span class="font-bold">
+                  {bank.value.player.bankAccountName}
+                </span>
               </div>
               <div class="mb-5">
-                No Rekening: <span class="font-bold">92919192...1211</span>
+                No Rekening:{" "}
+                <span class="font-bold">{bank.value.player.bankAccount}</span>
               </div>
               <div>
                 <div class="flex w-full">
@@ -252,7 +259,7 @@ export default component$(() => {
                   />
                 </div>
                 <p></p>
-                <div class="mb-2 mt-5 border-b-2 border-solid border-gray-500"></div>
+                {/* <div class="mb-2 mt-5 border-b-2 border-solid border-gray-500"></div>
                 <div>
                   Nama Rekening: <span class="font-bold">-</span>
                 </div>
@@ -261,8 +268,8 @@ export default component$(() => {
                 </div>
                 <button class="my-1 rounded-xl bg-sky-600 px-4 py-1.5">
                   Copy
-                </button>
-                <div class="mx-auto block w-11/12 rounded-full border border-solid border-sky-700 bg-white py-2 capitalize text-black">
+                </button> */}
+                {/* <div class="mx-auto block w-11/12 rounded-full border border-solid border-sky-700 bg-white py-2 capitalize text-black">
                   <img
                     src="https://assets.nosenachos.xyz/images/banks/QRIS.png"
                     class="mx-2 inline-block h-8 w-8"
@@ -271,7 +278,7 @@ export default component$(() => {
                     width={40}
                   />
                   QRIS
-                </div>
+                </div> */}
                 <div class="mb-2 mt-5 flex w-full">
                   <CustomInput
                     label=" Jumlah Deposit:"
