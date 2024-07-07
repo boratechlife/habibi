@@ -1,3 +1,4 @@
+/* eslint-disable qwik/no-use-visible-task */
 import {
   component$,
   useContext,
@@ -51,9 +52,9 @@ export default component$(() => {
     user: null,
   });
   const baseUrl =
-    import.meta.env.NEXT_PUBLIC_TOGEL_BASE_URL ||
+    import.meta.env.PUBLIC_TOGEL_BASE_URL ||
     "https://doraemon.wirosablengonline.com";
-  const mainParent = import.meta.env.NEXT_PUBLIC_MAIN_PARENT || "defaultParent";
+  const mainParent = import.meta.env.PUBLIC_MAIN_PARENT || "defaultParent";
 
   const authUser = useContext(AuthContext);
   // Construct the URL properly
@@ -63,7 +64,7 @@ export default component$(() => {
 
   useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
-    const iframeSrc = `${baseUrl}?auth_key=${encodeURIComponent(authUser.user.token)}&agent=${encodeURIComponent(mainParent)}`;
+    const iframeSrc = `${baseUrl}?auth_key=${authUser.user.token}&agent=${mainParent}`;
     console.log("iframe", iframeSrc);
 
     if (!auth) {
