@@ -6,6 +6,7 @@ import {
   useStore,
 } from "@builder.io/qwik";
 import { routeAction$, useNavigate, z, zod$ } from "@builder.io/qwik-city";
+import { LoaderPage } from "~/components/LoaderPage";
 import BaseLayout from "~/components/common/BaseLayout";
 import Input from "~/components/common/form/Input";
 import { AuthContext } from "~/context/auth-context";
@@ -33,7 +34,7 @@ export default component$(() => {
     username: "",
     password: "",
   });
-
+  const formSubmitting = useSignal(false);
   const authContext = useContext(AuthContext);
 
   interface ValidationErrors {
@@ -66,7 +67,7 @@ export default component$(() => {
   const handleSubmit = $(async (e: Event) => {
     e.preventDefault();
     console.log("form Data", formData);
-
+    formSubmitting.value = true;
     const result = await useLoginSchema.safeParseAsync(formData);
 
     if (!result.success) {
@@ -85,7 +86,7 @@ export default component$(() => {
     const userIpAddress = await getUserIpAddress();
 
     const loginResult = await fetchLogin(formData, userIpAddress);
-
+    formSubmitting.value = false;
     const res = loginResult.values;
     console.log("LOGN RESULT", res);
 
@@ -117,8 +118,16 @@ export default component$(() => {
     console.log("RESPONSE", res);
   });
 
+  const handleKeyDown = $((event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  });
+
   return (
     <BaseLayout autoLogoSize>
+      {formSubmitting.value && <LoaderPage />}
       <div class="h-fit bg-[linear-gradient(#217cb1_0,#003f64_100%)] px-2 pt-2">
         {error.value && error.value.length > 0 && (
           <div class="text-red-500">{error.value}</div>
@@ -145,6 +154,7 @@ export default component$(() => {
             placeholder="Password"
             errors={fieldErrors.fieldErrors && fieldErrors.fieldErrors.username}
             onInput={$((e) => handleInputChange(e as any))}
+            onKeyDown={handleKeyDown}
             required
           />
 
