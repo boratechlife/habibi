@@ -9,6 +9,7 @@ import {
 } from "@builder.io/qwik";
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 import DepositPending from "~/components/DepositPending";
+import { LoaderPage } from "~/components/LoaderPage";
 import CustomInput from "~/components/common/form/CustomInput";
 import CustomSelect from "~/components/common/form/CustomSelect";
 import { AuthContext } from "~/context/auth-context";
@@ -62,7 +63,7 @@ export default component$(() => {
   const navigate = useNavigate();
   // const showTersalin = useSignal<Boolean>(false);
   const isBankRetrieved = useSignal<any>(false);
-
+  const formSubmitting = useSignal(false);
   const formData = useStore<any>({
     bankAccountName: "",
     amount: 0,
@@ -135,6 +136,22 @@ export default component$(() => {
   });
 
   const handleSubmit = $(async (e: Event) => {
+    let minimumDeposit = 0;
+    if (bank.value && bank.value.Operator) {
+      const bankType =
+        (bank.value.Operator?.banks
+          .find(
+            (bank: BankInfoI) =>
+              bank.bankName === formData.bankAccountName.split("-")[0],
+          )
+          ?.category.toLowerCase() as keyof OperatorI["min"]) || "emoney";
+
+      minimumDeposit =
+        bankType === "va"
+          ? bank.value.Operator.min?.va.Deposit
+          : bank.value.Operator.min?.[bankType];
+    }
+
     const schema = z.object({
       amount: z.string().refine(
         (value) => {
@@ -156,15 +173,14 @@ export default component$(() => {
                 : bank.value.Operator.min?.[bankType];
 
             if (formattedAmount < minimumDeposit) {
-              throw new Error(
-                `Deposit amount must be at least ${minimumDeposit}`,
-              );
+              //new Error(`Deposit amount must be at least ${minimumDeposit}`);
+              return false;
             }
           }
           return true;
         },
         {
-          message: "Minimum 0 and max 10000000",
+          message: `Minimum ${minimumDeposit} and max 10000000`,
         },
       ),
       bankAccountName: z.string().min(1, "Nama pengguna harus diisi"),
@@ -180,9 +196,9 @@ export default component$(() => {
       console.log("ERRORS", fieldErrors.fieldErrors);
       return;
     }
-
+    formSubmitting.value = true;
     const token = authStore.user.token;
-
+    console.log("Token", token);
     if (!token) {
       alert("You need to be logged in to make a deposit.");
       navigate("/");
@@ -198,9 +214,16 @@ export default component$(() => {
     );
 
     if (!depositResult.success) {
-      console.log("err", depositResult.error);
+      formSubmitting.value = false;
+      alert("Error occured");
+      if (depositResult.error == "token invalid") {
+        // await fetchLogout()
+        console.log("Log him outt");
+      }
+      console.log("err", depositResult);
     } else {
       await getBank();
+      formSubmitting.value = false;
       console.log(depositResult.data);
       // retrieveBankInfo();
     }
@@ -210,6 +233,7 @@ export default component$(() => {
 
   return (
     <>
+      {formSubmitting.value && <LoaderPage />}
       {bank.value && bank.value.pendingDeposit && (
         <DepositPending bank={bank.value} />
       )}
