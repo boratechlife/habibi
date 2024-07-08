@@ -44,6 +44,12 @@ export const SiteDataContext = createContextId<Signal<SiteInfo>>(
 let siteInfo = "";
 let siteGames = "";
 
+export type SiteData = {
+  SiteGames: GamesI;
+  title: string;
+  siteInfo: SiteInfo;
+};
+
 export const useProductDetails = routeLoader$(async (requestEvent) => {
   if (requestEvent.query.get("r") === "yes") {
     siteInfo = "";

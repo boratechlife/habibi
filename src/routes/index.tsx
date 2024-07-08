@@ -18,7 +18,7 @@ import ReadMoreImage from "~/media/read-more-animated.webp?jsx";
 import "swiper/css";
 import BaseLayout from "~/components/common/BaseLayout";
 import { SeoInterface, GamesI } from "~/interfaces";
-import { SiteDataContext } from "./layout";
+import { SiteDataContext, useProductDetails } from "./layout";
 import { SiteInfo } from "~/data/site";
 import { AuthContext } from "~/context/auth-context";
 
@@ -300,12 +300,17 @@ export default component$(() => {
   );
 });
 
-export const head: DocumentHead = {
-  title: "",
-  meta: [
-    {
-      name: "description",
-      content: "",
-    },
-  ],
+export const head: DocumentHead = ({ resolveValue }) => {
+  const siteData: any = resolveValue(useProductDetails);
+
+  console.log("Titles", siteData.siteInfo.SEO);
+  return {
+    title: siteData.siteInfo.SEO.index.title,
+    meta: [
+      {
+        name: "description",
+        content: siteData.siteInfo.SEO.index.title,
+      },
+    ],
+  };
 };

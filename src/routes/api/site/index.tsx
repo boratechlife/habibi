@@ -1,5 +1,5 @@
 import { type RequestHandler } from "@builder.io/qwik-city";
-import { GamesI, SeoInterface } from "~/interfaces";
+import type { GamesI, SeoInterface } from "~/interfaces";
 import { decompressString } from "~/utils/decompress";
 
 export const onGet: RequestHandler = async ({ json }) => {
