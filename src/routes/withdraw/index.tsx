@@ -8,6 +8,7 @@ import {
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 
 import CustomInput from "~/components/common/form/CustomInput";
+import { LoaderPage } from "~/components/LoaderPage";
 
 import { type BankI } from "~/data/auth";
 import { fetchBankInfo, fetchWithdraw } from "~/utils/Main";
@@ -25,6 +26,9 @@ export default component$(() => {
   const authStore = useStore<any>({
     user: null,
   });
+
+  const formSubmitting = useSignal(false);
+
   const navigate = useNavigate();
   interface ValidationErrors {
     formErrors: string[];
@@ -92,6 +96,7 @@ export default component$(() => {
 
   const handleSubmit = $(async (e: Event) => {
     e.preventDefault();
+
     console.log("form Data", formData);
 
     const schema = z.object({
@@ -141,13 +146,16 @@ export default component$(() => {
       navigate("/");
       return;
     }
+    formSubmitting.value = true;
 
     const withdrawResult = await fetchWithdraw(formData, token);
 
     if (withdrawResult.success) {
+      formSubmitting.value = false;
       alert("Withdrawal successful");
       navigate("/lobby");
     } else {
+      formSubmitting.value = false;
       alert(withdrawResult.error);
     }
   });
@@ -155,6 +163,7 @@ export default component$(() => {
   return (
     <>
       <section>
+        {formSubmitting.value && <LoaderPage />}
         <div class="mt-16 h-full pb-10 text-white">
           <div class="border-b-2 border-solid border-white py-3 pl-2">
             <h1 class="text-2xl font-bold"></h1>
