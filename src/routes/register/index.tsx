@@ -18,7 +18,7 @@ import {
 } from "@builder.io/qwik-city";
 import { fetchCheckAccountNo, fetchCheckPhone, fetchLogin } from "~/utils/Main";
 import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
-import { useLoginSchema } from "../login";
+// import { useLoginSchema } from "../login";
 import { AuthContext } from "~/context/auth-context";
 import BaseLayout from "~/components/common/BaseLayout";
 import { LoaderPage } from "~/components/LoaderPage";
