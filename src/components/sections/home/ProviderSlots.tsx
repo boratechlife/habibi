@@ -1,9 +1,10 @@
+/* eslint-disable qwik/no-use-visible-task */
 import {
   $,
   component$,
   useContext,
   useSignal,
-  useTask$,
+  // useTask$,
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { isDev, isServer } from "@builder.io/qwik/build";
@@ -81,7 +82,7 @@ export default component$(() => {
         swiperInstance.destroy();
       });
     },
-    { eagerness: "visible" },
+    // { eagerness: "visible" },
   );
 
   return (

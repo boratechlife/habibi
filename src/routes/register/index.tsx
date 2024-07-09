@@ -292,7 +292,6 @@ const App = component$(() => {
   const handleInputChange = $((field: FormFields, event: Event) => {
     const target = event.target as HTMLInputElement;
     let value = target.value;
-    console.log("Value", value);
     if (
       action.value?.fieldErrors &&
       action.value.fieldErrors[target.name as FormFields]
@@ -303,6 +302,7 @@ const App = component$(() => {
     if (target.name === "userName") {
       value = target.value.toLowerCase().trim();
     }
+    console.log("Value", value);
 
     register_state.formData = { ...register_state.formData, [field]: value };
     validateField(field, value);
@@ -414,7 +414,7 @@ const App = component$(() => {
                       handleInputChange("userName", event),
                     )}
                     placeholder="Nama Pengguna Anda"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base lowercase leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-[#66afe9] focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
 
                   <p class="text-red-500">

@@ -56,8 +56,14 @@ export default component$(() => {
     const target = e.target as HTMLInputElement;
     const name: string = target.name;
     const value: string = target.value;
-    formData[name] = value;
+    if (target.name === "username") {
+      formData[name] = value.toLowerCase().trim();
+    } else {
+      formData[name] = value;
+    }
+
     resetErrors();
+
     console.log("name", name, target.name, formData[name]);
   });
   const nav = useNavigate();
@@ -142,6 +148,7 @@ export default component$(() => {
               name="username"
               type="text"
               placeholder="Nama Pengguna Anda"
+              class="!lowercase"
               errors={
                 fieldErrors.fieldErrors && fieldErrors.fieldErrors.username
               }

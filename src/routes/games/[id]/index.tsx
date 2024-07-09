@@ -203,6 +203,7 @@ export default component$(() => {
             </button>
           </div>
         </div>
+
         <GamesCarousel />
         <div class="3xl:grid-cols-6 3xl:grid-cols-5 mt-5 grid w-full grid-cols-3 items-center gap-1 px-1 2xl:gap-2">
           {store.filteredGameSample.length > 0 &&
