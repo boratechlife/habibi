@@ -424,8 +424,8 @@ export const fetchLogin = async (
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
-  if (import.meta.env.NEXT_PUBLIC_MAIN_PARENT) {
-    headers.append("x-org", import.meta.env.NEXT_PUBLIC_MAIN_PARENT);
+  if (import.meta.env.PUBLIC_MAIN_PARENT) {
+    headers.append("x-org", import.meta.env.PUBLIC_MAIN_PARENT);
   }
 
   headers.append("x-clientip", userIpAddress || "127.0.0.1");

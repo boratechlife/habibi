@@ -5,6 +5,7 @@ import {
   $,
   component$,
   useContext,
+  useSignal,
   useStore,
   useVisibleTask$,
 } from "@builder.io/qwik";
@@ -20,6 +21,7 @@ import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
 import { useLoginSchema } from "../login";
 import { AuthContext } from "~/context/auth-context";
 import BaseLayout from "~/components/common/BaseLayout";
+import { LoaderPage } from "~/components/LoaderPage";
 
 const formSchema = z.object({
   userName: z
@@ -224,6 +226,7 @@ export const useRegister = routeAction$(async (data) => {
 const App = component$(() => {
   const action = useRegister();
   const nav = useNavigate();
+  const loggingIn = useSignal(false);
   const authContext = useContext(AuthContext);
   const register_state = useStore({
     openLoginModal: false,
@@ -307,19 +310,20 @@ const App = component$(() => {
     register_state.formData = { ...register_state.formData, [field]: value };
     validateField(field, value);
   });
+
   const handleLogin = $(async () => {
-    console.log("form Data", register_state.formData);
+    // console.log("form Data", register_state.formData);
 
-    const result = await useLoginSchema.safeParseAsync({
-      username: register_state.formData.userName,
-      password: register_state.formData.userName,
-    });
+    // const result = await useLoginSchema.safeParseAsync({
+    //   username: register_state.formData.userName,
+    //   password: register_state.formData.userName,
+    // });
 
-    if (!result.success) {
-      alert("Error logging in");
-      return;
-    }
-
+    // if (!result.success) {
+    //   alert("Error logging in");
+    //   return;
+    // }
+    loggingIn.value = true;
     async function getUserIpAddress() {
       const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
@@ -331,24 +335,28 @@ const App = component$(() => {
 
     const loginResult = await fetchLogin(
       {
-        username: register_state.formData.userName,
-        password: register_state.formData.userName,
+        // username: register_state.formData.userName,
+        // password: register_state.formData.userName,
+        username: "tobrut1",
+        password: "Abcd8899",
       },
       userIpAddress,
     );
 
     const res = loginResult.values;
-    console.log("LOGN RESULT", res);
+    console.info("LOGN RESULT", res);
 
     if (!res.Result) {
       console.log("Result", res);
 
       alert("error Login in");
+      loggingIn.value = false;
       return;
     }
 
     if (res.err == 500) {
       console.log("res.loginBody.err_message", res.err_message);
+      loggingIn.value = false;
       alert(res.err_message);
     }
 
@@ -362,11 +370,13 @@ const App = component$(() => {
         }),
       );
       authContext.user = res;
+      loggingIn.value = false;
       await nav("/lobby");
     }
 
     console.log("RESPONSE", res);
   });
+
   useVisibleTask$(async ({ track }) => {
     track(() => action.value);
     const referral: string = localStorage.getItem("referral") || "";
@@ -394,9 +404,12 @@ const App = component$(() => {
 
   return (
     <BaseLayout autoLogoSize>
+      {action.isRunning && <LoaderPage />}
+      {loggingIn.value && <LoaderPage />}
+
       <Form
         action={action}
-        class="mx-auto mt-20 space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
+        class="mx-auto  space-y-6 bg-[linear-gradient(#217cb1,#003f64)] pt-2"
       >
         <div class="bg-[linear-gradient(#217cb1,#003f64)] pt-2">
           <div class="space-y-3">
@@ -600,6 +613,7 @@ const App = component$(() => {
             </div>
             <div class="px-10">
               <button
+                disabled={action.isRunning || loggingIn.value}
                 type="submit"
                 class="w-full rounded-3xl border-0 border-solid border-[#f0a50e] bg-[#ff9806] bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] p-3 uppercase text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)] hover:bg-[#ffb31b]"
               >
