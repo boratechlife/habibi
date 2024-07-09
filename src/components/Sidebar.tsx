@@ -1,5 +1,5 @@
 // src/components/DatePicker.tsx
-import { $, PropFunction, component$, useContext } from "@builder.io/qwik";
+import { $, type PropFunction, component$, useContext } from "@builder.io/qwik";
 import CloseImage from "~/media/close.png?jsx";
 import { AuthContext } from "~/context/auth-context";
 import { useNavigate } from "@builder.io/qwik-city";

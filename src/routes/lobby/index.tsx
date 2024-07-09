@@ -8,6 +8,7 @@ import {
 } from "@builder.io/qwik";
 import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import LobbyHeader from "~/components/LobbyHeader";
+import ProfileWidget from "~/components/ProfileWidget";
 import { AuthContext } from "~/context/auth-context";
 import { fetchBalance } from "~/utils/Main";
 
@@ -147,8 +148,8 @@ export default component$(() => {
     <>
       <section>
         <div class="mt-16 h-full">
-          <div class="bg-sky-900 py-3 pl-2 text-white accent-sky-100 ">
-            <div class="border-b-2 border-solid border-white py-3 pl-2">
+          <div class="bg-sky-900 px-2 py-3 text-white accent-sky-100 ">
+            {/* <div class="border-b-2 border-solid border-white py-3 pl-2">
               <h1 class="text-2xl font-bold">
                 {authStore.user && authStore.user.username}
               </h1>
@@ -158,7 +159,8 @@ export default component$(() => {
                   Rp. {authStore.user?.AvailableCredit}
                 </span>
               </div>
-            </div>
+            </div> */}
+            {authStore.user && <ProfileWidget />}
             <LobbyHeader />
             {authStore.user && (
               <iframe

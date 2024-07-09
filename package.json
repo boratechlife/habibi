@@ -32,6 +32,7 @@
     "@builder.io/qwik": "^1.5.6",
     "@builder.io/qwik-city": "^1.5.6",
     "@builder.io/qwik-react": "0.5.0",
+    "@modular-forms/qwik": "^0.26.1",
     "@qwik-ui/headless": "^0.4.4",
     "@types/crypto-js": "^4.2.2",
     "@types/eslint": "^8.56.10",
@@ -57,12 +58,14 @@
     "undici": "*",
     "vite": "^5.2.10",
     "vite-tsconfig-paths": "^4.2.1",
-    "@modular-forms/qwik": "^0.26.1",
     "wrangler": "^3.0.0"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.8",
     "crypto-js": "^4.2.0",
     "flowbite": "^2.3.0",
+    "graphql": "^16.9.0",
+    "graphql-ws": "^5.16.0",
     "he": "^1.2.0",
     "html2canvas": "^1.4.1",
     "node-fetch": "^3.3.2",
