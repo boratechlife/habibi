@@ -120,7 +120,9 @@ export default component$(() => {
         }),
       );
       authContext.user = res;
-      formSubmitting.value = false;
+      setTimeout(() => {
+        formSubmitting.value = false;
+      }, 3000);
       await nav("/lobby");
     }
 
