@@ -4,6 +4,7 @@ import {
   useContext,
   useSignal,
   useTask$,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import { isDev, isServer } from "@builder.io/qwik/build";
 import Swiper from "swiper";
@@ -60,7 +61,7 @@ export default component$(() => {
     images.value = res;
   });
 
-  useTask$(
+  useVisibleTask$(
     ({ cleanup }) => {
       if (isServer) {
         return;
