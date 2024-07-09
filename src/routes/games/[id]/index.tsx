@@ -184,7 +184,7 @@ export default component$(() => {
 
   return (
     <LaunchProvider>
-      <section class="flex flex-col  py-20">
+      <section class="flex flex-col  ">
         <LobbyHeader />
         {/* <GameLauncher /> */}
         <div class="flex">

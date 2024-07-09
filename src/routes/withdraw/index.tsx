@@ -1,9 +1,10 @@
 import {
   $,
   component$,
-  useOnDocument,
+  // useOnDocument,
   useSignal,
   useStore,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import { useNavigate, z, type DocumentHead } from "@builder.io/qwik-city";
 
@@ -56,43 +57,78 @@ export default component$(() => {
     console.log("name", name, target.name, formData[name]);
   });
 
-  useOnDocument(
-    "load",
-    $(async () => {
-      const auth = localStorage.getItem("auth");
+  // useOnDocument(
+  //   "load",
+  //   $(async () => {
+  //     const auth = localStorage.getItem("auth");
 
-      if (!auth) {
-        navigate("/login");
-      }
-      // Get the token
-      // console.log(localStorage.getItem("auth"));
+  //     if (!auth) {
+  //       navigate("/login");
+  //     }
+  //     // Get the token
+  //     // console.log(localStorage.getItem("auth"));
 
-      authStore.user = JSON.parse(auth!);
-      console.log(authStore.user);
-      formData.availableCredt = authStore.user.AvailableCredit;
-      formData.minWithdraw = authStore.user;
-      const token = authStore.user.token;
+  //     authStore.user = JSON.parse(auth!);
+  //     console.log(authStore.user);
+  //     formData.availableCredt = authStore.user.AvailableCredit;
+  //     formData.minWithdraw = authStore.user;
+  //     const token = authStore.user.token;
 
-      if (!token) {
-        alert("You need to be logged in to fetch bank info.");
-        navigate("/");
-        return;
-      }
+  //     if (!token) {
+  //       alert("You need to be logged in to fetch bank info.");
+  //       navigate("/");
+  //       return;
+  //     }
 
-      const bankInfoResult = await fetchBankInfo(token);
+  //     const bankInfoResult = await fetchBankInfo(token);
 
-      if (!bankInfoResult.success) {
-        console.log("Error", bankInfoResult.error);
-        alert("Error");
-      } else {
-        bank.value = bankInfoResult.data;
-        formData.payWithPg =
-          bankInfoResult.data.Operator.payWithPg === 1 ? true : false;
-        formData.minWithdraw = bankInfoResult.data.Operator?.min?.va?.Withdraw;
-        console.log(bankInfoResult.data);
-      }
-    }),
-  );
+  //     if (!bankInfoResult.success) {
+  //       console.log("Error", bankInfoResult.error);
+  //       alert("Error");
+  //     } else {
+  //       bank.value = bankInfoResult.data;
+  //       formData.payWithPg =
+  //         bankInfoResult.data.Operator.payWithPg === 1 ? true : false;
+  //       formData.minWithdraw = bankInfoResult.data.Operator?.min?.va?.Withdraw;
+  //       console.log(bankInfoResult.data);
+  //     }
+  //   }),
+  // );
+
+  useVisibleTask$(async () => {
+    const auth = localStorage.getItem("auth");
+
+    if (!auth) {
+      navigate("/login");
+    }
+    // Get the token
+    // console.log(localStorage.getItem("auth"));
+
+    authStore.user = JSON.parse(auth!);
+    console.log(authStore.user);
+    formData.availableCredt = authStore.user.AvailableCredit;
+    formData.minWithdraw = authStore.user;
+    const token = authStore.user.token;
+
+    if (!token) {
+      alert("You need to be logged in to fetch bank info.");
+      navigate("/");
+      return;
+    }
+
+    const bankInfoResult = await fetchBankInfo(token);
+
+    if (!bankInfoResult.success) {
+      console.log("Error", bankInfoResult.error);
+      alert("Error");
+    } else {
+      bank.value = bankInfoResult.data;
+      formData.payWithPg =
+        bankInfoResult.data.Operator.payWithPg === 1 ? true : false;
+      formData.minWithdraw = bankInfoResult.data.Operator?.min?.va?.Withdraw;
+      console.log(bankInfoResult.data);
+    }
+  });
 
   const handleSubmit = $(async (e: Event) => {
     e.preventDefault();

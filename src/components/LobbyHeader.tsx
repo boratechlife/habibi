@@ -1,4 +1,5 @@
 import { $, component$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 
 const handleClick$ = $((_: any, direction: string) => {
   const el = document.querySelector(".no-scrollbar") as HTMLElement;
@@ -38,21 +39,27 @@ export default component$(() => {
                 id="cat-99"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
+                <Link
+                  prefetch={false}
                   target="_self"
                   href="/games/99"
                   style="pointer-events: auto;"
                 >
                   <p>favorit</p>
-                </a>
+                </Link>
               </div>
               <div
                 id="cat-12"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case lg:normal-case"
               >
-                <a target="_self" href="/lobby" style="pointer-events: auto;">
+                <Link
+                  prefetch={false}
+                  target="_self"
+                  href="/lobby"
+                  style="pointer-events: auto;"
+                >
                   <p>Togel</p>
-                </a>
+                </Link>
               </div>
               <div
                 id="cat-0"
@@ -66,37 +73,52 @@ export default component$(() => {
                 id="cat-70"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a
+                <Link
+                  prefetch={false}
                   target="_self"
                   href="/games/70"
                   style="pointer-events: auto;"
                 >
                   <p>Live Kasino</p>
-                </a>
+                </Link>
               </div>
               <div
                 id="cat-9"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a target="_self" href="/games/9" style="pointer-events: auto;">
+                <Link
+                  prefetch={false}
+                  target="_self"
+                  href="/games/9"
+                  style="pointer-events: auto;"
+                >
                   <p>Arcade</p>
-                </a>
+                </Link>
               </div>
               <div
                 id="cat-7"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a target="_self" href="/games/7" style="pointer-events: auto;">
+                <Link
+                  prefetch={false}
+                  target="_self"
+                  href="/games/7"
+                  style="pointer-events: auto;"
+                >
                   <p>Ikan</p>
-                </a>
+                </Link>
               </div>
               <div
                 id="cat-1"
                 class="ml-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs uppercase text-gray-400 transition-all duration-[0.3s] hover:rounded-lg hover:bg-blue-200 hover:text-white focus:rounded focus:no-underline lg:normal-case"
               >
-                <a target="_self" href="/games/1" style="pointer-events: auto;">
+                <Link
+                  target="_self"
+                  href="/games/1"
+                  style="pointer-events: auto;"
+                >
                   <p>Game Meja</p>
-                </a>
+                </Link>
               </div>
             </main>
           </div>
