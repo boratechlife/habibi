@@ -153,7 +153,10 @@ export default component$(() => {
                 {authStore.user && authStore.user.username}
               </h1>
               <div class="text-lg">
-                Balance: <span class="font-bold">Rp. 0</span>
+                Balance:
+                <span class="ml-2 font-bold">
+                  Rp. {authStore.user?.AvailableCredit}
+                </span>
               </div>
             </div>
             <LobbyHeader />
