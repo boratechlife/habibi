@@ -33,7 +33,7 @@ interface TransformedListI {
 
 interface LaunchStore {
   game: TransformedListI;
-  showLauncherDialog: boolean;
+  // showLauncherDialog: boolean;
   showGameWindow: boolean;
   gameLaunchResult: {
     err: number;
@@ -118,7 +118,7 @@ export const LaunchProvider = component$(() => {
       },
     ).then((r) => r.json());
 
-    launchStore.showLauncherDialog = true;
+    // launchStore.showLauncherDialog = true;
     console.log("launchCb token", launchCb);
     if (launchCb.err === 403 || launchCb.err === 500) {
       closeLauncherDialog();
