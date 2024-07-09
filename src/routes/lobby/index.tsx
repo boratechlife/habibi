@@ -8,7 +8,7 @@ import {
 } from "@builder.io/qwik";
 import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import LobbyHeader from "~/components/LobbyHeader";
-import ProfileWidget from "~/components/ProfileWidget";
+
 import { AuthContext } from "~/context/auth-context";
 import { fetchBalance } from "~/utils/Main";
 
