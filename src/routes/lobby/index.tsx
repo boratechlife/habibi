@@ -10,7 +10,7 @@ import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
 import LobbyHeader from "~/components/LobbyHeader";
 
 import { AuthContext } from "~/context/auth-context";
-import { fetchBalance } from "~/utils/Main";
+// import { fetchBalance } from "~/utils/Main";
 
 // const handleClick$ = $((_: any, direction: string) => {
 //   const el = document.querySelector(".no-scrollbar") as HTMLElement;
