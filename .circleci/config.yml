@@ -7,8 +7,8 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      CLOUDFLARE_API_TOKEN: sujS8CPYjGjAPb1J1bitUVzvzbykYtY-UHlRUJv0
-      CLOUDFLARE_ACCOUNT_ID: f8a05afea88505e1d4cd4eea67237442
+      CLOUDFLARE_API_TOKEN: uAgLGOiZHWMZgIsgBe3ONyYRr4wLxGdVgeZkSVef
+      CLOUDFLARE_ACCOUNT_ID: 87677fc73994b4845f503b691a5ca462
     steps:
       - checkout
       - node/install:
