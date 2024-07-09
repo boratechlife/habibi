@@ -35,7 +35,7 @@ export default component$<BankComponentProps>(({ bank }) => {
   });
 
   return (
-    <section class=" pt-20">
+    <section class="pt-20">
       <div class="rounded-lg p-2 text-white">
         <div class="mx-2">
           <div class="flex flex-col items-center justify-center space-y-0.5 py-2">

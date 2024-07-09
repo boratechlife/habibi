@@ -239,8 +239,8 @@ export default component$(() => {
       )}
       {bank.value && !bank.value.pendingDeposit && (
         <section>
-          <div class="mt-16 h-full pb-10 text-white">
-            <div class="border-b-2 border-solid border-white py-3 pl-2">
+          <div class=" h-full pb-10 text-white">
+            {/* <div class="border-b-2 border-solid border-white py-3 pl-2">
               <h1 class="text-2xl font-bold">{authContext.user.username}</h1>
               <div class="text-lg">
                 Balance:
@@ -248,8 +248,8 @@ export default component$(() => {
                   Rp. {authContext.user.AvailableCredit}
                 </span>
               </div>
-            </div>
-            <div class="pl-2">
+            </div> */}
+            <div class="border-b-2 border-solid border-white px-2 py-3">
               <div class="text-lg uppercase text-sky-400">form deposit</div>
               <div class="my-2 border-b-2 border-solid border-white"></div>
               <div>

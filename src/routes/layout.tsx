@@ -1,7 +1,7 @@
 import {
   component$,
   createContextId,
-  Signal,
+  type Signal,
   Slot,
   useContextProvider,
   useSignal,
@@ -14,8 +14,9 @@ import { AuthProvider } from "~/context/auth-context";
 import { type SiteInfo } from "~/data/site";
 import { decompressString } from "~/utils/decompress";
 import { type GamesI, type SeoInterface } from "~/interfaces";
-import { GetPasaranResponseI } from ".";
+import { type GetPasaranResponseI } from ".";
 import { paths_to_show } from "~/utils/Main";
+import ProfileWidget from "~/components/ProfileWidget";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -130,7 +131,13 @@ export default component$(() => {
     <AuthProvider>
       <>
         <AuthComponent />
-        {!paths_to_show.includes(loc.url.pathname) && <TheHeader />}
+        {!paths_to_show.includes(loc.url.pathname) && (
+          <>
+            <TheHeader />
+
+            <ProfileWidget />
+          </>
+        )}
 
         <Slot />
       </>

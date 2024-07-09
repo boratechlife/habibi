@@ -164,15 +164,15 @@ export default component$(() => {
     <>
       <section>
         {formSubmitting.value && <LoaderPage />}
-        <div class="mt-16 h-full pb-10 text-white">
-          <div class="border-b-2 border-solid border-white py-3 pl-2">
+        <div class=" h-full pb-10 text-white">
+          {/* <div class="border-b-2 border-solid border-white py-3 pl-2">
             <h1 class="text-2xl font-bold"></h1>
             <div class="text-lg">
               Balance:
               <span class="font-bold">Rp. {formData.availableCredt}</span>
             </div>
-          </div>
-          <div class="pl-2 pt-10">
+          </div> */}
+          <div class="px-2 ">
             <div class="text-lg uppercase text-sky-400">form withdraw</div>
             <div class="my-2 border-b-2 border-solid border-white"></div>
             <div>

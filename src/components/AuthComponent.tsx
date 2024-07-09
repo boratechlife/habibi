@@ -1,3 +1,4 @@
+/* eslint-disable qwik/no-use-visible-task */
 import { component$, useVisibleTask$, useContext } from "@builder.io/qwik";
 import { useLocation, useNavigate } from "@builder.io/qwik-city";
 import { AuthContext } from "~/context/auth-context";

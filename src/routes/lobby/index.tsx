@@ -147,7 +147,7 @@ export default component$(() => {
   return (
     <>
       <section>
-        <div class="mt-16 h-full">
+        <div class=" h-full">
           <div class="bg-sky-900 px-2 py-3 text-white accent-sky-100 ">
             {/* <div class="border-b-2 border-solid border-white py-3 pl-2">
               <h1 class="text-2xl font-bold">
@@ -160,7 +160,7 @@ export default component$(() => {
                 </span>
               </div>
             </div> */}
-            {authStore.user && <ProfileWidget />}
+
             <LobbyHeader />
             {authStore.user && (
               <iframe

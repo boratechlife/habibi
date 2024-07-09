@@ -1,11 +1,5 @@
 /* eslint-disable qwik/no-use-visible-task */
-import {
-  $,
-  component$,
-  useOnDocument,
-  useStore,
-  useVisibleTask$,
-} from "@builder.io/qwik";
+import { component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
@@ -113,7 +107,7 @@ export default component$(() => {
   );
 
   return (
-    <div class="border-b-2 border-solid border-white py-3 pl-2">
+    <div class="mt-16  px-2 py-3 text-white">
       <h1 class="text-2xl font-bold uppercase">
         {authStore.user && authStore.user.username}
       </h1>

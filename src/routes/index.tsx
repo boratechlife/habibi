@@ -1,5 +1,6 @@
+/* eslint-disable qwik/no-use-visible-task */
 import {
-  Signal,
+  type Signal,
   component$,
   createContextId,
   useContext,
@@ -17,9 +18,9 @@ import ReadMoreImage from "~/media/read-more-animated.webp?jsx";
 
 import "swiper/css";
 import BaseLayout from "~/components/common/BaseLayout";
-import { SeoInterface, GamesI } from "~/interfaces";
+import { type SeoInterface, type GamesI } from "~/interfaces";
 import { SiteDataContext, useProductDetails } from "./layout";
-import { SiteInfo } from "~/data/site";
+import { type SiteInfo } from "~/data/site";
 import { AuthContext } from "~/context/auth-context";
 
 export interface ShownPoolsInterface {
@@ -164,10 +165,8 @@ export default component$(() => {
             </div>
           </div>
         </div>
-
         <Carousel />
         {siteData.value.siteInfo?.banners.length > 0 && <ScrollingBanner />}
-
         <div class="my-2">
           <div class="px-5">
             <div class="">
@@ -206,9 +205,7 @@ export default component$(() => {
             </div>
           </div>
         </div>
-
         <ProviderSlots />
-
         <div class="px-5">
           <div class="rounded-xl border border-solid border-sky-500 bg-sky-800">
             <p class="text-center text-lg font-semibold uppercase text-white">
@@ -272,7 +269,6 @@ export default component$(() => {
             </div>
           </div>
         </div>
-
         <div class="px-5 py-3">
           <details>
             <summary class="text-center text-lg text-white">Read Less</summary>
