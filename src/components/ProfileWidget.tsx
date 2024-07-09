@@ -1,5 +1,5 @@
 /* eslint-disable qwik/no-use-visible-task */
-import { component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
@@ -13,12 +13,32 @@ export default component$(() => {
   });
   const balance = useStore<BalanceResponse | any>({});
 
+  const refreshBalance = $(async () => {
+    const result = await fetchBalance(authStore.user.token);
+
+    if (result.success) {
+      const balanceBody = result.data;
+      balance.Result = balanceBody.Result;
+      balance.AvailableCredit = balanceBody.AvailableCredit;
+      balance.newMember = balanceBody.newMember;
+      balance.promos = balanceBody.promos;
+      balance.isValidate = balanceBody.isValidate;
+      balance.pendingPintuDeposit = balanceBody.pendingPintuDeposit;
+      balance.pendingPintuExpiry = balanceBody.pendingPintuExpiry;
+      balance.pendingMinutes = balanceBody.pendingMinutes;
+      balance.isCrypto = balanceBody.isCrypto;
+      balance.isMaintenanceMode = balanceBody.isMaintenanceMode;
+    } else {
+      console.log("message", result.message);
+    }
+  });
   const nav = useNavigate();
 
   useVisibleTask$(
     ({ cleanup }) => {
       const auth = localStorage.getItem("auth");
       authStore.user = JSON.parse(auth!);
+      refreshBalance();
       const link = new GraphQLWsLink(
         createClient({
           url: import.meta.env.PUBLIC_APPSYNC_HOST,
@@ -45,6 +65,7 @@ export default component$(() => {
           }
         }
       `;
+
       const apolloSubs = apolloClient
         .subscribe({
           query: subs,
@@ -52,24 +73,7 @@ export default component$(() => {
         .subscribe(async (data) => {
           console.log(JSON.stringify(data, null, 2));
           console.info("incoming balance req, check please", data);
-
-          const result = await fetchBalance(authStore.user.token);
-
-          if (result.success) {
-            const balanceBody = result.data;
-            balance.Result = balanceBody.Result;
-            balance.AvailableCredit = balanceBody.AvailableCredit;
-            balance.newMember = balanceBody.newMember;
-            balance.promos = balanceBody.promos;
-            balance.isValidate = balanceBody.isValidate;
-            balance.pendingPintuDeposit = balanceBody.pendingPintuDeposit;
-            balance.pendingPintuExpiry = balanceBody.pendingPintuExpiry;
-            balance.pendingMinutes = balanceBody.pendingMinutes;
-            balance.isCrypto = balanceBody.isCrypto;
-            balance.isMaintenanceMode = balanceBody.isMaintenanceMode;
-          } else {
-            console.log("message", result.message);
-          }
+          await refreshBalance();
           // Assuming refreshBalance.submit() is a serializable function
         });
 
@@ -80,11 +84,12 @@ export default component$(() => {
         .subscribe(async (data) => {
           if (data.data.broadcastMessage.msg === "PG-DONE") {
             /* TODO: Show Dialog with message "Deposit anda berhasil" */
-
+            await refreshBalance();
             nav("/lobby");
           } else if (data.data.broadcastMessage.msg === "PG-VOID") {
             /* TODO: Show Dialog with message "Order Deposit anda telah di batalkan, harap membuat order baru!" */
             //   toast.showToast("Transaksi telah di batalkan", "alert");
+            await refreshBalance();
             nav("/lobby");
           } else if (data.data.broadcastMessage.msg === "LOGOUT") {
             //   authStore.KickMe();

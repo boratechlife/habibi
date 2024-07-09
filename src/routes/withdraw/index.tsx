@@ -11,7 +11,7 @@ import CustomInput from "~/components/common/form/CustomInput";
 import { LoaderPage } from "~/components/LoaderPage";
 
 import { type BankI } from "~/data/auth";
-import { fetchBankInfo, fetchWithdraw } from "~/utils/Main";
+import { fetchBalance, fetchBankInfo, fetchWithdraw } from "~/utils/Main";
 
 export default component$(() => {
   const formData = useStore<any>({
@@ -152,6 +152,7 @@ export default component$(() => {
 
     if (withdrawResult.success) {
       formSubmitting.value = false;
+      await fetchBalance(authStore.user.token);
       alert("Withdrawal successful");
       navigate("/lobby");
     } else {

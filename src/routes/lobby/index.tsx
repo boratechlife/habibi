@@ -60,8 +60,8 @@ export default component$(() => {
   const authUser = useContext(AuthContext);
   // Construct the URL properly
 
-  const balance = useStore<BalanceResponse | any>({});
-  const state = useStore({ isBalanceRetrieved: false });
+  // const balance = useStore<BalanceResponse | any>({});
+  // const state = useStore({ isBalanceRetrieved: false });
 
   useVisibleTask$(async () => {
     const auth = localStorage.getItem("auth");
@@ -77,28 +77,28 @@ export default component$(() => {
     authStore.user = JSON.parse(auth!);
     // console.log(authStore.user);
 
-    const token = authStore.user.token;
+    // const token = authStore.user.token;
 
-    const result = await fetchBalance(token);
+    // const result = await fetchBalance(token);
 
-    if (result.success) {
-      const balanceBody = result.data;
-      balance.Result = balanceBody.Result;
-      balance.AvailableCredit = balanceBody.AvailableCredit;
-      balance.newMember = balanceBody.newMember;
-      balance.promos = balanceBody.promos;
-      balance.isValidate = balanceBody.isValidate;
-      balance.pendingPintuDeposit = balanceBody.pendingPintuDeposit;
-      balance.pendingPintuExpiry = balanceBody.pendingPintuExpiry;
-      balance.pendingMinutes = balanceBody.pendingMinutes;
-      balance.isCrypto = balanceBody.isCrypto;
-      balance.isMaintenanceMode = balanceBody.isMaintenanceMode;
-      state.isBalanceRetrieved = true;
-      console.log("Data", balanceBody);
-    } else {
-      console.log("message", result.message);
-      state.isBalanceRetrieved = false;
-    }
+    // if (result.success) {
+    //   const balanceBody = result.data;
+    //   balance.Result = balanceBody.Result;
+    //   balance.AvailableCredit = balanceBody.AvailableCredit;
+    //   balance.newMember = balanceBody.newMember;
+    //   balance.promos = balanceBody.promos;
+    //   balance.isValidate = balanceBody.isValidate;
+    //   balance.pendingPintuDeposit = balanceBody.pendingPintuDeposit;
+    //   balance.pendingPintuExpiry = balanceBody.pendingPintuExpiry;
+    //   balance.pendingMinutes = balanceBody.pendingMinutes;
+    //   balance.isCrypto = balanceBody.isCrypto;
+    //   balance.isMaintenanceMode = balanceBody.isMaintenanceMode;
+    //   state.isBalanceRetrieved = true;
+    //   console.log("Data", balanceBody);
+    // } else {
+    //   console.log("message", result.message);
+    //   state.isBalanceRetrieved = false;
+    // }
   });
 
   // Handle message events

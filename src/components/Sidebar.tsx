@@ -2,7 +2,7 @@
 import { $, type PropFunction, component$, useContext } from "@builder.io/qwik";
 import CloseImage from "~/media/close.png?jsx";
 import { AuthContext } from "~/context/auth-context";
-import { useNavigate } from "@builder.io/qwik-city";
+import { Link, useNavigate } from "@builder.io/qwik-city";
 import { fetchLogout } from "~/utils/Main";
 interface Props {
   onClick: PropFunction<() => void>;
@@ -69,7 +69,8 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                     <li>
                       <ul role="list" class="-mx-2 space-y-1">
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/lobby"
                           >
@@ -86,10 +87,11 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Beranda</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/deposit"
                           >
@@ -109,10 +111,11 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Deposit</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/withdraw"
                           >
@@ -132,10 +135,11 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Withdraw</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/transaction-history"
                           >
@@ -155,10 +159,11 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Laporan Cash</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/deposit-history"
                           >
@@ -179,10 +184,11 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Ringkasan permainan</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
+                          <Link
+                            prefetch={false}
                             class="group flex gap-x-3 rounded-md border-b-2 border-gray-800 p-2 py-1 text-sm font-semibold uppercase leading-6"
                             href="/forgot-password"
                           >
@@ -202,7 +208,7 @@ export const Sidebar = component$<Props>(({ onClick }) => {
                             <span class="my-auto">Lupa Password</span>
                             <div class="grow"></div>
                             <span class="falseundefined my-auto pr-2">●</span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
                           <button
