@@ -71,7 +71,7 @@ export const LaunchProvider = component$(() => {
   const SiteInfo = useContext(SiteDataContext);
   const launchStore = useStore({
     game: initialGameState,
-    showLauncherDialog: false,
+    // showLauncherDialog: false,
     showGameWindow: false,
     gameLaunchResult: {
       err: 200,
@@ -84,21 +84,21 @@ export const LaunchProvider = component$(() => {
 
   const closeLauncherDialog = $(() => {
     launchStore.game = initialGameState;
-    launchStore.showLauncherDialog = false;
+    // launchStore.showLauncherDialog = false;
     launchStore.showGameWindow = false;
   });
 
   const launchGameAction = $(async (game: TransformedListI, path: string) => {
     console.log("what is path", path);
-    if (launchStore.showLauncherDialog) {
-      console.warn("cannot open other game, while opening another one");
-      return;
-    }
+    // if (launchStore.showLauncherDialog) {
+    //   console.warn("cannot open other game, while opening another one");
+    //   return;
+    // }
     launchStore.game = game;
     //TODO
     const si: any = SiteInfo.value.siteInfo;
     if (si.siteStatus?.isMaintenanceMode) {
-      launchStore.showLauncherDialog = false;
+      // launchStore.showLauncherDialog = false;
       return;
     }
     const launchCb: any = await fetch(
