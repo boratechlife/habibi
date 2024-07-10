@@ -15,6 +15,7 @@ import {
   z,
   Form,
   useNavigate,
+  DocumentHead,
 } from "@builder.io/qwik-city";
 import { fetchCheckAccountNo, fetchCheckPhone, fetchLogin } from "~/utils/Main";
 import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
@@ -22,6 +23,7 @@ import { queryBankAccountNo, queryPhone, queryUserName } from "./yoda";
 import { AuthContext } from "~/context/auth-context";
 import BaseLayout from "~/components/common/BaseLayout";
 import { LoaderPage } from "~/components/LoaderPage";
+import { useProductDetails } from "../layout";
 
 const formSchema = z.object({
   userName: z
@@ -643,3 +645,17 @@ const App = component$(() => {
 });
 
 export default App;
+
+export const head: DocumentHead = ({ resolveValue }) => {
+  const site: any = resolveValue(useProductDetails);
+
+  return {
+    title: site.siteInfo.SEO.register.title,
+    meta: [
+      {
+        name: "description",
+        content: site.siteInfo.SEO.register.description,
+      },
+    ],
+  };
+};

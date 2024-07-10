@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable qwik/no-use-visible-task */
 import {
   $,
   component$,
@@ -18,8 +20,10 @@ import { LeftSidebar } from "~/components/LeftSidebar";
 import LobbyHeader from "~/components/LobbyHeader";
 import { AuthContext } from "~/context/auth-context";
 import { LaunchProvider } from "~/context/launcherContext";
-import { TransformedListI } from "~/data/site";
-import { SiteDataContext } from "~/routes/layout";
+import { type TransformedListI } from "~/data/site";
+import { type GamesI } from "~/interfaces";
+import { SiteDataContext, useProductDetails } from "~/routes/layout";
+import { decompressString } from "~/utils/decompress";
 
 export default component$(() => {
   const id = useLocation().params.id;
@@ -36,6 +40,28 @@ export default component$(() => {
     gameSample: [] as TransformedListI[],
     searchKeyword: "",
     filteredGameSample: [] as TransformedListI[],
+  });
+
+  useTask$(async () => {
+    const siteGames = await fetch(
+      import.meta.env.PUBLIC_ASSETS +
+        "/public-js/sites/" +
+        import.meta.env.PUBLIC_MAIN_PARENT +
+        "-games.json",
+    ).then(async (res) => await res.text());
+    const _games = JSON.parse(siteGames);
+    const games: GamesI = {};
+
+    for (const category of Object.keys(_games)) {
+      const datatoDecompress = _games[category].list;
+      const decompressData = await decompressString(datatoDecompress);
+      games[category] = {
+        ..._games[category],
+        list: decompressData,
+      };
+    }
+    // console.log("what is SiteGames", games);
+    siteStore.value.SiteGames = games;
   });
 
   const filteredGames = useSignal<any[]>();
@@ -234,12 +260,37 @@ export default component$(() => {
   );
 });
 
-export const head: DocumentHead = {
-  title: "Welcome to Qwik",
-  meta: [
-    {
-      name: "description",
-      content: "Qwik site description",
-    },
-  ],
+export const head: DocumentHead = ({ resolveValue, params }) => {
+  const site: any = resolveValue(useProductDetails);
+
+  type IDKeys = keyof typeof ids;
+
+  const ids = {
+    99: { title: "Favorite", description: "Game Favorite" },
+    0: site.siteInfo.SEO.slot,
+    70: site.siteInfo.SEO.livecasino,
+    9: site.siteInfo.SEO.arcade,
+    7: { title: "Game Ikan", description: "Game Ikan" },
+    1: site.siteInfo.SEO.table,
+  };
+
+  return {
+    title: ids[params.id as unknown as IDKeys].title.toUpperCase(),
+    meta: [
+      {
+        name: "description",
+        content: ids[params.id as unknown as IDKeys].description,
+      },
+    ],
+    links: [
+      {
+        rel: "canonical",
+        href: site.siteInfo.canonical || "",
+      },
+      {
+        rel: "amphtml",
+        href: site.siteInfo?.amphtml || "",
+      },
+    ],
+  };
 };

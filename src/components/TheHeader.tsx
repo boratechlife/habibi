@@ -1,6 +1,7 @@
 // src/components/DatePicker.tsx
 import { $, component$, useStore } from "@builder.io/qwik";
 import { Sidebar } from "./Sidebar";
+import logoGif from "~/media/logo/BIMA-TOTO.webp";
 
 export const TheHeader = component$(() => {
   const state = useStore({ isOpen: false });
@@ -39,9 +40,11 @@ export const TheHeader = component$(() => {
           <div class="bg-gel-black/50 absolute inset-0 -z-10 rounded-3xl opacity-100 transition-opacity duration-500"></div>
           <a href="/lobby">
             <img
-              src="https://i.gyazo.com/d862425c73ab69bb8df5c63065ad9aea.gif"
+              src={logoGif}
               alt="Discover"
               class="h-14"
+              width={250}
+              height={87.08}
             />
           </a>
           <button class="buttonlc2 ml-1 inline-block h-[35px] min-w-[25%] rounded-xl border-4 border-solid border-yellow-600 bg-yellow-600 bg-[linear-gradient(#4a4a4a_0,#484848_50%,#000_95%)] px-0 pb-6 pt-2.5 text-center text-sm uppercase leading-[14px] text-white active:bg-amber-700">

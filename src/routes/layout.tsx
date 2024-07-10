@@ -7,12 +7,11 @@ import {
   useSignal,
 } from "@builder.io/qwik";
 import { routeLoader$, useLocation } from "@builder.io/qwik-city";
-import type { RequestHandler } from "@builder.io/qwik-city";
+import type { DocumentHead, RequestHandler } from "@builder.io/qwik-city";
 import AuthComponent from "~/components/AuthComponent";
 import { TheHeader } from "~/components/TheHeader";
 import { AuthProvider } from "~/context/auth-context";
 import { type SiteInfo } from "~/data/site";
-import { decompressString } from "~/utils/decompress";
 import { type GamesI, type SeoInterface } from "~/interfaces";
 import { type GetPasaranResponseI } from ".";
 import { paths_to_show } from "~/utils/Main";
@@ -43,7 +42,6 @@ export const SiteDataContext = createContextId<Signal<SiteInfo>>(
 );
 
 let siteInfo = "";
-let siteGames = "";
 
 export type SiteData = {
   SiteGames: GamesI;
@@ -51,55 +49,19 @@ export type SiteData = {
   siteInfo: SiteInfo;
 };
 
-export const useProductDetails = routeLoader$(async (requestEvent) => {
-  if (requestEvent.query.get("r") === "yes") {
-    siteInfo = "";
-    siteGames = "";
-  }
-
-  console.log("site-info-grabber");
-  if (siteInfo === "") {
-    console.log("Get siteInfo");
-    siteInfo = await fetch(
-      import.meta.env.PUBLIC_ASSETS +
-        "/public-js/sites/" +
-        import.meta.env.PUBLIC_MAIN_PARENT +
-        "-sites.json",
-    ).then(async (res) => await res.text());
-  }
-
-  if (siteGames === "") {
-    console.log("Get siteGames");
-    siteGames = await fetch(
-      import.meta.env.PUBLIC_ASSETS +
-        "/public-js/sites/" +
-        import.meta.env.PUBLIC_MAIN_PARENT +
-        "-games.json",
-    ).then(async (res) => await res.text());
-  }
-
-  const _games = JSON.parse(siteGames);
-  const games: GamesI = {};
-
-  for (const category of Object.keys(_games)) {
-    const datatoDecompress = _games[category].list;
-    const decompressData = await decompressString(datatoDecompress);
-    games[category] = {
-      ..._games[category],
-      list: decompressData,
-    };
-
-    // for (const game of JSON.parse(decompressData.toString())) {
-    //   site_games.push(transform(game, game.gType));
-    // }
-  }
+export const useProductDetails = routeLoader$(async () => {
+  siteInfo = await fetch(
+    import.meta.env.PUBLIC_ASSETS +
+      "/public-js/sites/" +
+      import.meta.env.PUBLIC_MAIN_PARENT +
+      "-sites.json",
+  ).then(async (res) => await res.text());
 
   const _siteInfo = JSON.parse(siteInfo) as SeoInterface;
-  // delete _siteInfo?.siteInfo.attributes;
-  // console.log("what is SiteGames", games);
+
   return {
     ..._siteInfo,
-    SiteGames: games,
+    SiteGames: {},
   };
 });
 
@@ -143,4 +105,8 @@ export default component$(() => {
       </>
     </AuthProvider>
   );
+});
+
+export const head: DocumentHead = ({ head }) => ({
+  title: "BIMATOTO - " + head.title,
 });
