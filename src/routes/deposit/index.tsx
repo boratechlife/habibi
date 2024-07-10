@@ -271,7 +271,7 @@ export default component$(() => {
                     label="Pilih metode pembayaran"
                     wrapperClasses="w-full"
                     name="bankAccountName"
-                    class="h-10 w-2/3  border-2 border-solid border-sky-500 px-3 text-black"
+                    class="h-10 w-2/3  border-2 border-solid border-bimatoto-purple px-3 text-black"
                     errors={
                       fieldErrors.fieldErrors &&
                       fieldErrors.fieldErrors.bankAccountName
@@ -310,7 +310,7 @@ export default component$(() => {
                     placeholder="Masukan jumlah deposit"
                     wrapperClasses="w-full"
                     name="amount"
-                    class="h-10 w-full rounded-full border-2 border-solid border-sky-500 px-3 text-black lg:w-1/2"
+                    class="h-10 w-full rounded-full border-2 border-solid border-bimatoto-purple px-3 text-black lg:w-1/2"
                     errors={
                       fieldErrors.fieldErrors && fieldErrors.fieldErrors.amount
                     }

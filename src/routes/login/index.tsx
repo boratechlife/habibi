@@ -139,7 +139,7 @@ export default component$(() => {
   return (
     <BaseLayout autoLogoSize>
       {formSubmitting.value && <LoaderPage />}
-      <div class="h-fit bg-[linear-gradient(#217cb1_0,#003f64_100%)] px-2 pt-2">
+      <div class="h-fit bg-bimatoto-purple px-2 pt-2">
         {error.value && error.value.length > 0 && (
           <div class="text-red-500">{error.value}</div>
         )}
@@ -167,6 +167,7 @@ export default component$(() => {
             errors={fieldErrors.fieldErrors && fieldErrors.fieldErrors.username}
             onInput={$((e) => handleInputChange(e as any))}
             onKeyDown={handleKeyDown}
+            class="text-bimatoto-gold"
             required
           />
 
@@ -175,7 +176,7 @@ export default component$(() => {
               type="submit"
               onClick$={handleSubmit}
               disabled={formSubmitting.value}
-              class="a mb-2.5 block h-11 w-full rounded-full border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)]"
+              class="a button-login mb-2.5 block h-11 w-full rounded-full  border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold"
             >
               Masuk
             </button>
@@ -201,7 +202,7 @@ export default component$(() => {
 //       <input
 //         type="password"
 //         name="password"
-//         class=" block h-12 w-full rounded-full border-4 border-solid border-sky-500 bg-white px-3 text-center tracking-normal text-sky-700 placeholder:text-sky-500 focus:border-4 focus:border-sky-600"
+//         class=" block h-12 w-full rounded-full border-4 border-solid border-bimatoto-purple bg-white px-3 text-center tracking-normal text-sky-700 placeholder:text-sky-500 focus:border-4 focus:border-sky-600"
 //         placeholder="Kata sandi"
 //         required
 //         minLength={8}

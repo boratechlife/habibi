@@ -11,7 +11,7 @@ export const TheHeader = component$(() => {
 
   return (
     <header class="has-background null fixed left-0 right-0 top-0 z-10 w-full  backdrop-blur-sm transition-all duration-300 ease-out lg:mx-auto lg:backdrop-blur-none">
-      <div class="relative flex border-b-2 border-solid border-b-sky-800 bg-sky-900">
+      <div class="relative flex border-b-2 border-solid bg-bimatoto-darkPurple bg-bimatoto-darkPurple/80">
         <div class="flex w-full items-center justify-between rounded-3xl p-2">
           <button
             type="button"

@@ -228,7 +228,7 @@ export default component$(() => {
                     }
                     onInput={$((e) => handleInputChange(e as Event))}
                     autocomplete="off"
-                    class="h-10 w-full rounded-full border-2 border-solid border-sky-500 px-3 text-black"
+                    class="h-10 w-full rounded-full border-2 border-solid border-bimatoto-purple px-3 text-black"
                   />
                 </div>
               </div>

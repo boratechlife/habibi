@@ -70,7 +70,7 @@ export default component$(() => {
                 </div>
                 <div class="relative w-2/3 px-2">
                   <input
-                    class="h-10 w-full rounded-full border-2 border-solid border-sky-500 px-3 text-black"
+                    class="h-10 w-full rounded-full border-2 border-solid border-bimatoto-purple px-3 text-black"
                     name="userName"
                     value={state.userName}
                     onInput$={(e) =>
@@ -91,7 +91,7 @@ export default component$(() => {
                 </div>
                 <div class="relative w-2/3 px-2">
                   <input
-                    class="h-10 w-full rounded-full border-2 border-solid border-sky-500 px-3 text-black"
+                    class="h-10 w-full rounded-full border-2 border-solid border-bimatoto-purple px-3 text-black"
                     name="eMail"
                     value={state.eMail}
                     onInput$={(e) =>
@@ -106,7 +106,7 @@ export default component$(() => {
                 </div>
               </div>
               <div class="py-3 text-right text-red-500"></div>
-              <button class="mb-2.5 block h-11 w-full min-w-fit rounded-xl border-0 bg-sky-500 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white">
+              <button class="mb-2.5 block h-11 w-full min-w-fit rounded-xl border-0 bg-green-500 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white">
                 Reset Password
               </button>
             </form>

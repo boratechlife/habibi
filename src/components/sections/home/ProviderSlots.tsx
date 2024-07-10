@@ -87,7 +87,7 @@ export default component$(() => {
 
   return (
     <div class="px-5 py-3">
-      <div class="rounded-xl border border-solid border-sky-500 bg-sky-800 text-white">
+      <div class="bg-bimatoto-darkGreen1    rounded-xl  text-white">
         <div class="flex p-2 text-xs">
           <p>🎰 Provider Slots</p>
           <div class="grow"> </div>
@@ -97,7 +97,7 @@ export default component$(() => {
           <div class="swiper-wrapper">
             {uniqueProviders?.map(({ imgsrc, provider }, index) => (
               <div key={index} class="swiper-slide">
-                <div class="w-11/12 rounded-xl border border-solid border-sky-500 bg-sky-900">
+                <div class="button-provider w-11/12 rounded-xl border border-solid  border-transparent">
                   <img
                     src={imgsrc}
                     height={48}

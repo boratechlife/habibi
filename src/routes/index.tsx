@@ -73,18 +73,18 @@ export default component$(() => {
   useStylesScoped$(styles);
   return (
     <BaseLayout>
-      <div class="bg-[linear-gradient(#217cb1_0,#003f64_100%)] pt-7">
+      <div class="bg-bimatoto-purple pt-7">
         {!isLoggedIn.value && (
           <div class="grid grid-cols-2 gap-12 px-2">
             <a
-              class="mb-2.5 block h-11 min-w-fit rounded-full  border-0 bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,inset_-1px_-3px_0_0_#4dbeff,inset_0_2px_4px_2px_#5ac4ff,0_0_0_0_rgba(0,0,0,.2)]"
+              class="button-login mb-2.5 block h-11 min-w-fit  rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold "
               href="/login"
             >
               Sign In
             </a>
 
             <a
-              class="mb-2.5 block h-11 items-center rounded-full border-0 bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,_inset_0_-4px_0_0_#008bdc,_inset_0_5px_8px_0_#0e74b6,_0_0_0_0_rgba(0,0,0,.2)] lg:block lg:px-5"
+              class="button-login mb-2.5 block h-11 items-center rounded-full border-0 px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold  lg:block lg:px-5"
               href="/register"
             >
               Sign Up
@@ -101,7 +101,7 @@ export default component$(() => {
           </div>
         )}
 
-        <div class="flex bg-sky-900 p-2 text-xs text-white">
+        <div class="flex bg-bimatoto-darkerGreen p-2 text-xs text-bimatoto-gold">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -118,7 +118,7 @@ export default component$(() => {
             ></path>
           </svg>
           <div
-            class="rfm-marquee-container"
+            class="rfm-marquee-container  "
             style="--pause-on-hover: running; --pause-on-click: running; --width: 100%; --transform: none;"
           >
             <div
@@ -150,7 +150,7 @@ export default component$(() => {
               style="--play: running; --direction: normal; --duration: 81.7625s; --delay: 0s; --iteration-count: infinite; --min-width: 100%;"
             >
               <div class="rfm-child" style="--transform: none;">
-                <span class="my-0.5">
+                <span class="my-0.5 ">
                   Selamat Datang di PAUS4D - situs terpercaya yang menyediakan
                   ratusan permainan slot online pasti gacor dan pasaran togel
                   terlengkap secara resmi menang pasti bayar. Tersedia 50
@@ -171,7 +171,7 @@ export default component$(() => {
           <div class="px-5">
             <div class="">
               <a
-                class="mb-2.5 block h-11 min-w-fit rounded-full border-0 bg-[linear-gradient(#00a5ff,#009bff_0,#004a73_110%)] px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-white shadow-[inset_0_0_0_0_#000,inset_0_-4px_0_0_#008bdc,inset_0_5px_8px_0_#0e74b6,0_0_0_0_rgba(0,0,0,.2)]"
+                class="button-login text-bimatoto-gold- mb-2.5 block h-11 min-w-fit rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold"
                 rel="dofollow"
                 id="highlight"
                 style="font-weight:bold"
@@ -207,40 +207,40 @@ export default component$(() => {
         </div>
         <ProviderSlots />
         <div class="px-5">
-          <div class="rounded-xl border border-solid border-sky-500 bg-sky-800">
+          <div class="bg-bimatoto-darkGreen1 rounded-xl border border-solid border-bimatoto-purple">
             <p class="text-center text-lg font-semibold uppercase text-white">
               layanan kami
             </p>
-            <div class="border border-solid border-sky-700"></div>
+            {/* <div class="border border-solid border-sky-700"></div> */}
             <div class="mt-0 flex w-full gap-x-2 bg-transparent px-2 pb-3 pt-2 text-center text-white">
-              <div class="inline-block w-1/3 rounded-xl border border-solid border-sky-500 bg-[linear-gradient(#217cb1_0,#003f64_100%)]">
-                <p class="rounded-tl-xl rounded-tr-xl bg-sky-900 p-1 text-xs uppercase">
+              <div class="button-provider inline-block w-1/3 rounded-xl">
+                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
                   DEPSOSIT
                 </p>
                 <div class="mt-1">
                   <p class="text-center text-xs">Rata-rata</p>
                   <p class="text-2xl font-extrabold">1</p>
                   <p class="text-lg">Menit</p>
-                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-[#0d5684] p-1">
-                    <div class="progress-bar h-2.5 w-1/4 rounded-lg bg-[linear-gradient(90deg,#bd8700,#f9b200,#ffc32d)]"></div>
+                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-bimatoto-darkPurple p-1">
+                    <div class="progress-bar h-2.5 w-1/4 rounded-lg "></div>
                   </div>
                 </div>
               </div>
-              <div class="inline-block w-1/3 rounded-xl border border-solid border-sky-500 bg-[linear-gradient(#217cb1_0,#003f64_100%)]">
-                <p class="rounded-tl-xl rounded-tr-xl bg-sky-900 p-1 text-xs uppercase">
+              <div class="button-provider inline-block w-1/3 rounded-xl">
+                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
                   Cash Out
                 </p>
                 <div class="mt-1">
                   <p class="text-center text-xs">Rata-rata</p>
                   <p class="text-2xl font-extrabold">3</p>
                   <p class="text-lg">Menit</p>
-                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-[#0d5684] p-1">
-                    <div class="progress-bar h-2.5 w-2/5 rounded-lg bg-[linear-gradient(90deg,#bd8700,#f9b200,#ffc32d)]"></div>
+                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-bimatoto-darkPurple p-1">
+                    <div class="progress-bar h-2.5 w-2/5 rounded-lg "></div>
                   </div>
                 </div>
               </div>
-              <div class="inline-block w-1/3 rounded-xl border border-solid border-sky-500 bg-[linear-gradient(#217cb1_0,#003f64_100%)]">
-                <p class="rounded-tl-xl rounded-tr-xl bg-sky-900 p-1 text-xs uppercase">
+              <div class="button-provider inline-block w-1/3 rounded-xl">
+                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
                   login hari ini
                 </p>
                 <div class="mt-3">
@@ -249,7 +249,7 @@ export default component$(() => {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     aria-hidden="true"
-                    class="mx-auto h-10 w-10 rounded-full border-2 border-solid border-sky-500"
+                    class="mx-auto h-10 w-10 rounded-full border-2 border-solid border-bimatoto-purple"
                   >
                     <path
                       fill-rule="evenodd"
