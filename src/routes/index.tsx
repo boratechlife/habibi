@@ -80,14 +80,14 @@ export default component$(() => {
               class="button-login mb-2.5 block h-11 min-w-fit  rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold "
               href="/login"
             >
-              Sign In
+              Masuk
             </a>
 
             <a
               class="button-login mb-2.5 block h-11 items-center rounded-full border-0 px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold  lg:block lg:px-5"
               href="/register"
             >
-              Sign Up
+              Daftar
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -146,7 +146,7 @@ export default component$(() => {
               )}
             </div>
             <div
-              class="rfm-marquee"
+              class="rfm-marquee hidden lg:block"
               style="--play: running; --direction: normal; --duration: 81.7625s; --delay: 0s; --iteration-count: infinite; --min-width: 100%;"
             >
               <div class="rfm-child" style="--transform: none;">
@@ -207,15 +207,15 @@ export default component$(() => {
         </div>
         <ProviderSlots />
         <div class="px-5">
-          <div class="bg-bimatoto-darkGreen1 rounded-xl border border-solid border-bimatoto-purple">
+          <div class="rounded-xl border border-solid border-bimatoto-purple bg-bimatoto-darkGreen1">
             <p class="text-center text-lg font-semibold uppercase text-white">
               layanan kami
             </p>
             {/* <div class="border border-solid border-sky-700"></div> */}
             <div class="mt-0 flex w-full gap-x-2 bg-transparent px-2 pb-3 pt-2 text-center text-white">
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
-                  DEPSOSIT
+                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
+                  Deposit
                 </p>
                 <div class="mt-1">
                   <p class="text-center text-xs">Rata-rata</p>
@@ -227,7 +227,7 @@ export default component$(() => {
                 </div>
               </div>
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
+                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
                   Cash Out
                 </p>
                 <div class="mt-1">
@@ -240,7 +240,7 @@ export default component$(() => {
                 </div>
               </div>
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="bg-bimatoto-darkGreen1 rounded-tl-xl rounded-tr-xl p-1 text-xs uppercase">
+                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
                   login hari ini
                 </p>
                 <div class="mt-3">

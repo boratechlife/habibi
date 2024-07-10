@@ -87,7 +87,7 @@ export default component$(() => {
 
   return (
     <div class="px-5 py-3">
-      <div class="bg-bimatoto-darkGreen1    rounded-xl  text-white">
+      <div class="rounded-xl    bg-bimatoto-darkGreen1  text-white">
         <div class="flex p-2 text-xs">
           <p>🎰 Provider Slots</p>
           <div class="grow"> </div>
