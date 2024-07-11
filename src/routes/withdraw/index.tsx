@@ -108,6 +108,7 @@ export default component$(() => {
     console.log(authStore.user);
     formData.availableCredt = authStore.user.AvailableCredit;
     formData.minWithdraw = authStore.user;
+    console.log("auth", authStore.user);
     const token = authStore.user.token;
 
     if (!token) {
@@ -149,7 +150,7 @@ export default component$(() => {
               const minAmount = bank.value.Operator.min.va.Withdraw;
               if (formattedAmount < minAmount) {
                 return false;
-              } else if (formattedAmount > authStore.user.AvailableCredit) {
+              } else if (formattedAmount > formData.availableCredt) {
                 // throw new Error(
                 //   "Amount must be less than " + authStore.user.AvailableCredit,
                 // );
