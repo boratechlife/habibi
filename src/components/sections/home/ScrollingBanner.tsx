@@ -169,7 +169,7 @@ export default component$(() => {
       </div>
 
       <div class="overflow-x-clip">
-        <div class="swiper banner-swiper  h-[400px] w-screen lg:h-[600px] ">
+        <div class="swiper banner-swiper h-56 w-screen  md:h-[400px] lg:h-[600px] ">
           <div class="swiper-wrapper">
             {banners
               .filter((image: { isShow: any }) => image.isShow)
@@ -184,7 +184,7 @@ export default component$(() => {
                 ) => (
                   <div
                     key={banner.index + "" + index}
-                    class="swiper-slide relative  h-[400px] w-screen lg:h-[600px] "
+                    class="swiper-slide relative h-56  w-screen md:h-[400px] lg:h-[600px] "
                   >
                     <img
                       src={banner.imageurl}
@@ -192,7 +192,7 @@ export default component$(() => {
                       alt={banner.imagealt}
                       height={600}
                       width={1200}
-                      class=" absolute h-full w-full object-cover "
+                      class=" absolute h-full w-full  object-contain md:object-fill"
                     />
                   </div>
                 ),
