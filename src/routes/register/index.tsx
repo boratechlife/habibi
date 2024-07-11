@@ -339,8 +339,8 @@ const App = component$(() => {
       {
         // username: register_state.formData.userName,
         // password: register_state.formData.userName,
-        username: "tobrut1",
-        password: "Abcd8899",
+        username: register_state.formData.userName.toLowerCase().trim(),
+        password: register_state.formData.password,
       },
       userIpAddress,
     );
@@ -350,7 +350,6 @@ const App = component$(() => {
 
     if (!res.Result) {
       console.log("Result", res);
-
       alert("error Login in");
       loggingIn.value = false;
       return;
@@ -372,7 +371,9 @@ const App = component$(() => {
         }),
       );
       authContext.user = res;
-      loggingIn.value = false;
+      setTimeout(async () => {
+        loggingIn.value = false;
+      }, 5000);
       await nav("/lobby");
     }
 

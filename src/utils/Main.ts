@@ -450,7 +450,7 @@ export const fetchLogin = async (
     const loginBody = await response.json();
 
     const balanceCb = await fetch(
-      import.meta.env.PUBLIC_BACKEND_URL + "/user/balance",
+      import.meta.env.PUBLIC_BACKEND_URL + "user/balance",
       {
         method: "GET",
         headers: {
