@@ -85,7 +85,7 @@ export default component$(() => {
     // { eagerness: "visible" },
   );
   return (
-    <div class="mx-2.5 mt-2 block overflow-x-hidden rounded-sm border border-solid border-bimatoto-purple bg-bimatoto-darkPurple">
+    <div class="mx-2.5 mt-2 block overflow-x-hidden rounded-sm border border-solid border-bimatoto-purple bg-indie-black">
       <div class="">
         <div class="swiper banner-icons-swiper [--swiper-navigation-color:white] [--swiper-scrollbar-bg-color:transparent] [--swiper-scrollbar-drag-bg-color:#4c758d] [--swiper-scrollbar-sides-offset:28px]">
           <div class="swiper-wrapper max-md:pl-3">

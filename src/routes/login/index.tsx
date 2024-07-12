@@ -155,7 +155,7 @@ export default component$(() => {
   return (
     <BaseLayout autoLogoSize>
       {formSubmitting.value && <LoaderPage />}
-      <div class="h-fit bg-bimatoto-purple px-2 pt-2">
+      <div class="h-fit bg-indie-darkGray px-2 pt-2">
         {error.value && error.value.length > 0 && (
           <div class="text-red-500">{error.value}</div>
         )}
@@ -183,7 +183,7 @@ export default component$(() => {
             errors={fieldErrors.fieldErrors && fieldErrors.fieldErrors.username}
             onInput={$((e) => handleInputChange(e as any))}
             onKeyDown={handleKeyDown}
-            class="text-bimatoto-gold"
+            class="text-indie-black"
             required
           />
 
@@ -192,7 +192,7 @@ export default component$(() => {
               type="submit"
               onClick$={handleSubmit}
               disabled={formSubmitting.value}
-              class="a button-login mb-2.5 block h-11 w-full rounded-full  border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold"
+              class="a button-login mb-2.5 block h-11 w-full rounded-full  border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-indie-black"
             >
               Masuk
             </button>

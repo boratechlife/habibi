@@ -410,11 +410,11 @@ const App = component$(() => {
       {action.isRunning && <LoaderPage />}
       {loggingIn.value && <LoaderPage />}
 
-      <Form action={action} class="mx-auto  space-y-6 bg-bimatoto-purple pt-2">
-        <div class="bg-bimatoto-purple  pt-2">
+      <Form action={action} class="mx-auto  space-y-6 bg-indie-darkGray pt-2">
+        <div class="bg-indie-darkGray  pt-2">
           <div class="space-y-3">
             <div>
-              <div class="mb-[15px] bg-bimatoto-darkPurple py-2.5 text-center text-lg text-white">
+              <div class="mb-[15px] bg-indie-black py-2.5 text-center text-lg text-white">
                 Informasi Pribadi
               </div>
               <div class="space-y-1 px-10">
@@ -496,7 +496,7 @@ const App = component$(() => {
               </div>
             </div>
             <div>
-              <div class="mb-[15px] mt-10 bg-bimatoto-darkPurple py-2.5 text-center text-lg text-white">
+              <div class="mb-[15px] mt-10 bg-indie-black py-2.5 text-center text-lg text-white">
                 Informasi Pembayaran
               </div>
               <div class="space-y-1 px-10">
@@ -615,7 +615,7 @@ const App = component$(() => {
               <button
                 disabled={action.isRunning || loggingIn.value}
                 type="submit"
-                class="w-full rounded-3xl border-0 border-solid border-[#f0a50e] bg-[#ff9806] bg-[linear-gradient(180deg,#ddf3ff_0,#1cadff_50%,#0073b3)] p-3 uppercase text-white shadow-[inset_0_0_0_0_#000,_inset_-1px_-3px_0_0_#4dbeff,_inset_0_2px_4px_2px_#5ac4ff,_0_0_0_0_rgba(0,_0,_0,_.2)] hover:bg-[#ffb31b]"
+                class="button-login w-full rounded-3xl  border-0 p-3 uppercase text-white"
               >
                 Daftar
               </button>

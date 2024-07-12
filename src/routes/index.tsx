@@ -73,18 +73,18 @@ export default component$(() => {
   useStylesScoped$(styles);
   return (
     <BaseLayout>
-      <div class="bg-bimatoto-purple pt-7">
+      <div class="bg-indie-black pt-7">
         {!isLoggedIn.value && (
           <div class="grid grid-cols-2 gap-12 px-2">
             <a
-              class="button-login mb-2.5 block h-11 min-w-fit  rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold "
+              class="button-login mb-2.5 block h-11 min-w-fit  rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-indie-black "
               href="/login"
             >
               Masuk
             </a>
 
             <a
-              class="button-login mb-2.5 block h-11 items-center rounded-full border-0 px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold  lg:block lg:px-5"
+              class="button-login mb-2.5 block h-11 items-center rounded-full border-0 px-3  pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-indie-black  lg:block lg:px-5"
               href="/register"
             >
               Daftar
@@ -101,7 +101,7 @@ export default component$(() => {
           </div>
         )}
 
-        <div class="flex bg-bimatoto-darkerGreen p-2 text-xs text-bimatoto-gold">
+        <div class="flex bg-black p-2 text-xs text-bimatoto-gold">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -171,7 +171,7 @@ export default component$(() => {
           <div class="px-5">
             <div class="">
               <a
-                class="button-login text-bimatoto-gold- mb-2.5 block h-11 min-w-fit rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-bimatoto-gold"
+                class="button-login mb-2.5 block h-11 min-w-fit rounded-full border-0 px-5 pb-6 pt-2.5 text-center text-lg font-extrabold uppercase leading-5 tracking-wide text-indie-black"
                 rel="dofollow"
                 id="highlight"
                 style="font-weight:bold"
@@ -207,40 +207,40 @@ export default component$(() => {
         </div>
         <ProviderSlots />
         <div class="px-5">
-          <div class="rounded-xl border border-solid border-bimatoto-purple bg-bimatoto-darkGreen1">
+          <div class="rounded-xl border border-solid border-transparent bg-indie-darkGray">
             <p class="text-center text-lg font-semibold uppercase text-white">
               layanan kami
             </p>
             {/* <div class="border border-solid border-sky-700"></div> */}
             <div class="mt-0 flex w-full gap-x-2 bg-transparent px-2 pb-3 pt-2 text-center text-white">
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
+                <p class="rounded-tl-xl rounded-tr-xl bg-indie-darkGray p-1 text-xs uppercase">
                   Deposit
                 </p>
                 <div class="mt-1">
                   <p class="text-center text-xs">Rata-rata</p>
                   <p class="text-2xl font-extrabold">1</p>
                   <p class="text-lg">Menit</p>
-                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-bimatoto-darkPurple p-1">
+                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-indie-black p-1">
                     <div class="progress-bar h-2.5 w-1/4 rounded-lg "></div>
                   </div>
                 </div>
               </div>
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
+                <p class="rounded-tl-xl rounded-tr-xl bg-indie-darkGray p-1 text-xs uppercase">
                   Cash Out
                 </p>
                 <div class="mt-1">
                   <p class="text-center text-xs">Rata-rata</p>
                   <p class="text-2xl font-extrabold">3</p>
                   <p class="text-lg">Menit</p>
-                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-bimatoto-darkPurple p-1">
+                  <div class="mx-1 mb-1 mt-0 rounded-lg border border-solid border-[#1f8ed5] bg-indie-black p-1">
                     <div class="progress-bar h-2.5 w-2/5 rounded-lg "></div>
                   </div>
                 </div>
               </div>
               <div class="button-provider inline-block w-1/3 rounded-xl">
-                <p class="rounded-tl-xl rounded-tr-xl bg-bimatoto-darkGreen1 p-1 text-xs uppercase">
+                <p class="rounded-tl-xl rounded-tr-xl bg-indie-darkGray p-1 text-xs uppercase">
                   login hari ini
                 </p>
                 <div class="mt-3">
@@ -249,7 +249,7 @@ export default component$(() => {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     aria-hidden="true"
-                    class="mx-auto h-10 w-10 rounded-full border-2 border-solid border-bimatoto-purple"
+                    class="mx-auto h-10 w-10 rounded-full border-2 border-solid border-transparent"
                   >
                     <path
                       fill-rule="evenodd"

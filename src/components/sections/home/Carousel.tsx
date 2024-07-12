@@ -160,7 +160,7 @@ export default component$(() => {
               ]}
               key={index + "first"}
             >
-              <div class="w-11/12 rounded-xl border border-solid border-bimatoto-purple bg-bimatoto-darkPurple">
+              <div class="w-11/12 rounded-xl border border-solid border-indie-black bg-indie-darkGray">
                 <p class="mb-3 w-full text-center text-neutral-200">
                   {item.pasaran_name}
                 </p>
@@ -188,7 +188,7 @@ export default component$(() => {
               ]}
               key={index + "second"}
             >
-              <div class="w-11/12 rounded-xl border border-solid border-bimatoto-purple bg-bimatoto-darkPurple">
+              <div class="w-11/12 rounded-xl border border-solid border-indie-black bg-indie-darkGray">
                 <p class="mb-3 w-full text-center text-neutral-200">
                   {item.pasaran_name}
                 </p>

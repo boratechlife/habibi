@@ -54,7 +54,7 @@ export const Sidebar = component$<Props>(({ onClick }) => {
               id="headlessui-dialog-panel-:r3:"
               data-headlessui-state="open"
             >
-              <div class="flex grow flex-col gap-y-2 overflow-y-auto bg-bimatoto-purple px-2 pb-2 text-white">
+              <div class="flex grow flex-col gap-y-2 overflow-y-auto bg-indie-darkGray px-2 pb-2 text-white">
                 <div class="flex h-16 shrink-0 items-center">
                   <div class="grow"></div>
                   <button type="button" id="close-button" onClick$={onClick}>

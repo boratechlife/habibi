@@ -6,15 +6,14 @@ module.exports = {
   theme: {
     extend: {   
       colors: {
-      bimatoto: {
-        darkPurple: '#210338',
-        purple: '#4b2c59',
-        gold: '#e5ac4f',
-        darkGreen: '#294e3f',
-        darkerGreen: '#0f382b',
-        blue: '#325e84',
-        darkGreen1: '#223c23',
-        
+      indie: {
+        lightGold: '#dac06d',
+        gold: '#efd051',
+        darkGold: '#976700',
+        lightGray: '#b5b5b5',
+        red: '#d30023',
+        darkGray: '#212121',
+        black: '#000000',
       },
     },
       keyframes: {

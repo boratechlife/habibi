@@ -1,7 +1,7 @@
 // src/components/DatePicker.tsx
 import { $, component$, useStore } from "@builder.io/qwik";
 import { Sidebar } from "./Sidebar";
-import logoGif from "~/media/logo/BIMA-TOTO.webp";
+import logoGif from "~/media/logos/logo.webp";
 
 export const TheHeader = component$(() => {
   const state = useStore({ isOpen: false });
@@ -12,7 +12,7 @@ export const TheHeader = component$(() => {
 
   return (
     <header class="has-background null fixed left-0 right-0 top-0 z-10 w-full  backdrop-blur-sm transition-all duration-300 ease-out lg:mx-auto lg:backdrop-blur-none">
-      <div class="relative flex border-b-2 border-solid bg-bimatoto-darkPurple bg-bimatoto-darkPurple/80">
+      <div class="relative flex border-b-2 border-solid bg-indie-black bg-indie-black/80">
         <div class="flex w-full items-center justify-between rounded-3xl p-2">
           <button
             type="button"
