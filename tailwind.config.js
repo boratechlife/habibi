@@ -4,18 +4,19 @@ module.exports = {
     "./node_modules/flowbite/**/*.js", // add this line
   ],
   theme: {
-    extend: {   
+    extend: {
       colors: {
-      indie: {
-        lightGold: '#dac06d',
-        gold: '#efd051',
-        darkGold: '#976700',
-        lightGray: '#b5b5b5',
-        red: '#d30023',
-        darkGray: '#212121',
-        black: '#000000',
+        habibi: {
+          brightYellow: "#f3b000",
+          white: "#ffffff",
+          green: "#377760",
+          darkPurple: "#553140",
+          darkGray: "#212121",
+          darkGreen: "#183d21",
+          darkerGreen: "#023e1e",
+          lightGreen: "#8bc6a9",
+        },
       },
-    },
       keyframes: {
         "change-color": {
           "0%,50%": {

@@ -410,11 +410,11 @@ const App = component$(() => {
       {action.isRunning && <LoaderPage />}
       {loggingIn.value && <LoaderPage />}
 
-      <Form action={action} class="bg-indie-darkGray  mx-auto space-y-6 pt-2">
-        <div class="bg-indie-darkGray  pt-2">
+      <Form action={action} class="bg-habibi-darkGray  mx-auto space-y-6 pt-2">
+        <div class="bg-habibi-darkGray  pt-2">
           <div class="space-y-3">
             <div>
-              <div class="bg-indie-black mb-[15px] py-2.5 text-center text-lg text-white">
+              <div class="bg-habibi-green mb-[15px] py-2.5 text-center text-lg text-white">
                 Informasi Pribadi
               </div>
               <div class="space-y-1 px-10">
@@ -427,7 +427,7 @@ const App = component$(() => {
                       handleInputChange("userName", event),
                     )}
                     placeholder="Nama Pengguna Anda"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base lowercase leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base lowercase leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
 
                   <p class="text-red-500">
@@ -447,7 +447,7 @@ const App = component$(() => {
                       handleInputChange("password", event),
                     )}
                     placeholder="Kata Sandi Anda"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
                   <p class="text-red-500">
                     {Array.isArray(action.value?.fieldErrors?.password)
@@ -465,7 +465,7 @@ const App = component$(() => {
                     onInput$={$((event: Event) =>
                       handleInputChange("eMail", event),
                     )}
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
                   <p class="text-red-500">
                     {Array.isArray(action.value?.fieldErrors?.eMail)
@@ -483,7 +483,7 @@ const App = component$(() => {
                       handleInputChange("telephone", event),
                     )}
                     placeholder="Nomor Telefon Anda"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
 
                   <p class="text-red-500">
@@ -496,7 +496,7 @@ const App = component$(() => {
               </div>
             </div>
             <div>
-              <div class="bg-indie-black mb-[15px] mt-10 py-2.5 text-center text-lg text-white">
+              <div class="bg-habibi-green mb-[15px] mt-10 py-2.5 text-center text-lg text-white">
                 Informasi Pembayaran
               </div>
               <div class="space-y-1 px-10">
@@ -504,7 +504,7 @@ const App = component$(() => {
                   <label class="block text-white">Bank *</label>
                   <select
                     name="bank"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                     onChange$={$((event: Event) =>
                       handleInputChange("bank", event),
                     )}
@@ -542,7 +542,7 @@ const App = component$(() => {
                       handleInputChange("bankName", event),
                     )}
                     placeholder="Nama lengkap anda sesuai dengan buku tabungan"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
                   <p class="text-red-500">
                     {Array.isArray(action.value?.fieldErrors?.bankName)
@@ -560,7 +560,7 @@ const App = component$(() => {
                       handleInputChange("bankAccount", event),
                     )}
                     placeholder="Nomor rekening anda"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
 
                   <p class="text-red-500">
@@ -602,7 +602,7 @@ const App = component$(() => {
                       handleInputChange("referral", event),
                     )}
                     placeholder="Kode Referensi"
-                    class="block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
+                    class="focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-neutral-900 px-3 py-1.5 text-left align-middle text-base normal-case leading-[1.42857] text-neutral-500 shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-neutral-400 focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none"
                   />
                   {Array.isArray(action.value?.fieldErrors?.referral)
                     ? action.value?.fieldErrors?.referral.join(", ")

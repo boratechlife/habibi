@@ -49,7 +49,7 @@ export default component$<InputProps>(
           onKeyDown$={onKeyDown}
           type={props.name == "password" && !isView.value ? "password" : "text"}
           class={[
-            "block h-9 w-full rounded-none border border-solid border-neutral-900 bg-white px-3 py-1.5 text-left align-middle text-base  normal-case leading-[1.42857] text-indie-black shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-indie-black focus:border-bimatoto-purple focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none",
+            "focus:border-bimatoto-purple block h-9 w-full rounded-none border border-solid border-neutral-900 bg-white px-3 py-1.5 text-left align-middle  text-base normal-case leading-[1.42857] text-black shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset] placeholder:capitalize placeholder:text-black focus:shadow-[rgba(0,0,0,0.075)_0_1px_1px_inset,rgba(102,175,233,0.6)_0_0_8px] focus:outline-none",
             classes,
           ]}
         />

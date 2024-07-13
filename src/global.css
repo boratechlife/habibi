@@ -16,18 +16,26 @@ button {
 }
 
 .button-login {
-  background-image: linear-gradient(180deg,#efd051 0,#dac06d 50%,#976700);
-  box-shadow: inset 0 0 0 0 #efd051,inset -1px -3px 0 0 #dac06d,inset 0 2px 4px 2px #dac06d,0 0 0 0 rgba(0,0,0,.2);
- 
+  background-image: linear-gradient(180deg, #8bc6a9 0, #8bc6a9 50%, #183d21);
+  @apply text-white;
+  box-shadow:
+    inset 0 0 0 0 #377760,
+    inset -1px -3px 0 0 #8bc6a9,
+    inset 0 2px 4px 2px #8bc6a9,
+    0 0 0 0 rgba(0, 0, 0, 0.2);
 }
 
 .button-provider {
-  background-image: linear-gradient(180deg, #976700 0, #dac06d 50%, #efd051);
-  box-shadow: inset 0 0 0 0 #976700, inset -1px -3px 0 0 #dac06d, inset 0 2px 4px 2px #efd051, 0 0 0 0 rgba(0, 0, 0, .2);
+  background-image: linear-gradient(180deg, #377760 0, #8bc6a9 50%, #8bc6a9);
+  box-shadow:
+    inset 0 0 0 0 #377760,
+    inset -1px -3px 0 0 #8bc6a9,
+    inset 0 2px 4px 2px #8bc6a9,
+    0 0 0 0 rgba(0, 0, 0, 0.2);
 }
 
 .progress-bar {
-  background: linear-gradient(90deg, #efd051, #efd051, #efd051);
+  background: linear-gradient(90deg, #553140, #553140, #553140);
 }
 
 @tailwind utilities;

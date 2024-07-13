@@ -149,7 +149,7 @@ export default component$(() => {
   );
 
   return (
-    <div class="space-y-2 px-5 py-3">
+    <div class="bg-habibi-lightGreen space-y-2 px-5 py-3 ">
       <div class="swiper carousel-swiper">
         <div class="swiper-wrapper">
           {[...firstPools.value].map((item, index) => (
@@ -160,7 +160,7 @@ export default component$(() => {
               ]}
               key={index + "first"}
             >
-              <div class="w-11/12 rounded-xl border border-solid border-indie-black bg-indie-darkGray">
+              <div class="bg-habibi-darkGray border-habibi-darkGray w-11/12 rounded-xl border border-solid">
                 <p class="mb-3 w-full text-center text-neutral-200">
                   {item.pasaran_name}
                 </p>
@@ -188,7 +188,7 @@ export default component$(() => {
               ]}
               key={index + "second"}
             >
-              <div class="w-11/12 rounded-xl border border-solid border-indie-black bg-indie-darkGray">
+              <div class="bg-habibi-darkGray border-habibi-darkGray w-11/12 rounded-xl border border-solid">
                 <p class="mb-3 w-full text-center text-neutral-200">
                   {item.pasaran_name}
                 </p>

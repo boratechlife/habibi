@@ -85,78 +85,78 @@ export default component$(() => {
     // { eagerness: "visible" },
   );
   return (
-    <div class="mx-2.5 mt-2 block overflow-x-hidden rounded-sm border border-solid border-bimatoto-purple bg-indie-black">
+    <div class="border-bimatoto-purple bg-habibi-darkGray mx-2.5 mt-2 block overflow-x-hidden rounded-sm border border-solid">
       <div class="">
         <div class="swiper banner-icons-swiper [--swiper-navigation-color:white] [--swiper-scrollbar-bg-color:transparent] [--swiper-scrollbar-drag-bg-color:#4c758d] [--swiper-scrollbar-sides-offset:28px]">
           <div class="swiper-wrapper max-md:pl-3">
             <div
               id="cat-99"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/99")}
             >
               <div style="pointer-events: none;">
                 <FavoriteSvg />
-                <p class="uppercase text-bimatoto-gold">favorite</p>
+                <p class="text-habibi-brightYellow uppercase">favorite</p>
               </div>
             </div>
             <div
               id="cat-12"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/lobby")}
             >
               <div style="pointer-events: none;">
                 <LotterySvg />
-                <p class="uppercase text-bimatoto-gold">Lottery</p>
+                <p class="text-habibi-brightYellow uppercase">Lottery</p>
               </div>
             </div>
             <div
               id="cat-0"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/0")}
             >
               <div style="pointer-events: none;">
                 <SlotsSvg />
-                <p class="uppercase text-bimatoto-gold">Slots</p>
+                <p class="text-habibi-brightYellow uppercase">Slots</p>
               </div>
             </div>
             <div
               id="cat-70"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/70")}
             >
               <div style="pointer-events: none;">
                 <LiveCasinoSvg />
-                <p class="uppercase text-bimatoto-gold">Live Casino</p>
+                <p class="text-habibi-brightYellow uppercase">Live Casino</p>
               </div>
             </div>
             <div
               id="cat-9"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/9")}
             >
               <div style="pointer-events: none;">
                 <ArcadeSvg />
-                <p class="uppercase text-bimatoto-gold">Arcade</p>
+                <p class="text-habibi-brightYellow uppercase">Arcade</p>
               </div>
             </div>
             <div
               id="cat-7"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/7")}
             >
               <div style="pointer-events: none;">
                 <FishSvg />
-                <p class="uppercase text-bimatoto-gold">Fish</p>
+                <p class="text-habibi-brightYellow uppercase">Fish</p>
               </div>
             </div>
             <div
               id="cat-1"
-              class="icon-wrapper swiper-slide mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs text-bimatoto-blue transition-all  duration-[0.3s] focus:rounded focus:no-underline"
+              class="icon-wrapper swiper-slide text-habibi-white mx-auto block min-w-[5.5rem] whitespace-nowrap rounded-lg p-4 text-center text-xs transition-all  duration-[0.3s] focus:rounded focus:no-underline"
               onClick$={() => handleClick("/games/1")}
             >
               <div style="pointer-events: none;">
                 <TableSvg />
-                <p class="uppercase text-bimatoto-gold">Table</p>
+                <p class="text-habibi-brightYellow uppercase">Table</p>
               </div>
             </div>
           </div>
